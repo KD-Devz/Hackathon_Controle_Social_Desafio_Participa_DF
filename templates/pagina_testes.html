@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Página de Testes</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+        }
+        header {
+            background: #0d6efd;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        nav.menu {
+            background: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav.menu a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav.menu a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.1);
+        }
+        .grafico-container {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* centraliza o conjunto */
+            gap: 40px; /* espaço entre legenda e gráfico */
+        }
+        .grafico-legenda {
+            flex: 0 0 auto;
+            font-size: 1.2em; /* aumenta a fonte da legenda */
+        }
+        .grafico-legenda ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .grafico-legenda li {
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .grafico-canvas {
+            flex: 0 0 auto;
+        }
+        .pure-table {
+            width: 100%;
+            margin-top: 15px;
+        }
+        .pure-table th {
+            background: #A9A9A9;
+            color: #fff;
+            text-align: left;
+        }
+        .pure-table td, .pure-table th {
+            padding: 10px;
+        }
+        .badge {
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #fff;
+        }
+        .badge-danger { background: #DC143C; }
+        .badge-success { background: #32CD32; }
+    </style>
+</head>
+<body>
+
+    <header>Página de Testes</header>
+
+    <nav class="menu">
+        <a href="{{ url_for('index') }}">Página Principal</a>
+        <a href="{{ url_for('pagina_testes') }}">Página de Testes</a>
+    </nav>
+
+    <div class="container">
+        <h2>Resumo dos Testes</h2>
+        <div class="grafico-container">
+            <div class="grafico-legenda">
+                <ul>
+                    <li style="color:#32CD32;">Válidos: {{ total_validos }}</li>
+                    <li style="color:#DC143C;">Inválidos: {{ total_invalidos }}</li>
+                    <li style="color:#000000;">Total de Testes: {{ total_testes }}</li>
+                </ul>
+            </div>
+            <div class="grafico-canvas">
+                <canvas id="graficoStatus" width="300" height="300"></canvas>
+            </div>
+        </div>
+
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const ctx = document.getElementById('graficoStatus').getContext('2d');
+            const graficoStatus = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Válidos', 'Inválidos'],
+                    datasets: [{
+                        data: [{{ total_validos }}, {{ total_invalidos }}],
+                        backgroundColor: [
+                            '#32CD32',
+                            '#DC143C'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: false,
+                    plugins: {
+                        legend: { display: false },
+                        title: {
+                            display: true,
+                            text: 'Distribuição dos Testes'
+                        }
+                    }
+                }
+            });
+        </script>
+
+        <h2>Visualização do CSV</h2>
+        <table class="pure-table pure-table-bordered">
+            <thead>
+                <tr>
+                    {% for col in cabecalho %}
+                        <th>{{ col }}</th>
+                    {% endfor %}
+                    <th>Status</th>
+                    <th>Dados sensíveis detectados</th>
+                    <th>Verbos de solicitação</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for linha in dados %}
+                    <tr>
+                        {% for valor in linha.campos %}
+                            <td>{{ valor }}</td>
+                        {% endfor %}
+                        <td>
+                            {% if linha.status == "Inválido" %}
+                                <span class="badge badge-danger">Inválido</span>
+                            {% else %}
+                                <span class="badge badge-success">Válido</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if linha.encontrados %}
+                                {{ linha.encontrados | join(', ') }}
+                            {% else %}
+                                Nenhum
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if linha.verbos %}
+                                {{ linha.verbos | join(', ') }}
+                            {% else %}
+                                Nenhum
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <footer style="background:#A9A9A9;color:#fff;text-align:center;padding:10px 0;">
+        Hackathon Controle Social - Desafio Participa DF
+    </footer>
+
+</body>
+</html>
