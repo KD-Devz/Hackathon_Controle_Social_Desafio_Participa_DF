@@ -17,7 +17,7 @@
         body {
             background-color: #f4f6f9;
             font-family: 'Roboto', Arial, sans-serif;
-            font-size: 16px; /* fonte maior */
+            font-size: 16px;
             line-height: 1.6;
         }
         header {
@@ -29,6 +29,20 @@
             font-weight: bold;
             letter-spacing: 1px;
         }
+        nav.menu {
+            background: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav.menu a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav.menu a:hover {
+            text-decoration: underline;
+        }
         .container {
             flex: 1;
             max-width: 1000px;
@@ -39,11 +53,11 @@
             text-align: center;
             color: #0d6efd;
             margin-bottom: 30px;
-            font-size: 2.2em; /* título maior */
+            font-size: 2.2em;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2); /* sombra suave */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         .card {
             border: 1px solid #ddd;
@@ -110,6 +124,12 @@
     <header>
         Sistema de Validação de Solicitações
     </header>
+
+    <!-- Menu -->
+    <nav class="menu">
+        <a href="{{ url_for('index') }}">Página Principal</a>
+        <a href="{{ url_for('pagina_testes') }}">Página de Testes</a>
+    </nav>
 
     <div class="container">
         <h1 class="header">
@@ -219,7 +239,7 @@
         </div>
     </div>
 
-    <!-- Rodapé fixo no final da tela -->
+    <!-- Rodapé -->
     <footer>
         Hackathon Controle Social - Desafio Participa DF
     </footer>
