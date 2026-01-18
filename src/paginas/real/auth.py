@@ -1,7 +1,19 @@
+from functools import wraps
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
-from src.banco import registrar_usuario, autenticar_usuario
+from src.utils.banco import registrar_usuario, autenticar_usuario
 
 auth_bp = Blueprint("auth", __name__)
+
+# 🔹 Decorador para exigir login
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "usuario_id" not in session:
+            flash("Você precisa estar logado para acessar esta página.", "error")
+            return redirect(url_for("auth.login"))
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 @auth_bp.route("/registro", methods=["GET", "POST"])
 def registro():
@@ -17,7 +29,7 @@ def registro():
             flash("Email já cadastrado, tente com outro email!", "error")
             return redirect(url_for("auth.registro"))
 
-    return render_template("pagina_registro.html")
+    return render_template("real/pagina_registro.html")
 
 
 @auth_bp.route("/login", methods=["GET", "POST"])
@@ -36,9 +48,7 @@ def login():
             flash("Email ou senha inválidos.", "error")
             return redirect(url_for("auth.login"))
 
-    # 🔹 Não precisa passar 'usuario' aqui
-    return render_template("pagina_login.html")
-
+    return render_template("real/pagina_login.html")
 
 
 @auth_bp.route("/logout")

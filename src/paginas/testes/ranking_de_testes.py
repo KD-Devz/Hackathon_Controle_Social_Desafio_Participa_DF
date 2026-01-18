@@ -2,14 +2,14 @@ import sqlite3
 
 from flask import Blueprint, render_template
 
-from src.banco import obter_caminho_banco
-from src.carregador import termos_sensiveis
+from src.utils.banco import obter_caminho_banco
+from src.utils.carregador import termos_sensiveis
 
-ranking_bp = Blueprint("ranking", __name__)
+ranking_bp = Blueprint("ranking_de_testes", __name__)
 
 
-@ranking_bp.route("/ranking")
-def pagina_ranking():
+@ranking_bp.route("/ranking_de_testes")
+def pagina_ranking_de_testes():
     # Conecta ao banco SQLite
 
     # raiz = os.path.dirname(os.path.dirname(__file__))
@@ -33,4 +33,4 @@ def pagina_ranking():
     palavras = [p for p, _ in top3]
     quantidades = [q for _, q in top3]
 
-    return render_template("pagina_ranking.html", palavras=palavras, quantidades=quantidades)
+    return render_template("testes/pagina_ranking_de_testes.html", palavras=palavras, quantidades=quantidades)

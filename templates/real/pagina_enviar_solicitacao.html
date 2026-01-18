@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Enviar Solicitação</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+        }
+
+        header {
+            background: #0d6efd;
+            color: #fff;
+            padding: 15px 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav.menu {
+            background: #333;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav.menu a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 8px 16px;
+            background: #0d6efd;
+            border-radius: 4px;
+        }
+
+        nav.menu a:hover {
+            background: #0056b3;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.1);
+            display: flex;
+        }
+
+        aside {
+            width: 250px;
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 6px;
+            margin-right: 20px;
+        }
+
+        aside h3 {
+            color: #0d6efd;
+        }
+
+        aside ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        aside li {
+            margin-bottom: 10px;
+        }
+
+        aside a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #333;
+        }
+
+        aside a:hover {
+            text-decoration: underline;
+        }
+
+        .perfil-info {
+            flex: 1;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+        }
+
+        .status-danger {
+            background: #DC143C;
+            color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+
+        .status-success {
+            background: #32CD32;
+            color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+
+        .badge-danger {
+            background: #DC143C;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .badge-success {
+            background: #32CD32;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .pure-table {
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .pure-table th {
+            background: #A9A9A9;
+            color: #fff;
+        }
+
+        footer {
+            background: #A9A9A9;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <span>Enviar Solicitação</span>
+    <a href="{{ url_for('auth.logout') }}"
+       style="background:#DC143C; color:#fff; padding:6px 12px; border-radius:4px; text-decoration:none;">Sair</a>
+</header>
+
+<nav class="menu">
+    <a href="{{ url_for('perfil.pagina_meu_perfil') }}">Meu Perfil</a>
+</nav>
+
+<div class="container">
+    <!-- Menu lateral -->
+    <aside>
+        <h3>Menu do Perfil</h3>
+        <ul>
+            <li><a href="{{ url_for('solicitacao.pagina_enviar_solicitacao') }}">Fazer nova solicitação</a></li>
+            <li><a href="{{ url_for('solicitacao.ver_solicitacoes') }}">Ver minhas solicitações</a></li>
+        </ul>
+    </aside>
+
+    <!-- Conteúdo principal -->
+    <div class="perfil-info">
+        <!-- Formulário de solicitação -->
+        <form method="POST" action="{{ url_for('solicitacao.enviar_solicitacao') }}" class="pure-form pure-form-stacked">
+            <textarea name="solicitacao" placeholder="Digite uma solicitação"></textarea>
+            <button type="submit" class="pure-button pure-button-primary">Enviar</button>
+        </form>
+
+        <!-- Exibir resposta do processar_index -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, resposta in messages %}
+                    {% if resposta.STATUS == "True" %}
+                        <div class="status-danger">
+                            <p><strong>STATUS:</strong> Essa solicitação não pode ser processada, porque contém pedido de informações pessoais.</p>
+                            <p><strong>Análise por linha:</strong></p>
+                            <table class="pure-table pure-table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Linha</th>
+                                        <th>Status</th>
+                                        <th>Dados sensíveis</th>
+                                        <th>Verbos</th>
+                                        <th>Interrogativas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for linha in resposta.linhas %}
+                                    <tr>
+                                        <td>{{ linha.texto }}</td>
+                                        <td>{% if linha.status == "True" %}<span class="badge-danger">Sensível</span>{% else %}<span class="badge-success">Seguro</span>{% endif %}</td>
+                                        <td>{{ linha.encontrados|join(', ') if linha.encontrados else 'Nenhum' }}</td>
+                                        <td>{{ linha.verbos|join(', ') if linha.verbos else 'Nenhum' }}</td>
+                                        <td>{{ linha.interrogativas|join(', ') if linha.interrogativas else 'Nenhuma' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="status-success">
+                            <p><strong>STATUS:</strong> Essa solicitação pode ser atendida.</p>
+                            <p><strong>Análise por linha:</strong></p>
+                            <table class="pure-table pure-table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Linha</th>
+                                        <th>Status</th>
+                                        <th>Dados sensíveis</th>
+                                        <th>Verbos</th>
+                                        <th>Interrogativas</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for linha in resposta.linhas %}
+                                    <tr>
+                                        <td>{{ linha.texto }}</td>
+                                        <td>{% if linha.status == "True" %}<span class="badge-danger">Sensível</span>{% else %}<span class="badge-success">Seguro</span>{% endif %}</td>
+                                        <td>{{ linha.encontrados|join(', ') if linha.encontrados else 'Nenhum' }}</td>
+                                        <td>{{ linha.verbos|join(', ') if linha.verbos else 'Nenhum' }}</td>
+                                        <td>{{ linha.interrogativas|join(', ') if linha.interrogativas else 'Nenhuma' }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+</div>
+
+<footer>
+    Hackathon Controle Social - Desafio Participa DF
+</footer>
+
+</body>
+</html>

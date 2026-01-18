@@ -34,7 +34,7 @@ def carregar_verbos_irregulares():
     Cada linha do arquivo verbos_de_solicitacao_irregular.txt deve ter:
     INFINITIVO forma1 forma2 forma3 ...
     """
-    caminho = os.path.join(os.path.dirname(__file__), "../validadores", "verbos_de_solicitacao_irregular.txt")
+    caminho = os.path.join(os.path.dirname(__file__), "../../validadores", "verbos_de_solicitacao_irregular.txt")
     variacoes = []
     with open(caminho, "r", encoding="utf-8") as f:
         for linha in f:
@@ -51,7 +51,7 @@ def carregar_verbos_irregulares():
 
 def gerar_lista_variacoes():
     base_dir = os.path.dirname(__file__)
-    regulares = carregar_verbos(os.path.join(base_dir, "../validadores", "verbos_de_solicitacao_regular.txt"))
+    regulares = carregar_verbos(os.path.join(base_dir, "../../validadores", "verbos_de_solicitacao_regular.txt"))
     irregulares = carregar_verbos_irregulares()
 
     variacoes = []

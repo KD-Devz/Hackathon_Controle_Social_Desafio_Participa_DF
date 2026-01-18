@@ -1,19 +1,19 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, get_flashed_messages
-
-from src.carregador import processar_index
+from flask import Blueprint, render_template, request, redirect, url_for, flash, get_flashed_messages, session
+from src.utils.carregador import processar_index
+import sqlite3
 
 index_bp = Blueprint("index", __name__)
 
-
 @index_bp.route("/", methods=["GET", "POST"])
 def pagina_index():
-    if request.method == "POST":
-        mensagem = request.form.get("menssagem")
-        if mensagem:
-            resposta = processar_index(mensagem)
-            flash(resposta)
-            return redirect(url_for("index.pagina_index"))
+    return render_template("pagina_index.html")
 
-    mensagens = get_flashed_messages()
-    resposta = mensagens[0] if mensagens else None
-    return render_template("pagina_index.html", resposta=resposta)
+@index_bp.route("/enviar_comentario", methods=["POST"])
+def enviar_comentario():
+    comentario = request.form.get("comentario", "").strip()
+    if not comentario:
+        flash("O comentário não pode estar vazio.", "error")
+        return redirect(url_for("pagina_index"))
+
+    flash("Comentário enviado com sucesso!", "success")
+    return redirect(url_for("pagina_index"))

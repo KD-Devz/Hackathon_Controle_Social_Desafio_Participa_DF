@@ -2,9 +2,8 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Registro de Usuário</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #f4f6f9;
@@ -34,6 +33,7 @@
             text-decoration: underline;
         }
         .container {
+            flex: 1;
             max-width: 400px;
             margin: 40px auto;
             padding: 30px;
@@ -56,17 +56,20 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+        .pure-form input::placeholder {
+            position: relative;
+        }
+        .required-marker::placeholder {
+            color: #000;
+        }
+        .required-marker::before {
+            content: '*';
+            color: #DC143C;
+            font-size: 0.8em;
+            margin-right: 4px;
+        }
         .pure-button-primary {
             background: #0d6efd;
-            color: #fff;
-            font-weight: bold;
-            width: 100%;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 10px;
-        }
-        .pure-button-secondary {
-            background: #6c757d;
             color: #fff;
             font-weight: bold;
             width: 100%;
@@ -82,16 +85,7 @@
             margin-bottom: 15px;
             text-align: center;
         }
-        .flash-success {
-            background-color: #e6ffe6;
-            color: #32CD32;
-            font-size: 0.9em;
-            padding: 8px;
-            border-radius: 4px;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        .footer {
+        footer {
             background: #A9A9A9;
             color: #fff;
             text-align: center;
@@ -103,44 +97,36 @@
 </head>
 <body>
 
-    <header>Login</header>
+    <header>Registro de Usuário</header>
 
     <nav class="menu">
-        <a href="{{ url_for('index.pagina_index') }}">Página Principal</a>
-        <a href="{{ url_for('testes.pagina_testes') }}">Página de Testes</a>
-        <a href="{{ url_for('ranking.pagina_ranking') }}">Página de Ranking</a>
-        <a href="{{ url_for('perfil.pagina_meu_perfil') }}">Meu Perfil</a>
+        <a href="{{ url_for('auth.login') }}">Voltar</a>
     </nav>
 
     <div class="container">
-        <div class="form-title">Acesse sua conta</div>
+        <div class="form-title">Crie sua conta</div>
 
-        <!-- 🔹 Mensagens flash -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
+        <!-- 🔹 Mensagem de erro geral -->
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
             {% if messages %}
-                {% for category, msg in messages %}
-                    {% if category == 'error' %}
-                        <div class="flash-error">{{ msg }}</div>
-                    {% elif category == 'success' %}
-                        <div class="flash-success">{{ msg }}</div>
-                    {% endif %}
-                {% endfor %}
+                <div class="flash-error">
+                    {{ messages[0] }}
+                </div>
             {% endif %}
         {% endwith %}
 
         <form method="POST" class="pure-form pure-form-stacked">
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="senha" placeholder="Senha" required>
-            <button type="submit" class="pure-button pure-button-primary">Login</button>
+            <input type="text" name="nome" placeholder="* Nome completo" required class="required-marker">
+            <input type="email" name="email" placeholder="* Email" required class="required-marker">
+            <input type="password" name="senha" placeholder="* Senha" required class="required-marker">
+            <button type="submit" class="pure-button pure-button-primary">Registrar</button>
         </form>
-
-        <!-- 🔹 Botão para ir para a página de registro -->
-        <a href="{{ url_for('auth.registro') }}" class="pure-button pure-button-secondary">Criar nova conta</a>
     </div>
 
-    <footer class="footer">
-        Hackathon Controle Social - Desafio Participa DF
-    </footer>
+<!-- Rodapé -->
+<footer>
+    Hackathon Controle Social - Desafio Participa DF
+</footer>
 
 </body>
 </html>

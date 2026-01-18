@@ -2,7 +2,6 @@ import hashlib
 import os
 import sqlite3
 
-
 def inicializar_banco():
     conn = sqlite3.connect(obter_caminho_banco())
     cursor = conn.cursor()
@@ -114,7 +113,7 @@ def registrar_palavra_proibida(palavra: str):
 
 def obter_caminho_banco():
     raiz = os.path.dirname(os.path.dirname(__file__))
-    caminho = os.path.join(raiz, "dados", "banco.db")
+    caminho = os.path.join(raiz, "../dados", "banco.db")
     return caminho
 
 

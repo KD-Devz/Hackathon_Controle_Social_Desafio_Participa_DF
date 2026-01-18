@@ -1,10 +1,12 @@
 import sqlite3
 from flask import Blueprint, render_template, session, redirect, url_for, flash
-from src.banco import obter_caminho_banco
-
+from src.utils.banco import obter_caminho_banco
+from src.paginas.real.auth import login_required
 perfil_bp = Blueprint("perfil", __name__)
 
+
 @perfil_bp.route("/meu_perfil")
+@login_required
 def pagina_meu_perfil():
     # 🔹 Verifica se o usuário está logado
     if "usuario_id" not in session:
@@ -29,4 +31,4 @@ def pagina_meu_perfil():
         "email": resultado[1]
     }
 
-    return render_template("pagina_meu_perfil.html", usuario=usuario)
+    return render_template("real/pagina_meu_perfil.html", usuario=usuario)

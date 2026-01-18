@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Página Principal</title>
+    <!-- Pure.css -->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
+    <!-- Fonte Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Roboto', Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #0d6efd;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        nav.menu {
+            background: #333;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav.menu a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+
+        nav.menu a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: #0d6efd;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
+        }
+
+        textarea {
+            resize: vertical;
+            font-size: 1em;
+        }
+
+        .status-danger {
+            background: #DC143C;
+            color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        .status-success {
+            background: #32CD32;
+            color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+
+        .badge {
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #fff;
+        }
+
+        .badge-danger {
+            background: #DC143C;
+        }
+
+        .badge-success {
+            background: #32CD32;
+        }
+
+        .pure-table {
+            width: 100%;
+            margin-top: 15px;
+            font-size: 1em;
+        }
+
+        .pure-table th {
+            background: #A9A9A9;
+            color: #fff;
+            text-align: left;
+            font-size: 1.1em;
+        }
+
+        .pure-table td, .pure-table th {
+            padding: 12px;
+        }
+
+        footer {
+            background: #A9A9A9;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1em;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Cabeçalho -->
+<header>
+    Sistema de Validação de Solicitações
+</header>
+
+<!-- Menu -->
+<nav class="menu">
+    <a href="{{ url_for('enviar_testes.pagina_enviar_teste') }}">Página Principal</a>
+    <a href="{{ url_for('lista_de_testes.pagina_testes') }}">Página de Testes</a>
+    <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}">Página de Ranking</a>
+    <a href="{{ url_for('index.pagina_index') }}">Voltar</a>
+</nav>
+
+<div class="container">
+    <h1 class="header">
+        Hackathon Controle Social - Desafio Participa DF
+    </h1>
+
+    <!-- Formulário -->
+    <div class="card">
+        <form method="POST" class="pure-form pure-form-stacked">
+                <textarea name="menssagem"
+                          class="pure-input-1"
+                          rows="4"
+                          placeholder="Digite uma solicitação"></textarea>
+            <button type="submit" class="pure-button pure-button-primary">Enviar</button>
+        </form>
+
+        <!-- Exibir resposta -->
+        {% if resposta %}
+        {% if resposta.STATUS == "True" %}
+        <div class="status-danger">
+            <p><strong>STATUS:</strong> Essa solicitação não pode ser processada, porque contém pedido de informações
+                pessoais.</p>
+            <p><strong>Análise por linha:</strong></p>
+            <table class="pure-table pure-table-bordered">
+                <thead>
+                <tr>
+                    <th>Linha</th>
+                    <th>Status</th>
+                    <th>Dados sensíveis detectados</th>
+                    <th>Verbos de solicitação</th>
+                    <th>Interrogativas</th> <!-- 🔹 nova coluna -->
+                </tr>
+                </thead>
+                <tbody>
+                {% for linha in resposta.linhas %}
+                <tr>
+                    <td>{{ linha.texto }}</td>
+                    <td>
+                        {% if linha.status == "True" %}
+                        <span class="badge badge-danger">Sensível</span>
+                        {% else %}
+                        <span class="badge badge-success">Seguro</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if linha.encontrados %}
+                        {{ linha.encontrados | join(', ') }}
+                        {% else %}
+                        Nenhum
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if linha.verbos %}
+                        {{ linha.verbos | join(', ') }}
+                        {% else %}
+                        Nenhum
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if linha.interrogativas %}
+                        {{ linha.interrogativas | join(', ') }}
+                        {% else %}
+                        Nenhuma
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="status-success">
+            <p><strong>STATUS:</strong> Essa solicitação pode ser atendida.</p>
+            <p><strong>Análise por linha:</strong></p>
+            <table class="pure-table pure-table-bordered">
+                <thead>
+                <tr>
+                    <th>Linha</th>
+                    <th>Status</th>
+                    <th>Dados sensíveis detectados</th>
+                    <th>Verbos de solicitação</th>
+                    <th>Interrogativas</th> <!-- 🔹 nova coluna -->
+                </tr>
+                </thead>
+                <tbody>
+                {% for linha in resposta.linhas %}
+                <tr>
+                    <td>{{ linha.texto }}</td>
+                    <td>
+                        {% if linha.status == "True" %}
+                        <span class="badge badge-danger">Sensível</span>
+                        {% else %}
+                        <span class="badge badge-success">Seguro</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if linha.encontrados %}
+                        {{ linha.encontrados | join(', ') }}
+                        {% else %}
+                        Nenhum
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if linha.verbos %}
+                        {{ linha.verbos | join(', ') }}
+                        {% else %}
+                        Nenhum
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if linha.interrogativas %}
+                        {{ linha.interrogativas | join(', ') }}
+                        {% else %}
+                        Nenhuma
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+</div>
+
+<!-- Rodapé -->
+<footer>
+    Hackathon Controle Social - Desafio Participa DF
+</footer>
+
+</body>
+</html>

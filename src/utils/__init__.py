@@ -23,14 +23,3 @@ from src.utils.texto import (
     normalizar_ao_retirar_acentuacao_e_cedilha,
     limpar_texto,
 )
-
-from .paginas import (
-    index_bp,
-    testes_bp,
-    ranking_bp,
-    testes_detalhados_bp,
-    perfil_bp,
-    auth_bp,
-    solicitacao_bp,
-    enviar_bp
-)

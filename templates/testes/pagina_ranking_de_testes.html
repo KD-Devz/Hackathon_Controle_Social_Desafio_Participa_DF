@@ -33,12 +33,21 @@
             text-decoration: underline;
         }
         .container {
+            flex: 1;
             max-width: 800px;
             margin: 40px auto;
             padding: 20px;
             background: #fff;
             border-radius: 6px;
             box-shadow: 0 2px 6px rgba(0,0,0,.1);
+        }
+        footer {
+            background: #A9A9A9;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1em;
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -47,10 +56,10 @@
     <header>Página de Ranking</header>
 
     <nav class="menu">
-        <a href="{{ url_for('index.pagina_index') }}">Página Principal</a>
-        <a href="{{ url_for('testes.pagina_testes') }}">Página de Testes</a>
-        <a href="{{ url_for('ranking.pagina_ranking') }}">Página de Ranking</a>
-        <a href="{{ url_for('perfil.pagina_meu_perfil') }}">Meu Perfil</a>
+        <a href="{{ url_for('enviar_testes.pagina_enviar_teste') }}">Página Principal</a>
+        <a href="{{ url_for('lista_de_testes.pagina_testes') }}">Página de Testes</a>
+        <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}">Página de Ranking</a>
+        <a href="{{ url_for('index.pagina_index') }}">Voltar</a>
     </nav>
 
     <div class="container">
@@ -104,6 +113,11 @@
             plugins: [ChartDataLabels]
         });
     </script>
+
+<!-- Rodapé -->
+<footer>
+    Hackathon Controle Social - Desafio Participa DF
+</footer>
 
 </body>
 </html>

@@ -1,10 +1,10 @@
 import os
 import csv
 
-from src.conjugador import gerar_lista_variacoes
-from src.banco import registrar_palavra_proibida
+from src.utils.conjugador import gerar_lista_variacoes
+from src.utils.banco import registrar_palavra_proibida
 
-from src.texto import (
+from src.utils.texto import (
     normalizar_ao_retirar_acentuacao_e_cedilha,
     limpar_texto,
 )
@@ -12,7 +12,7 @@ from src.texto import (
 
 def carregar_termos_sensiveis():
     raiz = os.path.dirname(os.path.dirname(__file__))
-    caminho = os.path.join(raiz, "validadores", "dados_sensiveis.txt")
+    caminho = os.path.join(raiz, "../validadores", "dados_sensiveis.txt")
 
     with open(caminho, "r", encoding="utf-8") as f:
         termos = [linha.strip().upper() for linha in f if linha.strip()]

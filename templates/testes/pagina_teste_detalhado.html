@@ -33,6 +33,7 @@
             text-decoration: underline;
         }
         .container {
+            flex: 1;
             max-width: 1200px;
             margin: 40px auto;
             padding: 20px;
@@ -82,6 +83,14 @@
             font-weight:bold;
             font-size:1.2em;
         }
+        footer {
+            background: #A9A9A9;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1em;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -89,10 +98,8 @@
     <header>Teste Detalhado</header>
 
     <nav class="menu">
-        <a href="{{ url_for('index.pagina_index') }}">Página Principal</a>
-        <a href="{{ url_for('testes.pagina_testes') }}">Página de Testes</a>
-        <a href="{{ url_for('ranking.pagina_ranking') }}">Página de Ranking</a>
-        <a href="{{ url_for('perfil.pagina_meu_perfil') }}">Meu Perfil</a>
+        <a href="{{ url_for('testes_detalhados.pagina_teste_detalhado') }}">Meu Perfil</a>
+        <a href="{{ url_for('index.pagina_index') }}">Central de Testes</a>
     </nav>
 
     <div class="container">
@@ -149,13 +156,14 @@
         {% endif %}
 
         <p style="margin-top:20px;">
-            <a href="{{ url_for('testes.pagina_testes') }}" class="pure-button">← Voltar para Página de Testes</a>
+            <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="pure-button">← Voltar para Página de Testes</a>
         </p>
     </div>
 
-    <footer style="background:#A9A9A9;color:#fff;text-align:center;padding:10px 0;">
-        Hackathon Controle Social - Desafio Participa DF
-    </footer>
+<!-- Rodapé -->
+<footer>
+    Hackathon Controle Social - Desafio Participa DF
+</footer>
 
 </body>
 </html>
