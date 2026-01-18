@@ -1,13 +1,21 @@
 import sqlite3
+
 from flask import Blueprint, render_template
-from utils import termos_sensiveis
+
+from src.banco import obter_caminho_banco
+from src.carregador import termos_sensiveis
 
 ranking_bp = Blueprint("ranking", __name__)
+
 
 @ranking_bp.route("/ranking")
 def pagina_ranking():
     # Conecta ao banco SQLite
-    conn = sqlite3.connect("banco.db")  # ajuste o caminho se necessário
+
+    # raiz = os.path.dirname(os.path.dirname(__file__))
+    # caminho = os.path.join(raiz, "dados", "banco.db")
+
+    conn = sqlite3.connect(obter_caminho_banco())
     cursor = conn.cursor()
 
     # Busca todas as palavras e suas quantidades

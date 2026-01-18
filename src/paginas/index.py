@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, get_flashed_messages
-from carregador import processar_index
+
+from src.carregador import processar_index
 
 index_bp = Blueprint("index", __name__)
+
 
 @index_bp.route("/", methods=["GET", "POST"])
 def pagina_index():

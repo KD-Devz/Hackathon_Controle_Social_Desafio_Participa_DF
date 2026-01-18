@@ -1,12 +1,15 @@
 import os
+
 from flask import Blueprint, render_template
-from carregador import processar_testes
+
+from src.carregador import processar_testes
 
 testes_bp = Blueprint("testes", __name__)
 
+
 @testes_bp.route("/testes")
 def pagina_testes():
-    caminho_csv = os.path.join(os.path.dirname(__file__), "..", "testes", "AMOSTRA_e-SIC.csv")
+    caminho_csv = os.path.join(os.path.dirname(__file__), "../..", "testes", "AMOSTRA_e-SIC.csv")
     resposta = processar_testes(caminho_csv)
 
     return render_template(

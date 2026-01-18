@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Meu Perfil</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+        }
+        header {
+            background: #0d6efd;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        nav.menu {
+            background: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav.menu a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav.menu a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.1);
+        }
+        .perfil-info {
+            text-align: center;
+        }
+        .perfil-info h2 {
+            margin-bottom: 10px;
+        }
+        .perfil-info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>Meu Perfil</header>
+
+    <nav class="menu">
+        <a href="{{ url_for('index.pagina_index') }}">Página Principal</a>
+        <a href="{{ url_for('testes.pagina_testes') }}">Página de Testes</a>
+        <a href="{{ url_for('ranking.pagina_ranking') }}">Página de Ranking</a>
+        <a href="{{ url_for('perfil.pagina_meu_perfil') }}">Meu Perfil</a>
+    </nav>
+
+    <div class="container perfil-info">
+        <h2>{{ usuario.nome }}</h2>
+        <p><strong>Email:</strong> {{ usuario.email }}</p>
+        <p><strong>Cargo:</strong> {{ usuario.cargo }}</p>
+        <p><strong>Instituição:</strong> {{ usuario.instituicao }}</p>
+        <p><strong>Descrição:</strong> {{ usuario.descricao }}</p>
+    </div>
+
+    <footer style="background:#A9A9A9;color:#fff;text-align:center;padding:10px 0;">
+        Hackathon Controle Social - Desafio Participa DF
+    </footer>
+
+</body>
+</html>

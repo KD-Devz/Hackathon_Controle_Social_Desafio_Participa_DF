@@ -1,6 +1,8 @@
 from flask import Flask
-from paginas import index_bp, testes_bp, ranking_bp, testes_detalhados_bp, perfil_bp
-from utils import inicializar_banco
+
+from src.banco import inicializar_banco
+from src.paginas import index_bp, testes_bp, ranking_bp, testes_detalhados_bp, perfil_bp
+
 app = Flask(__name__)
 app.secret_key = "Hackathon Controle Social - Desafio Participa DF"
 

@@ -1,19 +1,37 @@
 import os
 import csv
-from utils import (
+
+from src.conjugador import gerar_lista_variacoes
+from src.banco import registrar_palavra_proibida
+
+from src.texto import (
     normalizar_ao_retirar_acentuacao_e_cedilha,
     limpar_texto,
-    termos_sensiveis,
-    variacoes_verbos,
-    registrar_palavra_proibida,
-    palavras_interrogativas
 )
 
+
+def carregar_termos_sensiveis():
+    raiz = os.path.dirname(os.path.dirname(__file__))
+    caminho = os.path.join(raiz, "validadores", "dados_sensiveis.txt")
+
+    with open(caminho, "r", encoding="utf-8") as f:
+        termos = [linha.strip().upper() for linha in f if linha.strip()]
+    return termos
+
+
+def carregar_interrogativas():
+    with open("validadores/palavras_interrogativas.txt", "r", encoding="utf-8") as f:
+        return [linha.strip().upper() for linha in f if linha.strip()]
+
+
+# Variáveis globais que podem ser importadas em outros módulos
+
+termos_sensiveis = carregar_termos_sensiveis()
+variacoes_verbos = gerar_lista_variacoes()  # lista de pares (forma_conjugada, infinitivo)
+palavras_interrogativas = carregar_interrogativas()
+
+
 def processar_index(mensagem: str):
-    """
-    Processa uma mensagem única (texto do usuário) para a página principal.
-    Divide em linhas e retorna a análise.
-    """
     linhas = [linha.strip() for linha in mensagem.split('.') if linha.strip()]
     resultado_linhas = []
     status_global = "False"
@@ -48,10 +66,6 @@ def processar_index(mensagem: str):
 
 
 def processar_testes(caminho_csv: str):
-    """
-    Processa um arquivo CSV de amostras para a página de testes.
-    Retorna os dados analisados e estatísticas.
-    """
     linhas = []
     with open(caminho_csv, newline="", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter="\t")
