@@ -43,12 +43,12 @@
         .grafico-container {
             display: flex;
             align-items: center;
-            justify-content: center; /* centraliza o conjunto */
-            gap: 40px; /* espaço entre legenda e gráfico */
+            justify-content: center;
+            gap: 40px;
         }
         .grafico-legenda {
             flex: 0 0 auto;
-            font-size: 1.2em; /* aumenta a fonte da legenda */
+            font-size: 1.2em;
         }
         .grafico-legenda ul {
             list-style: none;
@@ -91,6 +91,7 @@
     <nav class="menu">
         <a href="{{ url_for('index.pagina_index') }}">Página Principal</a>
         <a href="{{ url_for('testes.pagina_testes') }}">Página de Testes</a>
+        <a href="{{ url_for('ranking.pagina_ranking') }}">Página de Ranking</a>
     </nav>
 
     <div class="container">
@@ -147,6 +148,7 @@
                     <th>Status</th>
                     <th>Dados sensíveis detectados</th>
                     <th>Verbos de solicitação</th>
+                    <th>Interrogativas</th> <!-- 🔹 nova coluna -->
                 </tr>
             </thead>
             <tbody>
@@ -174,6 +176,13 @@
                                 {{ linha.verbos | join(', ') }}
                             {% else %}
                                 Nenhum
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if linha.interrogativas %}
+                                {{ linha.interrogativas | join(', ') }}
+                            {% else %}
+                                Nenhuma
                             {% endif %}
                         </td>
                     </tr>

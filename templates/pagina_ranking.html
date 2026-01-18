@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Página de Rank</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+        }
+        header {
+            background: #0d6efd;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        nav.menu {
+            background: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav.menu a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav.menu a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.1);
+        }
+    </style>
+</head>
+<body>
+
+    <header>Página de Ranking</header>
+
+    <nav class="menu">
+        <a href="{{ url_for('index.pagina_index') }}">Página Principal</a>
+        <a href="{{ url_for('testes.pagina_testes') }}">Página de Testes</a>
+        <a href="{{ url_for('ranking.pagina_ranking') }}">Página de Ranking</a>
+    </nav>
+
+    <div class="container">
+        <h2>Top 10 Palavras Proibidas Mais Buscadas</h2>
+        <canvas id="graficoHeroi" width="400" height="200"></canvas>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('graficoHeroi').getContext('2d');
+        const graficoHeroi = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ palavras|tojson }},
+                datasets: [{
+                    label: 'Quantidade de buscas',
+                    data: {{ quantidades|tojson }},
+                    backgroundColor: [
+                    '#0d6efd',  // Azul forte
+                    '#32CD32',  // Verde limão
+                    '#DC143C',  // Vermelho carmesim
+                    '#FF8C00',  // Laranja escuro
+                    '#8A2BE2',  // Roxo violeta
+                    '#FFD700',  // Amarelo ouro
+                    '#00CED1',  // Turquesa
+                    '#FF1493',  // Rosa choque
+                    '#7FFF00',  // Verde chartreuse
+                    '#A52A2A'   // Marrom
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Top 10 Palavras Proibidas Mais Buscadas'
+                    },
+                    legend: { display: false }
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
