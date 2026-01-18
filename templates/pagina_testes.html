@@ -33,7 +33,7 @@
             text-decoration: underline;
         }
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 40px auto;
             padding: 20px;
             background: #fff;
@@ -148,7 +148,8 @@
                     <th>Status</th>
                     <th>Dados sensíveis detectados</th>
                     <th>Verbos de solicitação</th>
-                    <th>Interrogativas</th> <!-- 🔹 nova coluna -->
+                    <th>Interrogativas</th>
+                    <th>Visualização Detalhada</th>
                 </tr>
             </thead>
             <tbody>
@@ -184,6 +185,11 @@
                             {% else %}
                                 Nenhuma
                             {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('testes_detalhados.pagina_teste_detalhado', linha=' '.join(linha.campos), id=loop.index) }}" class="pure-button pure-button-primary">
+                                Ver Detalhes
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

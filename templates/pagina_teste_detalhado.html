@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste Detalhado</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+        }
+        header {
+            background: #0d6efd;
+            color: #fff;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        nav.menu {
+            background: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav.menu a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav.menu a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.1);
+        }
+        .status-box {
+            padding: 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .status-true {
+            background-color: #DC143C;
+        }
+        .status-false {
+            background-color: #32CD32;
+        }
+        .pure-table {
+            width: 100%;
+            margin-top: 15px;
+        }
+        .pure-table th {
+            background: #A9A9A9;
+            color: #fff;
+            text-align: left;
+        }
+        .pure-table td, .pure-table th {
+            padding: 10px;
+        }
+        .badge {
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #fff;
+        }
+        .badge-danger { background: #DC143C; }
+        .badge-success { background: #32CD32; }
+        .id-balao {
+            display:inline-block;
+            background-color:#0d6efd;
+            color:#fff;
+            padding:12px 24px;
+            border-radius:30px;
+            font-weight:bold;
+            font-size:1.2em;
+        }
+    </style>
+</head>
+<body>
+
+    <header>Teste Detalhado</header>
+
+    <nav class="menu">
+        <a href="{{ url_for('index.pagina_index') }}">Página Principal</a>
+        <a href="{{ url_for('testes.pagina_testes') }}">Página de Testes</a>
+        <a href="{{ url_for('ranking.pagina_ranking') }}">Página de Ranking</a>
+    </nav>
+
+    <div class="container">
+
+        {% if id %}
+        <div style="text-align:center; margin-bottom:30px;">
+            <span class="id-balao">Solicitação #{{ id }}</span>
+        </div>
+        {% endif %}
+
+        <h2>Solicitação analisada</h2>
+        <p><em>{{ texto | replace(id ~ ' ', '') }}</em></p>
+
+        {% if resposta %}
+            <div class="status-box {% if resposta.STATUS == 'True' %}status-true{% else %}status-false{% endif %}">
+                STATUS: {% if resposta.STATUS == 'True' %}
+                    Essa solicitação não pode ser processada.
+                {% else %}
+                    Essa solicitação pode ser atendida.
+                {% endif %}
+            </div>
+
+            <h3>Análise por linha:</h3>
+            <table class="pure-table pure-table-bordered">
+                <thead>
+                    <tr>
+                        <th>Linha</th>
+                        <th>Status</th>
+                        <th>Dados sensíveis detectados</th>
+                        <th>Verbos de solicitação</th>
+                        <th>Interrogativas</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for linha in resposta.linhas %}
+                        <tr>
+                            <td>{{ linha.texto }}</td>
+                            <td>
+                                {% if linha.status == "True" %}
+                                    <span class="badge badge-danger">Inválido</span>
+                                {% else %}
+                                    <span class="badge badge-success">Válido</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ linha.encontrados | join(', ') if linha.encontrados else 'Nenhum' }}</td>
+                            <td>{{ linha.verbos | join(', ') if linha.verbos else 'Nenhum' }}</td>
+                            <td>{{ linha.interrogativas | join(', ') if linha.interrogativas else 'Nenhuma' }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>Nenhuma linha foi selecionada.</p>
+        {% endif %}
+
+        <p style="margin-top:20px;">
+            <a href="{{ url_for('testes.pagina_testes') }}" class="pure-button">← Voltar para Página de Testes</a>
+        </p>
+    </div>
+
+    <footer style="background:#A9A9A9;color:#fff;text-align:center;padding:10px 0;">
+        Hackathon Controle Social - Desafio Participa DF
+    </footer>
+
+</body>
+</html>
