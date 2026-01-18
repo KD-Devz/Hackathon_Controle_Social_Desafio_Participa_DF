@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Usuário</title>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+        }
+        header {
+            background: #0d6efd;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        nav.menu {
+            background: #333;
+            padding: 10px;
+            text-align: center;
+        }
+        nav.menu a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+        nav.menu a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.1);
+            text-align: center;
+        }
+        .form-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #0d6efd;
+            font-weight: bold;
+        }
+        .pure-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .pure-form input::placeholder {
+            position: relative;
+        }
+        .required-marker::placeholder {
+            color: #000;
+        }
+        .required-marker::before {
+            content: '*';
+            color: #DC143C;
+            font-size: 0.8em;
+            margin-right: 4px;
+        }
+        .pure-button-primary {
+            background: #0d6efd;
+            color: #fff;
+            font-weight: bold;
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .flash-error {
+            background-color: #ffe6e6;
+            color: #DC143C;
+            font-size: 0.9em;
+            padding: 8px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .footer {
+            background: #A9A9A9;
+            color: #fff;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1em;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>Registro de Usuário</header>
+
+    <nav class="menu">
+        <a href="{{ url_for('index.pagina_index') }}">Página Principal</a>
+        <a href="{{ url_for('testes.pagina_testes') }}">Página de Testes</a>
+        <a href="{{ url_for('ranking.pagina_ranking') }}">Página de Ranking</a>
+        <a href="{{ url_for('perfil.pagina_meu_perfil') }}">Meu Perfil</a>
+    </nav>
+
+    <div class="container">
+        <div class="form-title">Crie sua conta</div>
+
+        <!-- 🔹 Mensagem de erro geral -->
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+                <div class="flash-error">
+                    {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" class="pure-form pure-form-stacked">
+            <input type="text" name="nome" placeholder="* Nome completo" required class="required-marker">
+            <input type="email" name="email" placeholder="* Email" required class="required-marker">
+            <input type="password" name="senha" placeholder="* Senha" required class="required-marker">
+            <button type="submit" class="pure-button pure-button-primary">Registrar</button>
+        </form>
+    </div>
+
+    <footer class="footer">
+        Hackathon Controle Social - Desafio Participa DF
+    </footer>
+
+</body>
+</html>

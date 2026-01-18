@@ -22,5 +22,7 @@ from .paginas import (
     testes_bp,
     ranking_bp,
     testes_detalhados_bp,
-    perfil_bp
+    perfil_bp,
+    auth_bp,
+    enviar_solicitacao_bp
 )

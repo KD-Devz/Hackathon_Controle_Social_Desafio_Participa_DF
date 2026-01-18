@@ -5,18 +5,27 @@
     <title>Meu Perfil</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
         body {
             background-color: #f4f6f9;
             font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
+            font-size: 16px;
+            line-height: 1.6;
         }
         header {
             background: #0d6efd;
             color: #fff;
-            padding: 15px 0;
-            text-align: center;
+            padding: 15px 20px;
             font-size: 1.5em;
             font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         nav.menu {
             background: #333;
@@ -33,27 +42,102 @@
             text-decoration: underline;
         }
         .container {
-            max-width: 600px;
+            max-width: 1200px;
             margin: 40px auto;
             padding: 20px;
             background: #fff;
             border-radius: 6px;
             box-shadow: 0 2px 6px rgba(0,0,0,.1);
         }
-        .perfil-info {
-            text-align: center;
-        }
         .perfil-info h2 {
             margin-bottom: 10px;
+            color: #0d6efd;
         }
         .perfil-info p {
             margin: 5px 0;
+        }
+        .logout-btn {
+            background: #DC143C;
+            color: #fff;
+            font-weight: bold;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        .logout-btn:hover {
+            background: #a50f2d;
+        }
+        textarea {
+            resize: vertical;
+            font-size: 1em;
+        }
+        .solicitacao-box textarea {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            resize: vertical; /* permite redimensionar verticalmente */
+            min-height: 100px; /* altura inicial */
+            min-width: 1200px;
+        }
+        .status-danger {
+            background: #DC143C;
+            color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+        .status-success {
+            background: #32CD32;
+            color: #fff;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            font-size: 1.1em;
+        }
+        .badge {
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #fff;
+        }
+        .badge-danger {
+            background: #DC143C;
+        }
+        .badge-success {
+            background: #32CD32;
+        }
+        .pure-table {
+            width: 100%;
+            margin-top: 15px;
+            font-size: 1em;
+        }
+        .pure-table th {
+            background: #A9A9A9;
+            color: #fff;
+            text-align: left;
+            font-size: 1.1em;
+        }
+        .pure-table td, .pure-table th {
+            padding: 12px;
+        }
+        footer {
+            background: #A9A9A9;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: auto;
         }
     </style>
 </head>
 <body>
 
-    <header>Meu Perfil</header>
+    <header>
+        <span>Meu Perfil</span>
+        <a href="{{ url_for('auth.logout') }}" class="logout-btn">Sair</a>
+    </header>
 
     <nav class="menu">
         <a href="{{ url_for('index.pagina_index') }}">Página Principal</a>
@@ -65,12 +149,95 @@
     <div class="container perfil-info">
         <h2>{{ usuario.nome }}</h2>
         <p><strong>Email:</strong> {{ usuario.email }}</p>
-        <p><strong>Cargo:</strong> {{ usuario.cargo }}</p>
-        <p><strong>Instituição:</strong> {{ usuario.instituicao }}</p>
-        <p><strong>Descrição:</strong> {{ usuario.descricao }}</p>
+
+        <!-- Formulário de solicitação -->
+        <div class="solicitacao-box">
+            <form method="POST" action="{{ url_for('enviar_solicitacao.enviar_solicitacao') }}" class="pure-form pure-form-stacked">
+                <textarea name="solicitacao"
+                          class="pure-input-1"
+                          rows="4"
+                          placeholder="Digite uma solicitação"></textarea>
+                <button type="submit" class="pure-button pure-button-primary">Enviar</button>
+            </form>
+
+            <!-- Exibir resposta do processar_index -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, resposta in messages %}
+                        {% if resposta.STATUS == "True" %}
+                        <div class="status-danger">
+                            <p><strong>STATUS:</strong> Essa solicitação não pode ser processada, porque contém pedido de informações pessoais.</p>
+                            <p><strong>Análise por linha:</strong></p>
+                            <table class="pure-table pure-table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Linha</th>
+                                    <th>Status</th>
+                                    <th>Dados sensíveis detectados</th>
+                                    <th>Verbos de solicitação</th>
+                                    <th>Interrogativas</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for linha in resposta.linhas %}
+                                <tr>
+                                    <td>{{ linha.texto }}</td>
+                                    <td>
+                                        {% if linha.status == "True" %}
+                                        <span class="badge badge-danger">Sensível</span>
+                                        {% else %}
+                                        <span class="badge badge-success">Seguro</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ linha.encontrados|join(', ') if linha.encontrados else 'Nenhum' }}</td>
+                                    <td>{{ linha.verbos|join(', ') if linha.verbos else 'Nenhum' }}</td>
+                                    <td>{{ linha.interrogativas|join(', ') if linha.interrogativas else 'Nenhuma' }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% else %}
+                        <div class="status-success">
+                            <p><strong>STATUS:</strong> Essa solicitação pode ser atendida.</p>
+                            <p><strong>Análise por linha:</strong></p>
+                            <table class="pure-table pure-table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>Linha</th>
+                                    <th>Status</th>
+                                    <th>Dados sensíveis detectados</th>
+                                    <th>Verbos de solicitação</th>
+                                    <th>Interrogativas</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for linha in resposta.linhas %}
+                                <tr>
+                                    <td>{{ linha.texto }}</td>
+                                    <td>
+                                        {% if linha.status == "True" %}
+                                        <span class="badge badge-danger">Sensível</span>
+                                        {% else %}
+                                        <span class="badge badge-success">Seguro</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ linha.encontrados|join(', ') if linha.encontrados else 'Nenhum' }}</td>
+                                    <td>{{ linha.verbos|join(', ') if linha.verbos else 'Nenhum' }}</td>
+                                    <td>{{ linha.interrogativas|join(', ') if linha.interrogativas else 'Nenhuma' }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
     </div>
 
-    <footer style="background:#A9A9A9;color:#fff;text-align:center;padding:10px 0;">
+    <footer>
         Hackathon Controle Social - Desafio Participa DF
     </footer>
 
