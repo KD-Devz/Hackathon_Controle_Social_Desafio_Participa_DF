@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <title>Central de Testes</title>
+    <title>Sistema de Validação de Solicitações</title>
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
     <style>
         body {
@@ -86,20 +86,19 @@
 <body>
 
 <header>
-    🚀 Central de Testes
+    Hackathon Controle Social - Desafio Participa DF
 </header>
 
 <nav class="menu">
-    <a href="{{ url_for('enviar_testes.pagina_enviar_teste') }}">Sistema de Testes</a>
     <a href="{{ url_for('auth.login') }}">Fazer Login</a>
 
 </nav>
 
 <div class="container">
-    <h2>Deixe seu comentário</h2>
+    <h2>Deixe seu comentário sobre o que podemos melhorar, o que achou interessante ou um insentivo para nos mantermos firme neste desafio.  </h2>
     <form method="POST" action="{{ url_for('index.enviar_comentario') }}" class="pure-form pure-form-stacked">
-        <textarea name="comentario" placeholder="Digite seu comentário aqui..."></textarea>
-        <button type="submit">Enviar Comentário</button>
+        <textarea name="comentario" placeholder="Digite aqui..."></textarea>
+        <button type="submit">Enviar</button>
     </form>
 
     <!-- Exibir mensagens -->

@@ -9,7 +9,7 @@ def pagina_enviar_teste():
         if mensagem:
             resposta = processar_index(mensagem)
             flash(resposta)
-            return redirect(url_for("pagina_enviar_teste"))
+            return redirect(url_for("enviar_testes.pagina_enviar_teste"))
 
     mensagens = get_flashed_messages()
     resposta = mensagens[0] if mensagens else None

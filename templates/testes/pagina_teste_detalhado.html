@@ -95,11 +95,13 @@
 </head>
 <body>
 
-    <header>Teste Detalhado</header>
+    <header>Detalhes do Teste</header>
 
     <nav class="menu">
-        <a href="{{ url_for('testes_detalhados.pagina_teste_detalhado') }}">Meu Perfil</a>
-        <a href="{{ url_for('index.pagina_index') }}">Central de Testes</a>
+        <a href="{{ url_for('enviar_testes.pagina_enviar_teste') }}">Enviar Solicitação</a>
+        <a href="{{ url_for('lista_de_testes.pagina_testes') }}">Exemplos de Solicitações</a>
+        <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}">Rankeamento</a>
+        <a href="{{ url_for('auth.login') }}">Fazer Login</a>
     </nav>
 
     <div class="container">

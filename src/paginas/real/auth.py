@@ -43,7 +43,7 @@ def login():
             session["usuario_id"] = usuario[0]
             session["usuario_nome"] = usuario[1]
             flash("Login realizado com sucesso!", "success")
-            return redirect(url_for("index.pagina_index"))
+            return redirect(url_for("perfil.pagina_meu_perfil"))
         else:
             flash("Email ou senha inválidos.", "error")
             return redirect(url_for("auth.login"))

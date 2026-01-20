@@ -13,7 +13,7 @@ def enviar_comentario():
     comentario = request.form.get("comentario", "").strip()
     if not comentario:
         flash("O comentário não pode estar vazio.", "error")
-        return redirect(url_for("pagina_index"))
+        return redirect(url_for("index.pagina_index"))
 
     flash("Comentário enviado com sucesso!", "success")
-    return redirect(url_for("pagina_index"))
+    return redirect(url_for("index.pagina_index"))

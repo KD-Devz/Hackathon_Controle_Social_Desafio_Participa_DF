@@ -65,12 +65,13 @@
         }
         .pure-table {
             width: 100%;
-            margin-top: 15px;
+
         }
         .pure-table th {
             background: #A9A9A9;
             color: #fff;
-            text-align: left;
+            text-align: center;
+
         }
         .pure-table td, .pure-table th {
             padding: 10px;
@@ -95,17 +96,17 @@
 </head>
 <body>
 
-    <header>Página de Testes</header>
+    <header>Página de Teste</header>
 
     <nav class="menu">
-        <a href="{{ url_for('enviar_testes.pagina_enviar_teste') }}">Página Principal</a>
-        <a href="{{ url_for('lista_de_testes.pagina_testes') }}">Página de Testes</a>
-        <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}">Página de Ranking</a>
-        <a href="{{ url_for('index.pagina_index') }}">Voltar</a>
+        <a href="{{ url_for('enviar_testes.pagina_enviar_teste') }}">Enviar Solicitação</a>
+        <a href="{{ url_for('lista_de_testes.pagina_testes') }}">Exemplos de Solicitações</a>
+        <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}">Rankeamento</a>
+        <a href="{{ url_for('auth.login') }}">Fazer Login</a>
     </nav>
 
     <div class="container">
-        <h2>Resumo dos Testes</h2>
+        <h2>Testes</h2>
         <div class="grafico-container">
             <div class="grafico-legenda">
                 <ul>
@@ -148,7 +149,7 @@
             });
         </script>
 
-        <h2>Visualização do CSV</h2>
+        <h2>Visualização</h2>
         <table class="pure-table pure-table-bordered">
             <thead>
                 <tr>
