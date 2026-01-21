@@ -1,132 +1,39 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Meu Perfil</title>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
-    <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-        }
+{% extends "base.html" %}
 
-        header {
-            background: #0d6efd;
-            color: #fff;
-            padding: 15px 20px;
-            font-size: 1.5em;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-        }
+{% block title %}Meu Perfil - Participa DF{% endblock %}
 
-        nav.menu {
-            background: #333;
-            padding: 10px;
-            text-align: center;
-        }
+{% block main %}
+<div class="profile-header" style="display: flex; align-items: center; gap: 25px; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 30px;">
+    <div class="profile-avatar" style="width: 90px; height: 90px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: white; font-weight: 800; box-shadow: var(--shadow);">
+        {{ session.get('user_name')[0] | upper if session.get('user_name') else 'U' }}
+    </div>
 
-        nav.menu a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 20px;
-            font-weight: bold;
-            font-size: 1.1em;
-            padding: 8px 16px;
-            background: #0d6efd;
-            border-radius: 4px;
-        }
-
-        nav.menu a:hover {
-            background: #0056b3;
-        }
-
-        .container {
-            flex: 1;
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, .1);
-            display: flex;
-        }
-
-        aside {
-            width: 250px;
-            background: #f0f0f0;
-            padding: 20px;
-            border-radius: 6px;
-            margin-right: 20px;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-        }
-
-        a {
-            text-decoration: none;
-            font-weight: bold;
-            color: #333;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .perfil-info {
-            flex: 1;
-        }
-
-        footer {
-            background: #A9A9A9;
-            color: #fff;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 1em;
-            letter-spacing: 1px;
-        }
-    </style>
-</head>
-<body>
-
-<header>
-    <span>Meu Perfil</span>
-    <a href="{{ url_for('auth.logout') }}"
-       style="background:#DC143C; color:#fff; padding:6px 12px; border-radius:4px; text-decoration:none;">Sair</a>
-</header>
-
-<nav class="menu">
-    <a href="{{ url_for('perfil.pagina_meu_perfil') }}">Meu Perfil</a>
-</nav>
-
-<div class="container">
-    <!-- Menu lateral -->
-    <aside>
-        <h3 style="color: #0d6efd;">Menu do Perfil</h3>
-        <ul>
-            <li><a href="{{ url_for('solicitacao.pagina_enviar_solicitacao') }}">Fazer nova solicitação</a></li>
-            <li><a href="{{ url_for('solicitacao.ver_solicitacoes') }}">Ver minhas solicitações</a></li>
-        </ul>
-    </aside>
-
-    <!-- Informações do usuário -->
-    <div class="perfil-info">
-        <h2>{{ usuario.nome }}</h2>
-        <p><strong>Email:</strong> {{ usuario.email }}</p>
+    <div class="profile-info">
+        <h2 style="margin: 0; font-size: 1.8rem;">{{ session.get('user_name') }}</h2>
+        <p style="color: var(--text-muted); margin: 5px 0 0 0; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-shield-halved" style="color: var(--success);"></i>
+            Usuário Verificado • e-SIC Participa DF
+        </p>
     </div>
 </div>
 
-<!-- Rodapé -->
-<footer>
-    Hackathon Controle Social - Desafio Participa DF
-</footer>
+<div class="profile-body">
+    <div class="section-header" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+        <i class="fas fa-address-card" style="color: var(--primary);"></i>
+        <h3 style="margin: 0; font-size: 1.2rem;">Dados Cadastrais</h3>
+    </div>
 
-</body>
-</html>
+    <table class="doc-table">
+        <tbody>
+            <tr>
+                <td style="width: 200px; font-weight: 600; color: var(--text-muted);">Nome</td>
+                <td>{{ session.get('user_name') }}</td>
+            </tr>
+            <tr>
+                <td style="font-weight: 600; color: var(--text-muted);">Status da Conta</td>
+                <td><span class="badge" style="background: #d4edda; color: #155724; padding: 4px 12px; border-radius: 15px; font-size: 0.85rem;">Autenticado via e-SIC</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}

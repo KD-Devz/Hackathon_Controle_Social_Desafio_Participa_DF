@@ -116,3 +116,34 @@ def processar_testes(caminho_csv: str):
         "total_validos": total_validos,
         "total_invalidos": total_invalidos
     }
+
+
+import re
+
+
+def validar_padroes_sensiveis(texto):
+    resultados = {
+        "CPFS": [],
+        "CNPJS": [],
+        "RGS": [],
+        "CEPS": []
+    }
+
+    # CPF: 000.000.000-00 ou 00000000000
+    padrao_cpf = r'\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b'
+
+    # CNPJ: 00.000.000/0000-00 ou 00000000000000
+    padrao_cnpj = r'\b\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2}\b'
+
+    # RG (Padrão variado, mas focado em sequências numéricas comuns de 7 a 9 dígitos)
+    padrao_rg = r'\b\d{1,2}\.?\d{3}\.?\d{3}-?[\dX]\b'
+
+    # CEP: 00000-000 ou 00000000
+    padrao_cep = r'\b\d{5}-?\d{3}\b'
+
+    resultados["CPFS"] = re.findall(padrao_cpf, texto)
+    resultados["CNPJS"] = re.findall(padrao_cnpj, texto)
+    resultados["RGS"] = re.findall(padrao_rg, texto)
+    resultados["CEPS"] = re.findall(padrao_cep, texto)
+
+    return resultados

@@ -1,217 +1,116 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Página de Testes</title>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
-    <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-        }
-        header {
-            background: #0d6efd;
-            color: #fff;
-            padding: 15px 0;
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-        nav.menu {
-            background: #333;
-            padding: 10px;
-            text-align: center;
-        }
-        nav.menu a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-        nav.menu a:hover {
-            text-decoration: underline;
-        }
-        .container {
-            flex: 1;
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,.1);
-        }
-        .grafico-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 40px;
-        }
-        .grafico-legenda {
-            flex: 0 0 auto;
-            font-size: 1.2em;
-        }
-        .grafico-legenda ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .grafico-legenda li {
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-        .grafico-canvas {
-            flex: 0 0 auto;
-        }
-        .pure-table {
-            width: 100%;
+{% extends "base.html" %}
 
-        }
-        .pure-table th {
-            background: #A9A9A9;
-            color: #fff;
-            text-align: center;
+{% block title %}Resultados dos Testes - Participa DF{% endblock %}
 
-        }
-        .pure-table td, .pure-table th {
-            padding: 10px;
-        }
-        .badge {
-            padding: 6px 10px;
-            border-radius: 4px;
-            font-size: 0.9em;
-            color: #fff;
-        }
-        footer {
-            background: #A9A9A9;
-            color: #fff;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 1em;
-            letter-spacing: 1px;
-        }
-        .badge-danger { background: #DC143C; }
-        .badge-success { background: #32CD32; }
-    </style>
-</head>
-<body>
+{% block main %}
+    <section class="content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <h4 style="margin: 0;">Análise de Resultados (Processamento em Lote)</h4>
+            <a href="{{ url_for('enviar_testes.pagina_enviar_teste') }}" class="btn-ghost">Novo Upload</a>
+        </div>
 
-    <header>Página de Teste</header>
-
-    <nav class="menu">
-        <a href="{{ url_for('enviar_testes.pagina_enviar_teste') }}">Enviar Solicitação</a>
-        <a href="{{ url_for('lista_de_testes.pagina_testes') }}">Exemplos de Solicitações</a>
-        <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}">Rankeamento</a>
-        <a href="{{ url_for('auth.login') }}">Fazer Login</a>
-    </nav>
-
-    <div class="container">
-        <h2>Testes</h2>
-        <div class="grafico-container">
-            <div class="grafico-legenda">
-                <ul>
-                    <li style="color:#32CD32;">Válidos: {{ total_validos }}</li>
-                    <li style="color:#DC143C;">Inválidos: {{ total_invalidos }}</li>
-                    <li style="color:#000000;">Total de Testes: {{ total_testes }}</li>
+        <div class="row" style="margin-bottom: 30px; align-items: center;">
+            <div class="col card" style="text-align: left; padding: 20px;">
+                <h4 style="font-size: 1rem; color: var(--muted-text);">Resumo da Amostra</h4>
+                <ul style="list-style: none; padding: 0; margin: 15px 0 0 0;">
+                    <li style="margin-bottom: 10px; font-size: 1.1rem;">
+                        <span style="color: var(--success); font-weight: bold;">●</span> Válidos: <strong>{{ total_validos }}</strong>
+                    </li>
+                    <li style="margin-bottom: 10px; font-size: 1.1rem;">
+                        <span style="color: var(--danger); font-weight: bold;">●</span> Inválidos: <strong>{{ total_invalidos }}</strong>
+                    </li>
+                    <li style="border-top: 1px solid #eee; pt-10; margin-top: 10px; padding-top: 10px;">
+                        Total Processado: <strong>{{ total_testes }}</strong>
+                    </li>
                 </ul>
             </div>
-            <div class="grafico-canvas">
-                <canvas id="graficoStatus" width="300" height="300"></canvas>
+            
+            <div class="col center">
+                <canvas id="graficoStatus" width="250" height="250" style="margin: 0 auto;"></canvas>
             </div>
         </div>
 
-        <!-- Chart.js -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            const ctx = document.getElementById('graficoStatus').getContext('2d');
-            const graficoStatus = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: ['Válidos', 'Inválidos'],
-                    datasets: [{
-                        data: [{{ total_validos }}, {{ total_invalidos }}],
-                        backgroundColor: [
-                            '#32CD32',
-                            '#DC143C'
-                        ]
-                    }]
-                },
-                options: {
-                    responsive: false,
-                    plugins: {
-                        legend: { display: false },
-                        title: {
-                            display: true,
-                            text: 'Distribuição dos Testes'
-                        }
-                    }
-                }
-            });
-        </script>
+        <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
 
-        <h2>Visualização</h2>
-        <table class="pure-table pure-table-bordered">
-            <thead>
-                <tr>
-                    {% for col in cabecalho %}
-                        <th>{{ col }}</th>
-                    {% endfor %}
-                    <th>Status</th>
-                    <th>Dados sensíveis detectados</th>
-                    <th>Verbos de solicitação</th>
-                    <th>Interrogativas</th>
-                    <th>Visualização Detalhada</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for linha in dados %}
+        <h4>Visualização dos Dados</h4>
+        <div style="overflow-x: auto; margin-top: 15px;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        {% for col in cabecalho %}
+                            <th>{{ col }}</th>
+                        {% endfor %}
+                        <th class="center">Status</th>
+                        <th>Dados Sensíveis</th>
+                        <th>Verbos</th>
+                        <th>Interrogativas</th>
+                        <th class="center">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for linha in dados %}
                     <tr>
                         {% for valor in linha.campos %}
-                            <td>{{ valor }}</td>
+                            <td class="small">{{ valor }}</td>
                         {% endfor %}
-                        <td>
+                        <td class="center">
                             {% if linha.status == "Inválido" %}
                                 <span class="badge badge-danger">Inválido</span>
                             {% else %}
                                 <span class="badge badge-success">Válido</span>
                             {% endif %}
                         </td>
-                        <td>
+                        <td class="small">
                             {% if linha.encontrados %}
-                                {{ linha.encontrados | join(', ') }}
+                                <span style="color: var(--danger);">{{ linha.encontrados | join(', ') }}</span>
                             {% else %}
-                                Nenhum
+                                <span class="muted">Nenhum</span>
                             {% endif %}
                         </td>
-                        <td>
-                            {% if linha.verbos %}
-                                {{ linha.verbos | join(', ') }}
-                            {% else %}
-                                Nenhum
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if linha.interrogativas %}
-                                {{ linha.interrogativas | join(', ') }}
-                            {% else %}
-                                Nenhuma
-                            {% endif %}
-                        </td>
-                        <td>
-                            <a href="{{ url_for('testes_detalhados.pagina_teste_detalhado', linha=' '.join(linha.campos), id=loop.index) }}" class="pure-button pure-button-primary">
-                                Ver Detalhes
+                        <td class="small">{{ linha.verbos | join(', ') if linha.verbos else '---' }}</td>
+                        <td class="small">{{ linha.interrogativas | join(', ') if linha.interrogativas else '---' }}</td>
+                        <td class="center">
+                            <a href="{{ url_for('testes_detalhados.pagina_teste_detalhado', linha=' '.join(linha.campos), id=loop.index) }}" 
+                               class="btn-primary" style="padding: 5px 10px; font-size: 0.8rem;">
+                                Detalhes
                             </a>
                         </td>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+{% endblock %}
 
-<!-- Rodapé -->
-<footer>
-    Hackathon Controle Social - Desafio Participa DF
-</footer>
-
-</body>
-</html>
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('graficoStatus').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut', // Mudei para doughnut para um visual mais moderno
+            data: {
+                labels: ['Válidos', 'Inválidos'],
+                datasets: [{
+                    data: [{{ total_validos }}, {{ total_invalidos }}],
+                    backgroundColor: ['#32CD32', '#DC143C'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: false,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Qualidade das Solicitações'
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

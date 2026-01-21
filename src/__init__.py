@@ -32,5 +32,6 @@ from .paginas import (
     perfil_bp,
     auth_bp,
     solicitacao_bp,
-    enviar_bp
+    enviar_bp,
+    doc_bp
 )

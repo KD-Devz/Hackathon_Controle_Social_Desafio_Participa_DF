@@ -1,168 +1,52 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Histórico de Solicitações</title>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
-    <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-        }
+{% extends "base.html" %}
+{% block title %}Meu Histórico - Participa DF{% endblock %}
 
-        header {
-            background: #0d6efd;
-            color: #fff;
-            padding: 15px 20px;
-            font-size: 1.5em;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        nav.menu {
-            background: #333;
-            padding: 10px;
-            text-align: center;
-        }
-
-        nav.menu a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 20px;
-            font-weight: bold;
-            font-size: 1.1em;
-            padding: 8px 16px;
-            background: #0d6efd;
-            border-radius: 4px;
-        }
-
-        nav.menu a:hover {
-            background: #0056b3;
-        }
-
-        .container {
-            flex: 1;
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,.1);
-            display: flex;
-        }
-
-        aside {
-            width: 250px;
-            background: #f0f0f0;
-            padding: 20px;
-            border-radius: 6px;
-            margin-right: 20px;
-        }
-
-        aside h3 {
-            color: #0d6efd;
-        }
-
-        aside ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        aside li {
-            margin-bottom: 10px;
-        }
-
-        aside a {
-            text-decoration: none;
-            font-weight: bold;
-            color: #333;
-        }
-
-        aside a:hover {
-            text-decoration: underline;
-        }
-
-        .perfil-info {
-            flex: 1;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        th, td {
-            padding: 12px;
-            border-bottom: 1px solid #ccc;
-            text-align: left;
-        }
-
-        th {
-            background: #A9A9A9;
-            color: #fff;
-        }
-
-        footer {
-            background: #A9A9A9;
-            color: #fff;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 1em;
-            letter-spacing: 1px;
-        }
-    </style>
-</head>
-<body>
-
-<header>
-    <span>Histórico de Solicitações</span>
-    <a href="{{ url_for('auth.logout') }}" style="background:#DC143C; color:#fff; padding:6px 12px; border-radius:4px; text-decoration:none;">Sair</a>
-</header>
-
-<nav class="menu">
-    <a href="{{ url_for('perfil.pagina_meu_perfil') }}">Meu Perfil</a>
-</nav>
-
-<div class="container">
-    <!-- Menu lateral -->
-    <aside>
-        <h3>Menu do Perfil</h3>
-        <ul>
-            <li><a href="{{ url_for('solicitacao.pagina_enviar_solicitacao') }}">Fazer nova solicitação</a></li>
-            <li><a href="{{ url_for('solicitacao.ver_solicitacoes') }}">Ver minhas solicitações</a></li>
-        </ul>
-    </aside>
-
-    <!-- Conteúdo principal -->
-    <div class="perfil-info">
-        <h2>Histórico de Solicitações</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Data de Envio</th>
-                    <th>Texto da Solicitação</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for texto, data in solicitacoes %}
-                <tr>
-                    <td>{{ data }}</td>
-                    <td>{{ texto }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+{% block main %}
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+    <h2 style="margin: 0; color: var(--primary);"><i class="fas fa-history"></i> Histórico de Solicitações</h2>
+    <span class="badge" style="background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px;">
+        {{ solicitacoes|length }} registros encontrados
+    </span>
 </div>
 
-<!-- Rodapé -->
-<footer>
-    Hackathon Controle Social - Desafio Participa DF
-</footer>
+<div class="info-alert" style="background: #eef2f7; padding: 15px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid var(--secondary); font-size: 0.9rem;">
+    <i class="fas fa-info-circle"></i> Estas solicitações foram filtradas pelo motor <strong>Privacy Shield</strong>. Dados sensíveis foram anonimizados antes do armazenamento.
+</div>
 
-</body>
-</html>
+<table class="doc-table">
+    <thead>
+        <tr>
+            <th style="width: 180px;">Data de Envio</th>
+            <th>Resumo do Conteúdo</th>
+            <th style="width: 150px; text-align: center;">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% if solicitacoes %}
+            {% for texto, data in solicitacoes %}
+            <tr>
+                <td style="font-family: monospace; color: var(--text-muted);">{{ data }}</td>
+                <td style="max-width: 500px;">
+                    <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="{{ texto }}">
+                        {{ texto }}
+                    </div>
+                </td>
+                <td style="text-align: center;">
+                    <a href="#" class="btn-primary" style="padding: 6px 12px; font-size: 0.8rem; background: var(--primary);">
+                        <i class="fas fa-eye"></i> Detalhes
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="3" style="padding: 60px; text-align: center;">
+                    <i class="fas fa-folder-open" style="font-size: 3rem; color: #ccc; display: block; margin-bottom: 15px;"></i>
+                    <p class="muted">Nenhuma solicitação registrada até o momento.</p>
+                    <a href="{{ url_for('solicitacao.pagina_enviar_solicitacao') }}" class="btn-primary" style="margin-top: 15px;">Começar agora</a>
+                </td>
+            </tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}

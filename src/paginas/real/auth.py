@@ -4,12 +4,12 @@ from src.utils.banco import registrar_usuario, autenticar_usuario
 
 auth_bp = Blueprint("auth", __name__)
 
-# 🔹 Decorador para exigir login
+# No topo do auth.py, ajuste o decorador
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if "usuario_id" not in session:
-            flash("Você precisa estar logado para acessar esta página.", "error")
+        if "user_id" not in session:  # Use 'user_id' aqui
+            flash("Você precisa estar logado para acessar o perfil.", "error")
             return redirect(url_for("auth.login"))
         return f(*args, **kwargs)
     return decorated_function
@@ -37,22 +37,22 @@ def login():
     if request.method == "POST":
         email = request.form.get("email")
         senha = request.form.get("senha")
-
         usuario = autenticar_usuario(email, senha)
+
         if usuario:
-            session["usuario_id"] = usuario[0]
-            session["usuario_nome"] = usuario[1]
+            session["user_id"] = usuario[0]
+            session["user_name"] = usuario[1]
+            # Salve explicitamente se estiver em ambiente de teste
+            session.permanent = False
+
             flash("Login realizado com sucesso!", "success")
             return redirect(url_for("perfil.pagina_meu_perfil"))
         else:
             flash("Email ou senha inválidos.", "error")
-            return redirect(url_for("auth.login"))
-
     return render_template("real/pagina_login.html")
-
 
 @auth_bp.route("/logout")
 def logout():
     session.clear()
-    flash("Logout realizado com sucesso!")
+    flash("Sessão encerrada com sucesso!", "success")
     return redirect(url_for("index.pagina_index"))

@@ -1,123 +1,106 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Página de Ranking</title>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
-    <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-        }
-        header {
-            background: #0d6efd;
-            color: #fff;
-            padding: 15px 0;
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-        nav.menu {
-            background: #333;
-            padding: 10px;
-            text-align: center;
-        }
-        nav.menu a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-        nav.menu a:hover {
-            text-decoration: underline;
-        }
-        .container {
-            flex: 1;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,.1);
-        }
-        footer {
-            background: #A9A9A9;
-            color: #fff;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 1em;
-            letter-spacing: 1px;
-        }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <header>Página de Ranking</header>
+{% block title %}Ranking de Termos Sensíveis - Participa DF{% endblock %}
 
-    <nav class="menu">
-        <a href="{{ url_for('enviar_testes.pagina_enviar_teste') }}">Enviar Solicitação</a>
-        <a href="{{ url_for('lista_de_testes.pagina_testes') }}">Exemplos de Solicitações</a>
-        <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}">Rankeamento</a>
-        <a href="{{ url_for('auth.login') }}">Fazer Login</a>
-    </nav>
+{% block main %}
+    <section class="content" style="max-width: 900px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h4 style="font-size: 1.5rem; margin-bottom: 10px;">Monitoramento de Riscos</h4>
+            <p class="muted">Top 10 termos sensíveis detectados em solicitações e-SIC</p>
+        </div>
 
-    <div class="container">
-        <h2>Top 10 - palavras sensíveis</h2>
-        <canvas id="graficoHeroi" width="400" height="200"></canvas>
-    </div>
+        <div class="card" style="padding: 25px; margin-bottom: 30px;">
+            <canvas id="graficoHeroi" style="width: 100%; max-height: 400px;"></canvas>
+        </div>
 
-    <!-- Chart.js + Data Labels plugin -->
+        <div class="card">
+            <h4 style="font-size: 1rem; margin-bottom: 15px; color: var(--primary);">Detalhamento de Frequência</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="width: 60px;" class="center">#</th>
+                        <th>Termo Detectado</th>
+                        <th class="center">Ocorrências</th>
+                        <th>Nível de Risco</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in range(palavras|length) %}
+                    <tr>
+                        <td class="center"><strong>{{ i + 1 }}º</strong></td>
+                        <td><code style="background: var(--bg); padding: 2px 6px; border-radius: 4px;">{{ palavras[i] }}</code></td>
+                        <td class="center">{{ quantidades[i] }}</td>
+                        <td>
+                            {% if quantidades[i] > 50 %}
+                                <span class="badge badge-danger">Crítico</span>
+                            {% else %}
+                                <span class="badge badge-success">Monitorado</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <p class="small muted">Os dados acima são atualizados em tempo real com base no banco de dados SQLite do sistema.</p>
+        </div>
+    </section>
+{% endblock %}
+
+{% block scripts %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
     <script>
-        const ctx = document.getElementById('graficoHeroi').getContext('2d');
-        const graficoHeroi = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: {{ palavras|tojson }},
-                datasets: [{
-                    label: 'Quantidade de buscas',
-                    data: {{ quantidades|tojson }},
-                    backgroundColor: [
-                        '#0d6efd', '#32CD32', '#DC143C', '#FF8C00', '#8A2BE2',
-                        '#FFD700', '#00CED1', '#FF1493', '#7FFF00', '#A52A2A'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: {
-                        display: false
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('graficoHeroi').getContext('2d');
+            
+            // Definição de cores usando o padrão do sistema
+            const colors = [
+                '#0d6efd', '#20c997', '#dc3545', '#fd7e14', '#6610f2',
+                '#ffc107', '#17a2b8', '#e83e8c', '#198754', '#adb5bd'
+            ];
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ palavras|tojson }},
+                    datasets: [{
+                        label: 'Ocorrências',
+                        data: {{ quantidades|tojson }},
+                        backgroundColor: colors,
+                        borderRadius: 6, // Bordas arredondadas nas barras
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            anchor: 'end',
+                            align: 'top',
+                            color: '#444',
+                            font: { weight: 'bold', size: 12 },
+                            formatter: Math.round
+                        }
                     },
-                    legend: { display: false },
-                    datalabels: {
-                        anchor: 'end',
-                        align: 'top',
-                        color: '#000',
-                        font: {
-                            weight: 'bold'
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { font: { weight: '500' } }
                         },
-                        formatter: function(value) {
-                            return value;
+                        y: {
+                            display: false,
+                            beginAtZero: true,
+                            suggestedMax: Math.max(...{{ quantidades|tojson }}) * 1.2
                         }
                     }
                 },
-                scales: {
-                    y: {
-                        display: false   // 🔹 remove completamente o eixo Y
-                    }
-                }
-            },
-            plugins: [ChartDataLabels]
+                plugins: [ChartDataLabels]
+            });
         });
     </script>
-
-<!-- Rodapé -->
-<footer>
-    Hackathon Controle Social - Desafio Participa DF
-</footer>
-
-</body>
-</html>
+{% endblock %}

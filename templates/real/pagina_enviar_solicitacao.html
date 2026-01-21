@@ -1,248 +1,75 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Enviar Solicitação</title>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
-    <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-        }
+{% extends "base.html" %}
+{% block title %}Enviar Solicitação - Participa DF{% endblock %}
 
-        header {
-            background: #0d6efd;
-            color: #fff;
-            padding: 15px 20px;
-            font-size: 1.5em;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        nav.menu {
-            background: #333;
-            padding: 10px;
-            text-align: center;
-        }
-
-        nav.menu a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 20px;
-            font-weight: bold;
-            font-size: 1.1em;
-            padding: 8px 16px;
-            background: #0d6efd;
-            border-radius: 4px;
-        }
-
-        nav.menu a:hover {
-            background: #0056b3;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,.1);
-            display: flex;
-        }
-
-        aside {
-            width: 250px;
-            background: #f0f0f0;
-            padding: 20px;
-            border-radius: 6px;
-            margin-right: 20px;
-        }
-
-        aside h3 {
-            color: #0d6efd;
-        }
-
-        aside ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        aside li {
-            margin-bottom: 10px;
-        }
-
-        aside a {
-            text-decoration: none;
-            font-weight: bold;
-            color: #333;
-        }
-
-        aside a:hover {
-            text-decoration: underline;
-        }
-
-        .perfil-info {
-            flex: 1;
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 100px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px;
-        }
-
-        .status-danger {
-            background: #DC143C;
-            color: #fff;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 20px;
-        }
-
-        .status-success {
-            background: #32CD32;
-            color: #fff;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 20px;
-        }
-
-        .badge-danger {
-            background: #DC143C;
-            color: #fff;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        .badge-success {
-            background: #32CD32;
-            color: #fff;
-            padding: 4px 8px;
-            border-radius: 4px;
-        }
-
-        .pure-table {
-            width: 100%;
-            margin-top: 15px;
-        }
-
-        .pure-table th {
-            background: #A9A9A9;
-            color: #fff;
-        }
-
-        footer {
-            background: #A9A9A9;
-            color: #fff;
-            text-align: center;
-            padding: 10px 0;
-            margin-top: 40px;
-        }
-    </style>
-</head>
-<body>
-
-<header>
-    <span>Enviar Solicitação</span>
-    <a href="{{ url_for('auth.logout') }}"
-       style="background:#DC143C; color:#fff; padding:6px 12px; border-radius:4px; text-decoration:none;">Sair</a>
-</header>
-
-<nav class="menu">
-    <a href="{{ url_for('perfil.pagina_meu_perfil') }}">Meu Perfil</a>
-</nav>
-
-<div class="container">
-    <!-- Menu lateral -->
-    <aside>
-        <h3>Menu do Perfil</h3>
-        <ul>
-            <li><a href="{{ url_for('solicitacao.pagina_enviar_solicitacao') }}">Fazer nova solicitação</a></li>
-            <li><a href="{{ url_for('solicitacao.ver_solicitacoes') }}">Ver minhas solicitações</a></li>
-        </ul>
-    </aside>
-
-    <!-- Conteúdo principal -->
-    <div class="perfil-info">
-        <!-- Formulário de solicitação -->
-        <form method="POST" action="{{ url_for('solicitacao.enviar_solicitacao') }}" class="pure-form pure-form-stacked">
-            <textarea name="solicitacao" placeholder="Digite uma solicitação"></textarea>
-            <button type="submit" class="pure-button pure-button-primary">Enviar</button>
-        </form>
-
-        <!-- Exibir resposta do processar_index -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, resposta in messages %}
-                    {% if resposta.STATUS == "True" %}
-                        <div class="status-danger">
-                            <p><strong>STATUS:</strong> Essa solicitação não pode ser processada, porque contém pedido de informações pessoais.</p>
-                            <p><strong>Análise por linha:</strong></p>
-                            <table class="pure-table pure-table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Linha</th>
-                                        <th>Status</th>
-                                        <th>Dados sensíveis</th>
-                                        <th>Verbos</th>
-                                        <th>Interrogativas</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for linha in resposta.linhas %}
-                                    <tr>
-                                        <td>{{ linha.texto }}</td>
-                                        <td>{% if linha.status == "True" %}<span class="badge-danger">Sensível</span>{% else %}<span class="badge-success">Seguro</span>{% endif %}</td>
-                                        <td>{{ linha.encontrados|join(', ') if linha.encontrados else 'Nenhum' }}</td>
-                                        <td>{{ linha.verbos|join(', ') if linha.verbos else 'Nenhum' }}</td>
-                                        <td>{{ linha.interrogativas|join(', ') if linha.interrogativas else 'Nenhuma' }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    {% else %}
-                        <div class="status-success">
-                            <p><strong>STATUS:</strong> Essa solicitação pode ser atendida.</p>
-                            <p><strong>Análise por linha:</strong></p>
-                            <table class="pure-table pure-table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Linha</th>
-                                        <th>Status</th>
-                                        <th>Dados sensíveis</th>
-                                        <th>Verbos</th>
-                                        <th>Interrogativas</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for linha in resposta.linhas %}
-                                    <tr>
-                                        <td>{{ linha.texto }}</td>
-                                        <td>{% if linha.status == "True" %}<span class="badge-danger">Sensível</span>{% else %}<span class="badge-success">Seguro</span>{% endif %}</td>
-                                        <td>{{ linha.encontrados|join(', ') if linha.encontrados else 'Nenhum' }}</td>
-                                        <td>{{ linha.verbos|join(', ') if linha.verbos else 'Nenhum' }}</td>
-                                        <td>{{ linha.interrogativas|join(', ') if linha.interrogativas else 'Nenhuma' }}</td>
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-    </div>
+{% block main %}
+<div class="section-header" style="margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+    <h2 style="margin: 0; color: var(--primary);"><i class="fas fa-paper-plane"></i> Nova Solicitação e-SIC</h2>
+    <p class="muted">O motor de IA analisará seu texto em busca de dados sensíveis antes do envio oficial.</p>
 </div>
 
-<footer>
-    Hackathon Controle Social - Desafio Participa DF
-</footer>
+<form method="POST" action="{{ url_for('solicitacao.enviar_solicitacao') }}" class="doc-form">
+    <div class="form-group">
+        <label style="font-weight: 600; display: block; margin-bottom: 10px;">Conteúdo da Solicitação:</label>
+        <textarea name="solicitacao" class="doc-textarea" placeholder="Ex: Gostaria de saber o salário do servidor CPF 000.000.000-00..." style="min-height: 150px; width: 100%;" required></textarea>
+    </div>
+    <div style="margin-top: 15px;">
+        <button type="submit" class="btn-primary" style="padding: 12px 30px;">
+            <i class="fas fa-microscope"></i> Analisar e Enviar
+        </button>
+    </div>
+</form>
 
-</body>
-</html>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, resposta in messages %}
+      <div class="analysis-result" style="margin-top: 40px; animation: fadeIn 0.5s ease;">
+
+        {% if resposta.STATUS == "True" %}
+            <div class="alert alert-danger" style="display: flex; align-items: center; gap: 15px;">
+                <i class="fas fa-exclamation-triangle" style="font-size: 1.5rem;"></i>
+                <strong>BLOQUEADO:</strong> Esta solicitação contém dados sensíveis e viola a LGPD.
+            </div>
+        {% else %}
+            <div class="alert alert-success" style="display: flex; align-items: center; gap: 15px;">
+                <i class="fas fa-check-circle" style="font-size: 1.5rem;"></i>
+                <strong>APROVADO:</strong> Conteúdo seguro para processamento público.
+            </div>
+        {% endif %}
+
+        <h3 style="margin: 25px 0 15px; font-size: 1.1rem;"><i class="fas fa-list-ul"></i> Detalhamento da Análise Híbrida:</h3>
+
+        <table class="doc-table">
+          <thead>
+            <tr>
+              <th>Fragmento de Texto</th>
+              <th style="text-align: center;">Status</th>
+              <th>Entidades Encontradas</th>
+              <th>Verbos</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for linha in resposta.linhas %}
+              <tr>
+                <td style="font-size: 0.9rem;">"{{ linha.texto }}"</td>
+                <td style="text-align: center;">
+                  {% if linha.status == "True" %}
+                    <span class="badge" style="background: var(--danger); color: white; padding: 4px 8px; border-radius: 4px;">Sensível</span>
+                  {% else %}
+                    <span class="badge" style="background: var(--success); color: white; padding: 4px 8px; border-radius: 4px;">Seguro</span>
+                  {% endif %}
+                </td>
+                <td style="color: var(--secondary); font-weight: 600;">
+                    {{ linha.encontrados|join(', ') if linha.encontrados else '--' }}
+                </td>
+                <td class="muted" style="font-size: 0.85rem;">
+                    {{ linha.verbos|join(', ') if linha.verbos else '--' }}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+{% endblock %}

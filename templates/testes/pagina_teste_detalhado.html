@@ -1,171 +1,99 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <title>Teste Detalhado</title>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.1.0/build/pure-min.css">
-    <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Roboto', Arial, sans-serif;
-            margin: 0;
-        }
-        header {
-            background: #0d6efd;
-            color: #fff;
-            padding: 15px 0;
-            text-align: center;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-        nav.menu {
-            background: #333;
-            padding: 10px;
-            text-align: center;
-        }
-        nav.menu a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-        nav.menu a:hover {
-            text-decoration: underline;
-        }
-        .container {
-            flex: 1;
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0,0,0,.1);
-        }
-        .status-box {
-            padding: 15px;
-            border-radius: 6px;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #fff;
-        }
-        .status-true {
-            background-color: #DC143C;
-        }
-        .status-false {
-            background-color: #32CD32;
-        }
-        .pure-table {
-            width: 100%;
-            margin-top: 15px;
-        }
-        .pure-table th {
-            background: #A9A9A9;
-            color: #fff;
-            text-align: left;
-        }
-        .pure-table td, .pure-table th {
-            padding: 10px;
-        }
-        .badge {
-            padding: 6px 10px;
-            border-radius: 4px;
-            font-size: 0.9em;
-            color: #fff;
-        }
-        .badge-danger { background: #DC143C; }
-        .badge-success { background: #32CD32; }
-        .id-balao {
-            display:inline-block;
-            background-color:#0d6efd;
-            color:#fff;
-            padding:12px 24px;
-            border-radius:30px;
-            font-weight:bold;
-            font-size:1.2em;
-        }
-        footer {
-            background: #A9A9A9;
-            color: #fff;
-            text-align: center;
-            padding: 15px 0;
-            font-size: 1em;
-            letter-spacing: 1px;
-        }
-    </style>
-</head>
-<body>
+{% extends "base.html" %}
 
-    <header>Detalhes do Teste</header>
+{% block title %}Detalhes da Análise - Participa DF{% endblock %}
 
-    <nav class="menu">
-        <a href="{{ url_for('enviar_testes.pagina_enviar_teste') }}">Enviar Solicitação</a>
-        <a href="{{ url_for('lista_de_testes.pagina_testes') }}">Exemplos de Solicitações</a>
-        <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}">Rankeamento</a>
-        <a href="{{ url_for('auth.login') }}">Fazer Login</a>
-    </nav>
-
-    <div class="container">
-
-        {% if id %}
+{% block main %}
+    <section class="content">
         <div style="text-align:center; margin-bottom:30px;">
-            <span class="id-balao">Solicitação #{{ id }}</span>
+            {% if id %}
+                <span class="badge" style="background-color: var(--primary); color: white; padding: 10px 20px; border-radius: 20px; font-size: 1.1rem;">
+                    Solicitação Protocolo #{{ id }}
+                </span>
+            {% endif %}
+            <h2 style="margin-top: 20px;">Relatório de Auditoria de Privacidade</h2>
         </div>
-        {% endif %}
 
-        <h2>Solicitação analisada</h2>
-        <p><em>{{ texto | replace(id ~ ' ', '') }}</em></p>
+        <div class="card" style="background-color: var(--bg); border-left: 5px solid var(--primary); margin-bottom: 30px;">
+            <h4 style="margin-bottom: 10px; color: var(--muted-text); font-size: 0.9rem; text-transform: uppercase;">Texto Original:</h4>
+            <p style="font-style: italic; font-size: 1.1rem; line-height: 1.6;">
+                "{{ texto | replace(id ~ ' ', '') }}"
+            </p>
+        </div>
 
         {% if resposta %}
-            <div class="status-box {% if resposta.STATUS == 'True' %}status-true{% else %}status-false{% endif %}">
-                STATUS: {% if resposta.STATUS == 'True' %}
-                    Essa solicitação não pode ser processada.
-                {% else %}
-                    Essa solicitação pode ser atendida.
-                {% endif %}
+            <div class="card center" style="padding: 25px; margin-bottom: 30px; 
+                 background-color: {% if resposta.STATUS == 'True' %}#fde8ec{% else %}#e6ffe6{% endif %};
+                 border: 1px solid {% if resposta.STATUS == 'True' %}var(--danger){% else %}var(--success){% endif %};">
+                
+                <h3 style="margin: 0; color: {% if resposta.STATUS == 'True' %}var(--danger){% else %}var(--success){% endif %};">
+                    {% if resposta.STATUS == 'True' %}
+                        <i class="fas fa-times-circle"></i> Acesso Negado / Dados Sensíveis Detectados
+                    {% else %}
+                        <i class="fas fa-check-circle"></i> Solicitação Válida para Processamento
+                    {% endif %}
+                </h3>
+                <p style="margin-top: 10px; font-weight: 500;">
+                    {% if resposta.STATUS == 'True' %}
+                        Esta solicitação viola as políticas de privacidade e não pode ser processada conforme a LGPD.
+                    {% else %}
+                        Esta solicitação cumpre os requisitos da LAI e não contém dados sensíveis impeditivos.
+                    {% endif %}
+                </p>
             </div>
 
-            <h3>Análise por linha:</h3>
-            <table class="pure-table pure-table-bordered">
-                <thead>
-                    <tr>
-                        <th>Linha</th>
-                        <th>Status</th>
-                        <th>Dados sensíveis detectados</th>
-                        <th>Verbos de solicitação</th>
-                        <th>Interrogativas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for linha in resposta.linhas %}
+            <h4>Análise Segmentada</h4>
+            <div style="overflow-x: auto; margin-top: 15px;">
+                <table class="table">
+                    <thead>
                         <tr>
-                            <td>{{ linha.texto }}</td>
-                            <td>
-                                {% if linha.status == "True" %}
-                                    <span class="badge badge-danger">Inválido</span>
-                                {% else %}
-                                    <span class="badge badge-success">Válido</span>
-                                {% endif %}
-                            </td>
-                            <td>{{ linha.encontrados | join(', ') if linha.encontrados else 'Nenhum' }}</td>
-                            <td>{{ linha.verbos | join(', ') if linha.verbos else 'Nenhum' }}</td>
-                            <td>{{ linha.interrogativas | join(', ') if linha.interrogativas else 'Nenhuma' }}</td>
+                            <th>Segmento da Mensagem</th>
+                            <th class="center">Status</th>
+                            <th>Riscos de Privacidade</th>
+                            <th>Verbos/Interrogativas</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {% for linha in resposta.linhas %}
+                            <tr>
+                                <td style="max-width: 300px;">{{ linha.texto }}</td>
+                                <td class="center">
+                                    {% if linha.status == "True" %}
+                                        <span class="badge badge-danger">Crítico</span>
+                                    {% else %}
+                                        <span class="badge badge-success">Seguro</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if linha.encontrados %}
+                                        {% for dado in linha.encontrados %}
+                                            <span class="badge" style="background: #eee; color: var(--danger); border: 1px solid var(--danger); margin-bottom: 4px;">{{ dado }}</span>
+                                        {% endfor %}
+                                    {% else %}
+                                        <span class="muted small">Nenhum dado sensível</span>
+                                    {% endif %}
+                                </td>
+                                <td class="small">
+                                    <strong>Verbos:</strong> {{ linha.verbos | join(', ') if linha.verbos else '---' }} <br>
+                                    <strong>Busca:</strong> {{ linha.interrogativas | join(', ') if linha.interrogativas else '---' }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         {% else %}
-            <p>Nenhuma linha foi selecionada.</p>
+            <div class="card center muted">
+                <p>Nenhum dado de análise disponível para esta entrada.</p>
+            </div>
         {% endif %}
 
-        <p style="margin-top:20px;">
-            <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="pure-button">← Voltar para Página de Testes</a>
-        </p>
-    </div>
-
-<!-- Rodapé -->
-<footer>
-    Hackathon Controle Social - Desafio Participa DF
-</footer>
-
-</body>
-</html>
+        <div style="margin-top: 30px; display: flex; gap: 10px;">
+            <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="btn-ghost">
+                ← Voltar para a Lista
+            </a>
+            <button onclick="window.print()" class="btn-ghost" style="border-color: #333; color: #333;">
+                Imprimir Relatório
+            </button>
+        </div>
+    </section>
+{% endblock %}

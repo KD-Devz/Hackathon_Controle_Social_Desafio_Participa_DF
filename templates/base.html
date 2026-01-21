@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Participa DF | Controle Social{% endblock %}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=1.4">
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+<div class="app-container">
+    <header class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-shield-halved"></i>
+            <span>PARTICIPA<strong>DF</strong></span>
+        </div>
+
+        <div class="navbar-user">
+            {# Lógica de Sessão: Se o user_id existir, mostra Perfil e Sair #}
+            {% if session.get('user_id') %}
+            <div style="display: flex; align-items: center; gap: 15px;">
+
+                <a href="{{ url_for('perfil.pagina_meu_perfil') }}" class="btn-perfil-nav"
+                   style="color: white; text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-user-circle"></i>
+                    <span>{{ session.get('user_name', 'Usuário') }}</span>
+                </a>
+
+                <a href="{{ url_for('auth.logout') }}" class="btn-logout"
+                   style="background: rgba(255,255,255,0.2); color: white; padding: 6px 15px; border-radius: 20px; text-decoration: none; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.4);">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+            </div>
+            {% else %}
+            <a href="{{ url_for('auth.login') }}" class="btn-login"
+               style="color: white; text-decoration: none; font-weight: 600;">
+                Acessar Sistema
+            </a>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <aside class="sidebar">
+            <nav class="side-menu">
+                <a href="{{ url_for('index.pagina_index') }}" class="nav-item">
+                    <i class="fas fa-chart-line"></i> Painel Geral
+                </a>
+                <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="nav-item">
+                    <i class="fas fa-list-check"></i> Lista de Testes
+                </a>
+                <a href="{{ url_for('documentacao.pagina_documentacao') }}" class="nav-item">
+                    <i class="fas fa-file-code"></i> Documentação
+                </a>
+                <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}" class="nav-item">
+                    <i class="fas fa-trophy"></i> Ranking de Termos
+                </a>
+
+                {% if session.get('user_id') %}
+                <div class="menu-divider" style="height: 1px; background: #eee; margin: 20px 10px;"></div>
+                <a href="{{ url_for('perfil.pagina_meu_perfil') }}" class="nav-item">
+                    <i class="fas fa-id-card"></i> Meu Perfil
+                </a>
+                <a href="{{ url_for('solicitacao.pagina_enviar_solicitacao') }}" class="nav-item">
+                    <i class="fas fa-paper-plane"></i> Nova Solicitação
+                </a>
+                <a href="{{ url_for('solicitacao.ver_solicitacoes') }}" class="nav-item">
+                    <i class="fas fa-list-ul"></i> Minhas Solicitações
+                </a>
+                {% endif %}
+            </nav>
+        </aside>
+
+        <main class="content-area">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                {# Mostra apenas a última mensagem para não encher a tela #}
+                {% if loop.last %}
+                <div class="alert alert-{{ category }}"
+                     style="padding: 10px; margin-bottom: 20px; border-radius: 5px; background-color: {% if category == 'success' %}#d4edda{% else %}#f8d7da{% endif %};">
+                    {{ message }}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+
+            <div class="glass-card">
+                {% block main %}{% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer" style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
+        <p>&copy; 2026 Hackathon Controle Social - Cabo Calebe (UnB)</p>
+    </footer>
+</div>
+
+{% block scripts %}{% endblock %}
+</body>
+</html>
