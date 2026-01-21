@@ -59,20 +59,55 @@ def enviar_solicitacao():
 
 
 # 🔹 Rota GET → ver histórico de solicitações
+# No seu solicitacao.py
 @solicitacao_bp.route("/ver_solicitacoes")
 @login_required
 def ver_solicitacoes():
     user_id = session["user_id"]
-
     conn = sqlite3.connect(obter_caminho_banco())
     cursor = conn.cursor()
+    # ADICIONE O 'id' NO SELECT
     cursor.execute("""
-        SELECT texto, data_envio
-        FROM solicitacoes
-        WHERE usuario_id = ?
+        SELECT texto, data_envio, id 
+        FROM solicitacoes 
+        WHERE usuario_id = ? 
         ORDER BY data_envio DESC
     """, (user_id,))
     solicitacoes = cursor.fetchall()
     conn.close()
-
     return render_template("real/pagina_ver_solicitacoes.html", solicitacoes=solicitacoes)
+
+
+@solicitacao_bp.route("/detalhes_solicitacao/<int:solicitacao_id>")
+@login_required
+def detalhes_solicitacao(solicitacao_id):
+    conn = sqlite3.connect(obter_caminho_banco())
+    cursor = conn.cursor()
+
+    # BUSCA PELO ID ÚNICO: Garante que pegamos a correta, não a última
+    cursor.execute("""
+                   SELECT texto, data_envio
+                   FROM solicitacoes
+                   WHERE id = ?
+                     AND usuario_id = ?
+                   """, (solicitacao_id, session["user_id"]))
+
+    resultado_db = cursor.fetchone()
+    conn.close()
+
+    if not resultado_db:
+        flash("Solicitação não encontrada.", "error")
+        return redirect(url_for("solicitacao.ver_solicitacoes"))
+
+    texto_solicitacao = resultado_db[0]
+
+    # Processa exatamente o texto encontrado
+    from src.utils.carregador import processar_index
+    analise = processar_index(texto_solicitacao)
+
+    return render_template(
+        "real/pagina_detalhes_analise.html",
+        id=solicitacao_id,
+        texto=texto_solicitacao,
+        resposta=analise
+    )
