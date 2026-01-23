@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}Participa DF | Controle Social{% endblock %}</title>
+    <title>{% block title %} Participa DF | Controle Social {% endblock %}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +20,7 @@
     <header class="navbar">
         <div class="navbar-brand">
             <i class="fas fa-shield-halved"></i>
-            <span>PARTICIPA<strong>DF</strong></span>
+            <span> PARTICIPA - <strong>DF</strong></span>
         </div>
 
         <div class="navbar-user">
@@ -55,13 +55,13 @@
                     <i class="fas fa-chart-line"></i> Painel Geral
                 </a>
                 <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="nav-item">
-                    <i class="fas fa-list-check"></i> Lista de Testes
+                    <i class="fas fa-list-check"></i> Testes
                 </a>
                 <a href="{{ url_for('documentacao.pagina_documentacao') }}" class="nav-item">
                     <i class="fas fa-file-code"></i> Documentação
                 </a>
                 <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}" class="nav-item">
-                    <i class="fas fa-trophy"></i> Ranking de Termos
+                    <i class="fas fa-trophy"></i> Ranking
                 </a>
 
                 {% if session.get('user_id') %}
@@ -102,11 +102,9 @@
         </main>
     </div>
 
-    <footer class="footer" style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
-        <p>&copy; 2026 Hackathon Controle Social - Cabo Calebe (UnB)</p>
+   <footer class="footer" style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.8rem;">
+        <p>&copy; 2026 Hackathon Controle Social </p>
     </footer>
-</div>
-
 {% block scripts %}{% endblock %}
 </body>
 </html>
