@@ -7,7 +7,6 @@ from.real import (
     doc_bp
 )
 from.testes import (
-    enviar_bp,
     testes_bp,
     testes_detalhados_bp,
     ranking_bp

@@ -1,6 +1,6 @@
 from flask import Flask
 from src.utils.banco import inicializar_banco
-from src.paginas import index_bp, testes_bp, ranking_bp, testes_detalhados_bp, perfil_bp, auth_bp, solicitacao_bp, enviar_bp, doc_bp
+from src.paginas import index_bp, testes_bp, ranking_bp, testes_detalhados_bp, perfil_bp, auth_bp, solicitacao_bp, doc_bp
 from datetime import timedelta
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
@@ -14,7 +14,6 @@ app.register_blueprint(testes_detalhados_bp)
 app.register_blueprint(perfil_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(solicitacao_bp)
-app.register_blueprint(enviar_bp)
 app.register_blueprint(doc_bp)
 
 if __name__ == "__main__":
