@@ -5,7 +5,8 @@ um sistema de validação e análise de solicitações feitas via e-SIC (Sistema
 Cidadão).
 
 O sistema identifica **dados sensíveis**, **verbos de solicitação** e **palavras interrogativas** em mensagens,
-classificando se uma solicitação pode ou não ser atendida de acordo com critérios da Lei de Acesso à Informação.
+classificando se uma solicitação pode ou não ser atendida de acordo com critérios da Lei de Acesso à Informação (LAI) e
+em conformidade com a LGPD.
 
 ---
 
@@ -35,9 +36,13 @@ classificando se uma solicitação pode ou não ser atendida de acordo com crit�
 - **Perfil**
   - Página dedicada ao usuário, exibindo informações básicas (nome, email, cargo, instituição, descrição).
 
+- **Documentação Técnica**
+  - Painel interativo com tópicos de arquitetura, instalação, execução, formatos, metodologia, segurança e API.
+  - Área de comunidade para feedback técnico.
+
 - **Refatoração do código**
   - Criação de `carregador.py` para centralizar a lógica de análise.
-  - Separação das páginas em Blueprints (`index`, `testes`, `ranking`, `testes_detalhados`, `perfil`).
+  - Separação das páginas em Blueprints (`index`, `testes`, `ranking`, `testes_detalhados`, `perfil`, `documentacao`).
   - Código mais limpo e reutilizável.
 
 ---
@@ -47,8 +52,8 @@ classificando se uma solicitação pode ou não ser atendida de acordo com crit�
 - **Python 3.11+**
 - **Flask** (Blueprints, rotas e templates)
 - **SQLite3** (armazenamento de termos sensíveis e ranking)
-- **HTML + CSS (PureCSS)**
-- **Chart.js** (gráficos)
+- **HTML + CSS (PureCSS + custom styles)**
+- **Chart.js** (gráficos dinâmicos)
 - **CSV** para amostras de testes
 
 ---
@@ -74,6 +79,11 @@ classificando se uma solicitação pode ou não ser atendida de acordo com crit�
 ### Página de Perfil
 - Exibe informações básicas do usuário em layout centralizado.
 
+### Página de Documentação
+- Exibe tópicos técnicos organizados em painel lateral.
+- Permite navegação entre arquitetura, instalação, execução, formatos, metodologia, segurança e API.
+- Área de comunidade para comentários e sugestões.
+
 ---
 
 ## ▶️ Como executar
@@ -82,7 +92,7 @@ classificando se uma solicitação pode ou não ser atendida de acordo com crit�
  ```bash
  git clone https://github.com/CalebeAF02/Hackathon_Controle_Social_Desafio_Participa_DF.git
  cd Hackathon_Controle_Social_Desafio_Participa_DF
-```
+
 
 2. **Configura o Ambiente**
 ```bash
