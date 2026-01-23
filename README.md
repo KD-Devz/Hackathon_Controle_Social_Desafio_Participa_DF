@@ -84,11 +84,19 @@ classificando se uma solicitação pode ou não ser atendida de acordo com crit�
  cd Hackathon_Controle_Social_Desafio_Participa_DF
 ```
 
-2. **Instalar Dependências**
+2. **Configura o Ambiente**
+```bash
+python -m venv venv
+source venv/bin/activate   # Linux/Mac
+venv\Scripts\activate      # Windows
+```
+
+3. **Instalar Dependências**
 ```bash
 pip install -r requirements.txt
 ```
-3. **Executar o projeto**
+
+4. **Executar o projeto**
 ```bash
 python3 app.py
 ```

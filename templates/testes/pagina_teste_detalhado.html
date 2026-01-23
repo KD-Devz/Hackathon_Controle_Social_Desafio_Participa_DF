@@ -1,99 +1,119 @@
 {% extends "base.html" %}
 
-{% block title %}Detalhes da Análise - Participa DF{% endblock %}
+{% block title %}Relatório de Auditoria #{{ id }} - Participa DF{% endblock %}
 
 {% block main %}
-    <section class="content">
-        <div style="text-align:center; margin-bottom:30px;">
-            {% if id %}
-                <span class="badge" style="background-color: var(--primary); color: white; padding: 10px 20px; border-radius: 20px; font-size: 1.1rem;">
-                    Solicitação Protocolo #{{ id }}
-                </span>
-            {% endif %}
-            <h2 style="margin-top: 20px;">Relatório de Auditoria de Privacidade</h2>
-        </div>
+<section class="content">
+    <!-- Cabeçalho -->
+    <div style="text-align:center; margin-bottom:30px;">
+        <span class="badge" style="background-color: var(--primary); color: white; padding: 8px 18px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">
+            Protocolo e-SIC #{{ id }}
+        </span>
+        <h2 style="color: var(--primary); font-weight: 700; margin-top: 15px;">Relatório de Auditoria de Privacidade</h2>
+    </div>
 
-        <div class="card" style="background-color: var(--bg); border-left: 5px solid var(--primary); margin-bottom: 30px;">
-            <h4 style="margin-bottom: 10px; color: var(--muted-text); font-size: 0.9rem; text-transform: uppercase;">Texto Original:</h4>
-            <p style="font-style: italic; font-size: 1.1rem; line-height: 1.6;">
-                "{{ texto | replace(id ~ ' ', '') }}"
+    <!-- Texto Original -->
+    <div class="card-analise" style="background-color: #fff; border-left: 5px solid #0056b3; padding: 25px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <h4 style="margin-bottom: 12px; color: #666; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;">Conteúdo Analisado:</h4>
+        <p style="font-style: italic; font-size: 1.05rem; line-height: 1.8; color: #2c3e50; background: #fcfcfc; padding: 10px; border-radius: 4px;">
+            "{{ texto }}"
+        </p>
+    </div>
+
+    {% if resposta %}
+        <!-- Status da Solicitação -->
+        <div style="padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 35px;
+             background-color: {% if resposta.STATUS == 'True' %}#fff5f5{% else %}#f0fff4{% endif %};
+             border: 2px solid {% if resposta.STATUS == 'True' %}#feb2b2{% else %}#9ae6b4{% endif %};">
+
+            <h3 style="margin: 0; color: {% if resposta.STATUS == 'True' %}#c53030{% else %}#22543d{% endif %}; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                {% if resposta.STATUS == 'True' %}
+                    <i class="fas fa-exclamation-triangle"></i> RISCO DETECTADO
+                {% else %}
+                    <i class="fas fa-shield-check"></i> CONTEÚDO SEGURO
+                {% endif %}
+            </h3>
+            <p style="margin-top: 10px; color: #4a5568; font-weight: 500; font-size: 1rem;">
+                {% if resposta.STATUS == 'True' %}
+                    A análise identificou padrões que violam a política de privacidade (LGPD).
+                {% else %}
+                    Esta solicitação está em conformidade com as normas de transparência ativa.
+                {% endif %}
             </p>
         </div>
 
-        {% if resposta %}
-            <div class="card center" style="padding: 25px; margin-bottom: 30px; 
-                 background-color: {% if resposta.STATUS == 'True' %}#fde8ec{% else %}#e6ffe6{% endif %};
-                 border: 1px solid {% if resposta.STATUS == 'True' %}var(--danger){% else %}var(--success){% endif %};">
-                
-                <h3 style="margin: 0; color: {% if resposta.STATUS == 'True' %}var(--danger){% else %}var(--success){% endif %};">
-                    {% if resposta.STATUS == 'True' %}
-                        <i class="fas fa-times-circle"></i> Acesso Negado / Dados Sensíveis Detectados
-                    {% else %}
-                        <i class="fas fa-check-circle"></i> Solicitação Válida para Processamento
-                    {% endif %}
-                </h3>
-                <p style="margin-top: 10px; font-weight: 500;">
-                    {% if resposta.STATUS == 'True' %}
-                        Esta solicitação viola as políticas de privacidade e não pode ser processada conforme a LGPD.
-                    {% else %}
-                        Esta solicitação cumpre os requisitos da LAI e não contém dados sensíveis impeditivos.
-                    {% endif %}
-                </p>
-            </div>
+        <!-- Análise Segmentada -->
+        <h4 style="margin-bottom: 20px; font-weight: 700; color: #2d3748; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-list-check"></i> Análise Segmentada por Sentença
+        </h4>
 
-            <h4>Análise Segmentada</h4>
-            <div style="overflow-x: auto; margin-top: 15px;">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Segmento da Mensagem</th>
-                            <th class="center">Status</th>
-                            <th>Riscos de Privacidade</th>
-                            <th>Verbos/Interrogativas</th>
+        <div style="overflow-x: auto; background: white; border-radius: 10px; box-shadow: var(--shadow);">
+            <table class="table" style="width: 100%; border-collapse: collapse; min-width: 600px;">
+                <thead>
+                    <tr style="background-color: #edf2f7; text-align: left;">
+                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0; width: 45%;">Segmento</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0;">Status</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0;">Dados Sensíveis</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0;">Lógica Aplicada</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for linha in resposta.linhas %}
+                        <tr style="border-bottom: 1px solid #edf2f7;">
+                            <td style="padding: 15px; color: #4a5568; font-size: 0.9rem; line-height: 1.5;">
+                                <strong style="color: #cbd5e0;">{{ loop.index }}.</strong> {{ linha.texto }}
+                            </td>
+                            <td style="padding: 15px;">
+                                {% if linha.status == "True" %}
+                                    <span class="badge badge-danger" style="background: #feb2b2; color: #9b2c2c; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 0.75rem;">CRÍTICO</span>
+                                {% else %}
+                                    <span class="badge badge-success" style="background: #c6f6d5; color: #22543d; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 0.75rem;">SEGURO</span>
+                                {% endif %}
+                            </td>
+                            <td style="padding: 15px;">
+                                {% if linha.encontrados %}
+                                    {% for dado in linha.encontrados %}
+                                        <span style="display: inline-block; background: #edf2f7; color: #2d3748; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin: 2px; border: 1px solid #e2e8f0; font-weight: 600;">
+                                            <i class="fas fa-fingerprint" style="font-size: 0.6rem;"></i> {{ dado }}
+                                        </span>
+                                    {% endfor %}
+                                {% else %}
+                                    <span style="color: #a0aec0; font-size: 0.8rem; font-style: italic;">Nenhum risco</span>
+                                {% endif %}
+                            </td>
+                            <td style="padding: 15px; font-size: 0.8rem; color: #718096;">
+                                <div style="margin-bottom: 4px;"><i class="fas fa-terminal" style="font-size: 0.7rem;"></i> <strong>Verbos:</strong> {{ linha.verbos | join(', ') if linha.verbos else 'Nenhum' }}</div>
+                                <div><i class="fas fa-search" style="font-size: 0.7rem;"></i> <strong>Busca:</strong> {{ linha.interrogativas | join(', ') if linha.interrogativas else 'Nenhum' }}</div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        {% for linha in resposta.linhas %}
-                            <tr>
-                                <td style="max-width: 300px;">{{ linha.texto }}</td>
-                                <td class="center">
-                                    {% if linha.status == "True" %}
-                                        <span class="badge badge-danger">Crítico</span>
-                                    {% else %}
-                                        <span class="badge badge-success">Seguro</span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if linha.encontrados %}
-                                        {% for dado in linha.encontrados %}
-                                            <span class="badge" style="background: #eee; color: var(--danger); border: 1px solid var(--danger); margin-bottom: 4px;">{{ dado }}</span>
-                                        {% endfor %}
-                                    {% else %}
-                                        <span class="muted small">Nenhum dado sensível</span>
-                                    {% endif %}
-                                </td>
-                                <td class="small">
-                                    <strong>Verbos:</strong> {{ linha.verbos | join(', ') if linha.verbos else '---' }} <br>
-                                    <strong>Busca:</strong> {{ linha.interrogativas | join(', ') if linha.interrogativas else '---' }}
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        {% else %}
-            <div class="card center muted">
-                <p>Nenhum dado de análise disponível para esta entrada.</p>
-            </div>
-        {% endif %}
-
-        <div style="margin-top: 30px; display: flex; gap: 10px;">
-            <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="btn-ghost">
-                ← Voltar para a Lista
-            </a>
-            <button onclick="window.print()" class="btn-ghost" style="border-color: #333; color: #333;">
-                Imprimir Relatório
-            </button>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </section>
+    {% else %}
+        <div class="card center muted">
+            <p>Nenhum dado de análise disponível para esta entrada.</p>
+        </div>
+    {% endif %}
+
+    <!-- Botões -->
+    <div style="margin-top: 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 25px;">
+        <a href="{{ url_for('solicitacao.ver_solicitacoes') }}" class="btn-ghost" style="color: #4a5568; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-arrow-left"></i> Voltar para o Histórico
+        </a>
+
+        <button onclick="window.print()" class="btn-primary" style="background: #2d3748; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600;">
+            <i class="fas fa-print"></i> Gerar PDF / Imprimir
+        </button>
+    </div>
+</section>
+
+<style>
+@media print {
+    .sidebar, .nav-header, .btn-ghost, .btn-primary { display: none !important; }
+    body { background: white !important; }
+    .content { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+    .card-analise { box-shadow: none !important; border: 1px solid #ddd !important; }
+}
+</style>
 {% endblock %}
