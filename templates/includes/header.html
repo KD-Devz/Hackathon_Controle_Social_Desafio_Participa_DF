@@ -1,10 +1,10 @@
 <header class="header" role="banner">
   <div style="display:flex;align-items:center;gap:12px;">
-    <div style="font-size:1.1rem;">Hackathon Controle Social</div>
+    <div style="font-size:1.1rem;">Hackathon de Controle de Dados Sensíveis</div>
     <div class="small muted">Hackathon</div>
   </div>
 
-  <div>
+<div>
     {% if session.get('usuario_nome') %}
       <span class="small muted" style="margin-right:12px;">{{ session.usuario_nome }}</span>
       <a href="{{ url_for('auth.logout') }}" class="btn-ghost">Sair</a>

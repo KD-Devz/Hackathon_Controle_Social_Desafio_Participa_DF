@@ -1,18 +1,146 @@
-INFORMAR
 FORNECER
-DECLARAR
+PRESENTE forneço forneces fornece fornecemos forneceis fornecem
+PRETERITO IMPERFEITO fornecia fornecias fornecia fornecíamos fornecíeis forneciam
+PRETERITO PERFEITO forneci forneceste forneceu fornecemos fornecestes forneceram
+FUTURO DO PRESENTE fornecerei fornecerás fornecerá forneceremos fornecereis fornecerão
+SUBJUNTIVO PRESENTE forneça forneças forneça forneçamos forneçais forneçam
+
 ESPECIFICAR
+PRESENTE especifico especificas especifica especificamos especificais especificam
+PRETERITO IMPERFEITO especificava especificavas especificava especificávamos especificáveis especificavam
+PRETERITO PERFEITO especifiquei especificaste especificou especificamos especificastes especificaram
+FUTURO DO PRESENTE especificarei especificarás especificará especificaremos especificareis especificarão
+SUBJUNTIVO PRESENTE especifique especifiques especifique especifiquemos especifiqueis especifiquem
+
 DESCREVER
+PRESENTE descrevo descreves descreve descrevemos descreveis descrevem
+PRETERITO IMPERFEITO descrevia descrevias descrevia descrevíamos descrevíeis descreviam
+PRETERITO PERFEITO descrevi descreveste descreveu descrevemos descrevestes descreveram
+FUTURO DO PRESENTE descreverei descreverás descreverá descreveremos descreverei descreverão
+SUBJUNTIVO PRESENTE descreva descrevas descreva descrevamos descrevais descrevam
+
 IDENTIFICAR
+PRESENTE identifico identificas identifica identificamos identificais identificam
+PRETERITO IMPERFEITO identificava identificavas identificava identificávamos identificáveis identificavam
+PRETERITO PERFEITO identifiquei identificaste identificou identificamos identificastes identificaram
+FUTURO DO PRESENTE identificarei identificarás identificará identificaremos identificareis identificarão
+SUBJUNTIVO PRESENTE identifique identifiques identifique identifiquemos identifiqueis identifiquem
+
 RELATAR
+PRESENTE relato relatas relata relatamos relatais relatam
+PRETERITO IMPERFEITO relatava relatavas relatava relatávamos relatáveis relatavam
+PRETERITO PERFEITO relatei relataste relatou relatamos relatastes relataram
+FUTURO DO PRESENTE relatarei relatarás relatará relataremos relatareis relatarão
+SUBJUNTIVO PRESENTE relate relates relate relatemos relateis relatem
+
 APRESENTAR
+PRESENTE apresento apresentas apresenta apresentamos apresentais apresentam
+PRETERITO IMPERFEITO apresentava apresentavas apresentava apresentávamos apresentáveis apresentavam
+PRETERITO PERFEITO apresentei apresentaste apresentou apresentamos apresentastes apresentaram
+FUTURO DO PRESENTE apresentarei apresentarás apresentará apresentaremos apresentareis apresentarão
+SUBJUNTIVO PRESENTE apresente apresentes apresente apresentemos apresenteis apresentem
+
 CONFIRMAR
+PRESENTE confirmo confirmas confirma confirmamos confirmais confirmam
+PRETERITO IMPERFEITO confirmava confirmavas confirmava confirmávamos confirmáveis confirmavam
+PRETERITO PERFEITO confirmei confirmaste confirmou confirmamos confirmastes confirmaram
+FUTURO DO PRESENTE confirmarei confirmarás confirmará confirmaremos confirmareis confirmarão
+SUBJUNTIVO PRESENTE confirme confirmes confirme confirmemos confirmeis confirmem
+
 VALIDAR
+PRESENTE valido validas valida validamos validais validam
+PRETERITO IMPERFEITO validava validavas validava validávamos validáveis validavam
+PRETERITO PERFEITO validei validaste validou validamos validastes validaram
+FUTURO DO PRESENTE validarei validarás validará validaremos validareis validarão
+SUBJUNTIVO PRESENTE valide valides valide validemos valideis validem
+
 ANEXAR
+PRESENTE anexo anexas anexa anexamos anexais anexam
+PRETERITO IMPERFEITO anexava anexavas anexava anexávamos anexáveis anexavam
+PRETERITO PERFEITO anexei anexaste anexou anexamos anexastes anexaram
+FUTURO DO PRESENTE anexarei anexarás anexará anexaremos anexareis anexarão
+SUBJUNTIVO PRESENTE anexe anexes anexe anexemos anexeis anexem
+
 ENVIAR
+PRESENTE envio envias envia enviamos enviais enviam
+PRETERITO IMPERFEITO enviava enviavas enviava enviávamos enviáveis enviavam
+PRETERITO PERFEITO enviei enviaste enviou enviamos enviastes enviaram
+FUTURO DO PRESENTE enviarei enviarás enviará enviaremos enviareis enviarão
+SUBJUNTIVO PRESENTE envie envies envie enviemos envieis enviem
+
 PREENCHER
+PRESENTE preencho preenches preenche preenchemos preencheis preenchem
+PRETERITO IMPERFEITO preenchia preenchias preenchia preenchíamos preenchíeis preenchiam
+PRETERITO PERFEITO preenchi preencheste preencheu preenchemos preenchestes preencheram
+FUTURO DO PRESENTE preencherei preencherás preencherá preencheremos preenchereis preencherão
+SUBJUNTIVO PRESENTE preencha preenchas preencha preenchamos preenchais preencham
+
 INDICAR
+PRESENTE indico indicas indica indicamos indicais indicam
+PRETERITO IMPERFEITO indicava indicavas indicava indicávamos indicáveis indicavam
+PRETERITO PERFEITO indiquei indicaste indicou indicamos indicastes indicaram
+FUTURO DO PRESENTE indicarei indicarás indicará indicaremos indicareis indicarão
+SUBJUNTIVO PRESENTE indique indiques indique indiquemos indiqueis indiquem
+
 DISCRIMINAR
+PRESENTE discrimino discriminas discrimina discriminamos discriminais discriminam
+PRETERITO IMPERFEITO discriminava discriminavas discriminava discriminávamos discrimináveis discriminavam
+PRETERITO PERFEITO discriminei discriminaste discriminou discriminamos discriminastes discriminaram
+FUTURO DO PRESENTE discriminarei discriminarás discriminará discriminaremos discriminarão
+SUBJUNTIVO PRESENTE discrimine discrimines discrimine discriminemos discrimineis discriminem
+
 LISTAR
-SOLICITAR
+PRESENTE listo listas lista listamos listais listam
+PRETERITO IMPERFEITO listava listavas listava listávamos listáveis listavam
+PRETERITO PERFEITO listei listaste listou listamos listastes listaram
+FUTURO DO PRESENTE listarei listarás listará listaremos listareis listarão
+SUBJUNTIVO PRESENTE liste listes liste listemos listeis listem
+
 COMUNICAR
+PRESENTE comunico comunicas comunica comunicamos comunicais comunicam
+PRETERITO IMPERFEITO comunicava comunicavas comunicava comunicávamos comunicáveis comunicavam
+PRETERITO PERFEITO comuniquei comunicaste comunicou comunicamos comunicastes comunicaram
+FUTURO DO PRESENTE comunicarei comunicarás comunicará comunicaremos comunicareis comunicarão
+SUBJUNTIVO PRESENTE comunique comuniques comunique comuniquemos comuniqueis comuniquem
+
+REQUISITAR
+PRESENTE requisito requisitas requisita requisitamos requisitais requisitam
+PRETERITO IMPERFEITO requisitava requisitavas requisitava requisitávamos requisitáveis requisitavam
+PRETERITO PERFEITO requisitei requisitaste requisitou requisitamos requisitastes requisitaram
+FUTURO DO PRESENTE requisitarei requisitarás requisitará requisitaremos requisitareis requisitarão
+SUBJUNTIVO PRESENTE requisite requisites requisite requisitemos requisiteis requisitem
+
+PERGUNTAR
+PRESENTE pergunto perguntas pergunta perguntamos perguntais perguntam
+PRETERITO IMPERFEITO perguntava perguntavas perguntava perguntávamos perguntáveis perguntavam
+PRETERITO PERFEITO perguntei perguntaste perguntou perguntamos perguntastes perguntaram
+FUTURO DO PRESENTE perguntarei perguntarás perguntará perguntaremos perguntareis perguntarão
+SUBJUNTIVO PRESENTE pergunte perguntes pergunte perguntemos pergunteis perguntem
+
+CONSULTAR
+PRESENTE consulto consultas consulta consultamos consultais consultam
+PRETERITO IMPERFEITO consultava consultavas consultava consultávamos consultáveis consultavam
+PRETERITO PERFEITO consultei consultaste consultou consultamos consultastes consultaram
+FUTURO DO PRESENTE consultarei consultarás consultará consultaremos consultareis consultarão
+SUBJUNTIVO PRESENTE consulte consultes consulte consultemos consulteis consultem
+
+REGISTRAR
+PRESENTE registro registras registra registramos registrais registram
+PRETERITO IMPERFEITO registrava registravas registrava registrávamos registráveis registravam
+PRETERITO PERFEITO registrei registraste registrou registramos registrastes registraram
+FUTURO DO PRESENTE registrarei registrarás registrará registraremos registrareis registrarão
+SUBJUNTIVO PRESENTE registre registres registre registremos registreis registrem
+
+ROGAR
+PRESENTE rogo rogas roga rogamos rogais rogam
+PRETERITO IMPERFEITO rogava rogavas rogava rogávamos rogáveis rogavam
+PRETERITO PERFEITO roguei rogaste rogou rogamos rogastes rogaram
+FUTURO DO PRESENTE rogarei rogarás rogará rogaremos rogareis rogarão
+SUBJUNTIVO PRESENTE rogue rogues rogue roguemos rogueis roguem
+
+SUPLICAR
+PRESENTE suplico suplicas suplica suplicamos suplicais suplicam
+PRETERITO IMPERFEITO suplicava suplicavas suplicava suplicávamos suplicáveis suplicavam
+PRETERITO PERFEITO supliquei suplicaste suplicou suplicamos suplicastes suplicaram
+FUTURO DO PRESENTE suplicarei suplicarás suplicará suplicaremos suplicareis suplicarão
+SUBJUNTIVO PRESENTE suplique supliques suplique supliquemos supliqueis supliquem
