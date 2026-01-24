@@ -26,3 +26,15 @@ app.config.update(
 )
 
 app.permanent_session_lifetime = timedelta(minutes=60) # Expira em 10 min de inatividade
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Flask está funcionando!"
+
+if __name__ == "__main__":
+    app.run(debug=True)
+

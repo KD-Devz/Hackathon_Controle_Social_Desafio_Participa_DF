@@ -3,37 +3,36 @@
 
 {% block main %}
 <div class="section-header" style="margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-    <h2 style="margin: 0; color: var(--primary);"><i class="fas fa-paper-plane"></i> Nova Solicitação e-SIC</h2>
-    <p class="muted">O motor de IA analisará seu texto em busca de dados sensíveis antes do envio oficial.</p>
+    <h2 style="margin: 0; color: var(--primary);"><i class="fas fa-paper-plane"></i> Nova Solicitação</h2>
 </div>
 
 <form method="POST" action="{{ url_for('solicitacao.enviar_solicitacao') }}" class="doc-form">
     <div class="form-group">
         <label style="font-weight: 600; display: block; margin-bottom: 10px;">Conteúdo da Solicitação:</label>
         <textarea name="solicitacao" class="doc-textarea" placeholder="Ex: Gostaria de saber o salário do servidor CPF 000.000.000-00..." style="min-height: 150px; width: 100%;" required></textarea>
+        <p class="muted">O motor de IA analisará seu texto em busca de dados sensíveis antes do envio oficial.</p>
     </div>
     <div style="margin-top: 15px;">
         <button type="submit" class="btn-primary" style="padding: 12px 30px;">
-            <i class="fas fa-microscope"></i> Analisar e Enviar
+            <i class="fas fa-microscope"></i> Enviar
         </button>
     </div>
 </form>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
+{% with messages = get_flashed_messages(with_categories=True) %}
   {% if messages %}
     {% for category, resposta in messages %}
       <div class="analysis-result" style="margin-top: 40px; animation: fadeIn 0.5s ease;">
-
         {% if resposta.STATUS == "True" %}
-            <div class="alert alert-danger" style="display: flex; align-items: center; gap: 15px;">
-                <i class="fas fa-exclamation-triangle" style="font-size: 1.5rem;"></i>
-                <strong>BLOQUEADO:</strong> Esta solicitação contém dados sensíveis e viola a LGPD.
-            </div>
+          <div class="alert alert-danger" style="display: flex; align-items: center; gap: 15px;">
+              <i class="fas fa-exclamation-triangle" style="font-size: 1.5rem;"></i>
+              <strong>BLOQUEADO:</strong> Esta solicitação contém dados sensíveis e viola a LGPD.
+          </div>
         {% else %}
-            <div class="alert alert-success" style="display: flex; align-items: center; gap: 15px;">
-                <i class="fas fa-check-circle" style="font-size: 1.5rem;"></i>
-                <strong>APROVADO:</strong> Conteúdo seguro para processamento público.
-            </div>
+          <div class="alert alert-success" style="display: flex; align-items: center; gap: 15px;">
+              <i class="fas fa-check-circle" style="font-size: 1.5rem;"></i>
+              <strong>APROVADO:</strong> Conteúdo seguro para processamento público.
+          </div>
         {% endif %}
 
         <h3 style="margin: 25px 0 15px; font-size: 1.1rem;"><i class="fas fa-list-ul"></i> Detalhamento da Análise Híbrida:</h3>

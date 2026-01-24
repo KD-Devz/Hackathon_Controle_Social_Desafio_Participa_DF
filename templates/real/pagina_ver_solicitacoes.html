@@ -27,7 +27,7 @@
         <tbody>
             {% if solicitacoes %}
                 {# 🔹 CORREÇÃO: Adicionado id_real para evitar o ValueError (unpack 3 valores) #}
-                {% for texto, data, id_real in solicitações %}
+                {% for texto, data, id_real in solicitacoes %}
                 <tr style="border-bottom: 1px solid #f0f0f0; transition: background 0.3s;" onmouseover="this.style.backgroundColor='#fafafa'" onmouseout="this.style.backgroundColor='transparent'">
                     <td style="padding: 15px; font-family: 'Courier New', Courier, monospace; color: #666; font-size: 0.9rem;">
                         <i class="far fa-calendar-alt"></i> {{ data }}
