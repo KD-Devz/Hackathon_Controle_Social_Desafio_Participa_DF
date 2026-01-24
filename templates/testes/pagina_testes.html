@@ -5,89 +5,85 @@
 {% block main %}
 <section class="content">
   <!-- Cabeçalho -->
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;">
-    <h4 style="margin:0;">Análise de Resultados (Processamento em Lote)</h4>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+    <h2 style="margin: 0; font-size: 1.6rem; color: var(--primary);">Análise de Resultados</h2>
   </div>
 
-  <!-- Duas colunas centralizadas -->
-  <div style="display:grid;grid-template-columns: 1fr 1fr;gap:20px;align-items:start;justify-items:center;margin-bottom:30px;">
-    <!-- Coluna 1: Legenda -->
-    <div class="card" style="width:100%;max-width:400px;padding:20px;text-align:center;">
-      <h4 style="font-size:1rem;color:var(--muted-text);margin-bottom:12px;">Resumo da Amostra</h4>
-      <ul style="list-style:none;padding:0;margin:0;text-align:left;">
-        <li style="margin-bottom:10px;font-size:1.1rem;">
-          <span style="color:var(--success);font-weight:bold;">●</span> Válidos: <strong>{{ total_validos }}</strong>
+  <!-- Resumo + Gráfico -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; margin-bottom: 40px;">
+    <!-- Resumo da Amostra -->
+    <div class="card" style="padding: 25px; max-width: 450px;">
+      <h3 style="font-size: 1.2rem; color: var(--text-main); margin-bottom: 20px;">Resumo da Amostra</h3>
+      <ul style="list-style: none; padding: 0; margin: 0; font-size: 1rem;">
+        <li style="margin-bottom: 12px;">
+          <span style="color: var(--success); font-weight: bold;">●</span> Válidos: <strong>{{ total_validos }}</strong>
         </li>
-        <li style="margin-bottom:10px;font-size:1.1rem;">
-          <span style="color:var(--danger);font-weight:bold;">●</span> Inválidos: <strong>{{ total_invalidos }}</strong>
+        <li style="margin-bottom: 12px;">
+          <span style="color: var(--danger); font-weight: bold;">●</span> Inválidos: <strong>{{ total_invalidos }}</strong>
         </li>
-        <li style="border-top:1px solid #eee;margin-top:10px;padding-top:10px;">
+        <li style="border-top: 1px solid #eee; margin-top: 15px; padding-top: 15px;">
           Total Processado: <strong>{{ total_testes }}</strong>
         </li>
       </ul>
     </div>
 
-    <!-- Coluna 2: Gráfico -->
-    <div style="width:100%;max-width:300px;display:flex;justify-content:center;">
-      <canvas id="graficoStatus" width="220" height="220"></canvas>
+    <!-- Gráfico -->
+    <div class="card" style="padding: 25px; display: flex; justify-content: center; align-items: center;">
+      <canvas id="graficoStatus" width="280" height="280"></canvas>
     </div>
   </div>
 
-  <hr style="margin:30px 0;border:0;border-top:1px solid #eee;">
+  <hr style="margin: 40px 0; border: 0; border-top: 1px solid #ddd;">
 
-  <!-- Visualização dos Dados -->
-  <h4 style="text-align:center;margin-bottom:20px;">Visualização dos Dados</h4>
+  <!-- Tabela de Resultados -->
+  <h3 style="text-align: center; margin-bottom: 25px; color: var(--primary); font-size: 1.3rem;">Visualização dos Dados</h3>
 
-  <div style="display:flex;justify-content:center;">
-    <div style="width:100%;max-width:1200px;">
-      <div class="card" style="padding:20px;overflow-x:auto;">
-        <table class="table" style="width:100%;border-collapse:collapse;">
-          <thead>
-            <tr style="background:#f8f9fa;">
-              {% for col in cabecalho %}
-                <th style="padding:12px;text-align:left;">{{ col }}</th>
-              {% endfor %}
-              <th style="text-align:center;">Status</th>
-              <th style="text-align:center;">Dados Sensíveis</th>
-              <th style="text-align:center;">Verbos</th>
-              <th style="text-align:center;">Interrogativas</th>
-              <th style="text-align:center;">Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for linha in dados %}
-            <tr style="border-top:1px solid #eee;">
-              {% for valor in linha.campos %}
-                <td class="small" style="padding:10px;text-align:left;">{{ valor }}</td>
-              {% endfor %}
-              <td style="text-align:center;">
-                {% if linha.status == "Inválido" %}
-                  <span class="badge badge-danger">Inválido</span>
-                {% else %}
-                  <span class="badge badge-success">Válido</span>
-                {% endif %}
-              </td>
-              <td style="text-align:center;">
-                {% if linha.encontrados %}
-                  <span style="color:var(--danger);">{{ linha.encontrados | join(', ') }}</span>
-                {% else %}
-                  <span class="muted">Nenhum</span>
-                {% endif %}
-              </td>
-              <td style="text-align:center;">{{ linha.verbos | join(', ') if linha.verbos else '---' }}</td>
-              <td style="text-align:center;">{{ linha.interrogativas | join(', ') if linha.interrogativas else '---' }}</td>
-              <td style="text-align:center;">
-                <a href="{{ url_for('testes_detalhados.pagina_teste_detalhado', linha=' '.join(linha.campos), id=loop.index) }}"
-                   class="btn-primary" style="padding:5px 10px;font-size:0.8rem;">
-                  Detalhes
-                </a>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <div style="overflow-x: auto;">
+    <table class="table" style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr style="background: #f8f9fa;">
+          {% for col in cabecalho %}
+            <th style="padding: 14px; text-align: left;">{{ col }}</th>
+          {% endfor %}
+          <th style="text-align: center;">Status</th>
+          <th style="text-align: center;">Dados Sensíveis</th>
+          <th style="text-align: center;">Verbos</th>
+          <th style="text-align: center;">Interrogativas</th>
+          <th style="text-align: center;">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for linha in dados %}
+        <tr style="border-top: 1px solid #eee;">
+          {% for valor in linha.campos %}
+            <td class="small" style="padding: 12px; text-align: left;">{{ valor }}</td>
+          {% endfor %}
+          <td style="text-align: center;">
+            {% if linha.status == "Inválido" %}
+              <span class="badge badge-danger">Inválido</span>
+            {% else %}
+              <span class="badge badge-success">Válido</span>
+            {% endif %}
+          </td>
+          <td style="text-align: center;">
+            {% if linha.encontrados %}
+              <span style="color: var(--danger); font-weight: 500;">{{ linha.encontrados | join(', ') }}</span>
+            {% else %}
+              <span class="muted">Nenhum</span>
+            {% endif %}
+          </td>
+          <td style="text-align: center;">{{ linha.verbos | join(', ') if linha.verbos else '---' }}</td>
+          <td style="text-align: center;">{{ linha.interrogativas | join(', ') if linha.interrogativas else '---' }}</td>
+          <td style="text-align: center;">
+            <a href="{{ url_for('testes_detalhados.pagina_teste_detalhado', linha=' '.join(linha.campos), id=loop.index) }}"
+               class="btn-primary" style="padding: 6px 12px; font-size: 0.85rem;">
+              Detalhes
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </section>
 {% endblock %}
@@ -102,20 +98,23 @@ document.addEventListener('DOMContentLoaded', function() {
     data: {
       labels: ['Válidos', 'Inválidos'],
       datasets: [{
+        label: 'Participa DF',
         data: [{{ total_validos }}, {{ total_invalidos }}],
-        backgroundColor: ['#32CD32', '#DC143C'],
-        borderWidth: 2,
+        backgroundColor: ['#4CAF50', '#F44336'], // verde e vermelho mais suaves
+        borderWidth: 1,
         borderColor: '#ffffff'
       }]
     },
     options: {
-      responsive: false,
+      responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false },
+        legend: { display: false }, // legenda desativada
         title: {
           display: true,
-          text: 'Qualidade das Solicitações'
+          text: 'Qualidade das Solicitações',
+          font: { size: 16 },
+          color: '#2c3e50'
         }
       }
     }
@@ -123,3 +122,4 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 {% endblock %}
+

@@ -5,6 +5,7 @@
     <title>{% block title %} Hackathon | Controle Social {% endblock %}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
+    <!-- Fonts e CSS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -17,6 +18,7 @@
 <body>
 
 <div class="app-container">
+    <!-- Navbar -->
     <header class="navbar">
         <div class="navbar-brand">
             <i class="fas fa-shield-halved"></i>
@@ -24,10 +26,8 @@
         </div>
 
         <div class="navbar-user">
-            {# Lógica de Sessão: Se o user_id existir, mostra Perfil e Sair #}
             {% if session.get('user_id') %}
             <div style="display: flex; align-items: center; gap: 15px;">
-
                 <a href="{{ url_for('perfil.pagina_meu_perfil') }}" class="btn-perfil-nav"
                    style="color: white; text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 8px;">
                     <i class="fas fa-user-circle"></i>
@@ -48,6 +48,7 @@
         </div>
     </header>
 
+    <!-- Layout principal -->
     <div class="main-layout">
         <aside class="sidebar">
             <nav class="side-menu">
@@ -84,7 +85,6 @@
             {% if messages %}
             <div class="flash-messages">
                 {% for category, message in messages %}
-                {# Mostra apenas a última mensagem para não encher a tela #}
                 {% if loop.last %}
                 <div class="alert alert-{{ category }}"
                      style="padding: 10px; margin-bottom: 20px; border-radius: 5px; background-color: {% if category == 'success' %}#d4edda{% else %}#f8d7da{% endif %};">
@@ -102,7 +102,10 @@
         </main>
     </div>
 
-   {% extends "includes/footer.html" %}
+    <!-- Footer incluído corretamente -->
+    {% include "includes/footer.html" %}
+
+</div>
 
 {% block scripts %}{% endblock %}
 </body>
