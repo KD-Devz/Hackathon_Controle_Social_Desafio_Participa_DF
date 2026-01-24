@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Meu Perfil - Participa DF{% endblock %}
+{% block title %}Meu Perfil{% endblock %}
 
 {% block main %}
 <div class="profile-header" style="display: flex; align-items: center; gap: 25px; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 30px;">
@@ -12,7 +12,7 @@
         <h2 style="margin: 0; font-size: 1.8rem;">{{ session.get('user_name') }}</h2>
         <p style="color: var(--text-muted); margin: 5px 0 0 0; display: flex; align-items: center; gap: 8px;">
             <i class="fas fa-shield-halved" style="color: var(--success);"></i>
-            Usuário Verificado • e-SIC Participa DF
+            Usuário Verificado
         </p>
     </div>
 </div>

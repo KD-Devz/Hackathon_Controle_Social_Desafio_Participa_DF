@@ -4,7 +4,7 @@ from src.paginas import index_bp, testes_bp, ranking_bp, testes_detalhados_bp, p
 from datetime import timedelta
 
 app = Flask(__name__, static_folder='static', template_folder='templates')
-app.secret_key = "Hackathon Controle Social - Desafio Participa DF"
+app.secret_key = "Hackathon Controle Social"
 
 inicializar_banco()
 app.register_blueprint(index_bp)

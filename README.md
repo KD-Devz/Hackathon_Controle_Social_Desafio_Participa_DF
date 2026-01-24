@@ -1,6 +1,6 @@
-# Hackathon Controle Social - Desafio Participa DF
+# Valida Fácil
 
-Este projeto foi desenvolvido durante o **Hackathon Controle Social - Desafio Participa DF** e tem como objetivo criar
+Este projeto foi desenvolvido durante o **Hackathon Controle Social** e tem como objetivo criar
 um sistema de validação e análise de solicitações feitas via e-SIC (Sistema Eletrônico do Serviço de Informação ao
 Cidadão).
 
