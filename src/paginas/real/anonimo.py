@@ -43,3 +43,4 @@ def enviar_solicitacao_anonima():
 
     flash(resultado, "success")
     return redirect(url_for("anonimo.pagina_enviar_solicitacao_anonima"))
+

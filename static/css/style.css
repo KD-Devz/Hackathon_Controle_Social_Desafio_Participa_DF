@@ -178,7 +178,6 @@ body {
 .card:hover {
     transform: translateY(-10px);
 }
-
 .card-blue {
     border-top: 5px solid var(--secondary);
 }
@@ -189,6 +188,9 @@ body {
 
 .card-yellow {
     border-top: 5px solid var(--warning);
+}
+.card-red {
+    border-top: 5px solid var(--danger);
 }
 
 .icon-big {

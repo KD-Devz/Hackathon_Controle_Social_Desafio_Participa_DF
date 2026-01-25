@@ -4,14 +4,11 @@
 
 {% block main %}
 <section class="content">
-  <!-- Cabeçalho -->
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
     <h2 style="margin: 0; font-size: 1.6rem; color: var(--primary);">Análise de Resultados</h2>
   </div>
 
-  <!-- Resumo + Gráfico -->
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; margin-bottom: 40px;">
-    <!-- Resumo da Amostra -->
     <div class="card" style="padding: 25px; max-width: 450px;">
       <h3 style="font-size: 1.2rem; color: var(--text-main); margin-bottom: 20px;">Resumo da Amostra</h3>
       <ul style="list-style: none; padding: 0; margin: 0; font-size: 1rem;">
@@ -27,7 +24,6 @@
       </ul>
     </div>
 
-    <!-- Gráfico -->
     <div class="card" style="padding: 25px; display: flex; justify-content: center; align-items: center;">
       <canvas id="graficoStatus" width="280" height="280"></canvas>
     </div>
@@ -35,7 +31,6 @@
 
   <hr style="margin: 40px 0; border: 0; border-top: 1px solid #ddd;">
 
-  <!-- Tabela de Resultados -->
   <h3 style="text-align: center; margin-bottom: 25px; color: var(--primary); font-size: 1.3rem;">Visualização dos Dados</h3>
 
   <div style="overflow-x: auto;">
@@ -58,6 +53,7 @@
           {% for valor in linha.campos %}
             <td class="small" style="padding: 12px; text-align: left;">{{ valor }}</td>
           {% endfor %}
+
           <td style="text-align: center;">
             {% if linha.status == "Inválido" %}
               <span class="badge badge-danger">Inválido</span>
@@ -65,15 +61,45 @@
               <span class="badge badge-success">Válido</span>
             {% endif %}
           </td>
+
+          {% set sensiveis_lista = [] %}
+          {% set verbos_lista = [] %}
+          {% set interr_lista = [] %}
+
+          {% for sub_linha in linha.detalhes %}
+            {% for item in sub_linha.encontrados %}
+              {% if item not in sensiveis_lista %}
+                {% if sensiveis_lista.append(item) %}{% endif %}
+              {% endif %}
+            {% endfor %}
+            {% for v in sub_linha.verbos %}
+              {% if v not in verbos_lista %}
+                {% if verbos_lista.append(v) %}{% endif %}
+              {% endif %}
+            {% endfor %}
+            {% for i in sub_linha.interrogativas %}
+              {% if i not in interr_lista %}
+                {% if interr_lista.append(i) %}{% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endfor %}
+
           <td style="text-align: center;">
-            {% if linha.encontrados %}
-              <span style="color: var(--danger); font-weight: 500;">{{ linha.encontrados | join(', ') }}</span>
+            {% if sensiveis_lista %}
+              <span style="color: var(--danger); font-weight: 500;">{{ sensiveis_lista | join(', ') }}</span>
             {% else %}
               <span class="muted">Nenhum</span>
             {% endif %}
           </td>
-          <td style="text-align: center;">{{ linha.verbos | join(', ') if linha.verbos else '---' }}</td>
-          <td style="text-align: center;">{{ linha.interrogativas | join(', ') if linha.interrogativas else '---' }}</td>
+
+          <td style="text-align: center;">
+            {{ verbos_lista | join(', ') if verbos_lista else '---' }}
+          </td>
+
+          <td style="text-align: center;">
+            {{ interr_lista | join(', ') if interr_lista else '---' }}
+          </td>
+
           <td style="text-align: center;">
             <a href="{{ url_for('testes_detalhados.pagina_teste_detalhado', linha=' '.join(linha.campos), id=loop.index) }}"
                class="btn-primary" style="padding: 6px 12px; font-size: 0.85rem;">
@@ -98,9 +124,9 @@ document.addEventListener('DOMContentLoaded', function() {
     data: {
       labels: ['Válidos', 'Inválidos'],
       datasets: [{
-        label: 'Participa DF',
+        label: 'Análise de Termos',
         data: [{{ total_validos }}, {{ total_invalidos }}],
-        backgroundColor: ['#4CAF50', '#F44336'], // verde e vermelho mais suaves
+        backgroundColor: ['#4CAF50', '#F44336'],
         borderWidth: 1,
         borderColor: '#ffffff'
       }]
@@ -109,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
-        legend: { display: false }, // legenda desativada
+        legend: { display: false },
         title: {
           display: true,
           text: 'Qualidade das Solicitações',
@@ -122,4 +148,3 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 {% endblock %}
-

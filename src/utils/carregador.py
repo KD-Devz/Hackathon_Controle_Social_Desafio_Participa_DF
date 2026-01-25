@@ -1,5 +1,6 @@
 import os
 import csv
+import re
 
 from src.utils.conjugador import gerar_lista_variacoes
 from src.utils.banco import registrar_palavra_proibida
@@ -9,7 +10,6 @@ from src.utils.texto import (
     limpar_texto,
 )
 
-
 def carregar_termos_sensiveis():
     raiz = os.path.dirname(os.path.dirname(__file__))
     caminho = os.path.join(raiz, "../validadores", "dados_sensiveis.txt")
@@ -18,11 +18,9 @@ def carregar_termos_sensiveis():
         termos = [linha.strip().upper() for linha in f if linha.strip()]
     return termos
 
-
 def carregar_interrogativas():
     with open("validadores/palavras_interrogativas.txt", "r", encoding="utf-8") as f:
         return [linha.strip().upper() for linha in f if linha.strip()]
-
 
 # Variáveis globais que podem ser importadas em outros módulos
 
@@ -36,6 +34,11 @@ def processar_index(mensagem: str):
     resultado_linhas = []
     status_global = "False"
 
+    contCriticidade = 0
+    contLinearidade = 0
+
+    termos_sensiveis_unicos = set()
+
     for linha in linhas:
         linha_normalizada = normalizar_ao_retirar_acentuacao_e_cedilha(linha)
         linha_normalizada = limpar_texto(linha_normalizada)
@@ -44,6 +47,7 @@ def processar_index(mensagem: str):
         encontrados = [termo for termo in termos_sensiveis if termo in palavras]
         for termo in encontrados:
             registrar_palavra_proibida(termo)
+            termos_sensiveis_unicos.add(termo)
 
         verbos_encontrados = [infinitivo for forma, infinitivo in variacoes_verbos if forma in linha_normalizada]
         interrogativas_encontradas = [p for p in palavras_interrogativas if p in palavras]
@@ -51,6 +55,7 @@ def processar_index(mensagem: str):
         if (encontrados and verbos_encontrados) or (encontrados and interrogativas_encontradas):
             status = "True"
             status_global = "True"
+            contLinearidade +=1
         else:
             status = "False"
 
@@ -62,8 +67,9 @@ def processar_index(mensagem: str):
             "interrogativas": interrogativas_encontradas
         })
 
-    return {"STATUS": status_global, "linhas": resultado_linhas}
+    contCriticidade = contLinearidade * len(termos_sensiveis_unicos)
 
+    return {"STATUS": status_global,"MENSAGEM": mensagem, "linhas": resultado_linhas, "CRITICIDADE":contCriticidade,"LINEARIDADE":contLinearidade}
 
 def processar_testes(caminho_csv: str):
     linhas = []
@@ -80,19 +86,14 @@ def processar_testes(caminho_csv: str):
     total_invalidos = 0
 
     for row in dados:
+        # Junta os campos da linha em um único texto
         linha_texto = " ".join(row)
-        linha_normalizada = normalizar_ao_retirar_acentuacao_e_cedilha(linha_texto)
-        linha_normalizada = limpar_texto(linha_normalizada)
-        palavras = linha_normalizada.split()
 
-        encontrados = [termo for termo in termos_sensiveis if termo in palavras]
-        for termo in encontrados:
-            registrar_palavra_proibida(termo)
+        # 🔹 Usa diretamente a função processar_index
+        resultado = processar_index(linha_texto)
 
-        verbos_encontrados = [infinitivo for forma, infinitivo in variacoes_verbos if forma in linha_normalizada]
-        interrogativas_encontradas = [p for p in palavras_interrogativas if p in palavras]
-
-        if (encontrados and verbos_encontrados) or (encontrados and interrogativas_encontradas):
+        # Se STATUS == "True" → inválido
+        if resultado["STATUS"] == "True":
             status = "Inválido"
             total_invalidos += 1
         else:
@@ -102,9 +103,7 @@ def processar_testes(caminho_csv: str):
         resultado_dados.append({
             "campos": row,
             "status": status,
-            "encontrados": encontrados,
-            "verbos": list(set(verbos_encontrados)),
-            "interrogativas": interrogativas_encontradas
+            "detalhes": resultado["linhas"]  # mantém os detalhes da análise
         })
 
     total_testes = len(dados)
@@ -116,10 +115,6 @@ def processar_testes(caminho_csv: str):
         "total_validos": total_validos,
         "total_invalidos": total_invalidos
     }
-
-
-import re
-
 
 def validar_padroes_sensiveis(texto):
     resultados = {
