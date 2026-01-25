@@ -60,6 +60,15 @@ def inicializar_banco() -> None:
         )
         """)
 
+        cursor.execute("""
+                       CREATE TABLE IF NOT EXISTS solicitacoes_anonimas
+                       (
+                           id         INTEGER PRIMARY KEY AUTOINCREMENT,
+                           texto      TEXT     NOT NULL,
+                           data_envio DATETIME NOT NULL
+                       )
+                       """)
+
         conn.commit()
 
 

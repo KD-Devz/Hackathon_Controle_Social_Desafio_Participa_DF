@@ -81,21 +81,6 @@
         </aside>
 
         <main class="content-area">
-            {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-            <div class="flash-messages">
-                {% for category, message in messages %}
-                {% if loop.last %}
-                <div class="alert alert-{{ category }}"
-                     style="padding: 10px; margin-bottom: 20px; border-radius: 5px; background-color: {% if category == 'success' %}#d4edda{% else %}#f8d7da{% endif %};">
-                    {{ message }}
-                </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-            {% endif %}
-            {% endwith %}
-
             <div class="glass-card">
                 {% block main %}{% endblock %}
             </div>
