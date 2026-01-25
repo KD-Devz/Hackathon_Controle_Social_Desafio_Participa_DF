@@ -3,148 +3,171 @@
 {% block title %}Resultados dos Testes{% endblock %}
 
 {% block main %}
-<section class="content">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-    <h2 style="margin: 0; font-size: 1.6rem; color: var(--primary);">Análise de Resultados</h2>
-  </div>
+    <section class="content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+            <h2 style="margin: 0; font-size: 1.6rem; color: var(--primary);">Análise de Resultados</h2>
+        </div>
 
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; margin-bottom: 40px;">
-    <div class="card" style="padding: 25px; max-width: 450px;">
-      <h3 style="font-size: 1.2rem; color: var(--text-main); margin-bottom: 20px;">Resumo da Amostra</h3>
-      <ul style="list-style: none; padding: 0; margin: 0; font-size: 1rem;">
-        <li style="margin-bottom: 12px;">
-          <span style="color: var(--success); font-weight: bold;">●</span> Válidos: <strong>{{ total_validos }}</strong>
-        </li>
-        <li style="margin-bottom: 12px;">
-          <span style="color: var(--danger); font-weight: bold;">●</span> Inválidos: <strong>{{ total_invalidos }}</strong>
-        </li>
-        <li style="border-top: 1px solid #eee; margin-top: 15px; padding-top: 15px;">
-          Total Processado: <strong>{{ total_testes }}</strong>
-        </li>
-      </ul>
-    </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; margin-bottom: 40px;">
+            <div class="card" style="padding: 25px; max-width: 450px;">
+                <h3 style="font-size: 1.2rem; color: var(--text-main); margin-bottom: 20px;">Resumo da Amostra</h3>
+                <ul style="list-style: none; padding: 0; margin: 0; font-size: 1rem;">
+                    <li style="margin-bottom: 12px;">
+                        <span style="color: var(--success); font-weight: bold;">●</span> Válidos:
+                        <strong>{{ total_validos }}</strong>
+                    </li>
+                    <li style="margin-bottom: 12px;">
+                        <span style="color: var(--danger); font-weight: bold;">●</span> Inválidos:
+                        <strong>{{ total_invalidos }}</strong>
+                    </li>
+                    <li style="border-top: 1px solid #eee; margin-top: 15px; padding-top: 15px;">
+                        Total Processado: <strong>{{ total_testes }}</strong>
+                    </li>
+                </ul>
+            </div>
 
-    <div class="card" style="padding: 25px; display: flex; justify-content: center; align-items: center;">
-      <canvas id="graficoStatus" width="280" height="280"></canvas>
-    </div>
-  </div>
+            <div class="card" style="padding: 25px; display: flex; justify-content: center; align-items: center;">
+                <canvas id="graficoStatus" width="280" height="280"></canvas>
+            </div>
+        </div>
 
-  <hr style="margin: 40px 0; border: 0; border-top: 1px solid #ddd;">
+        <hr style="margin: 40px 0; border: 0; border-top: 1px solid #ddd;">
 
-  <h3 style="text-align: center; margin-bottom: 25px; color: var(--primary); font-size: 1.3rem;">Visualização dos Dados</h3>
+        <h3 style="text-align: center; margin-bottom: 25px; color: var(--primary); font-size: 1.3rem;">Visualização dos
+            Dados</h3>
 
-  <div style="overflow-x: auto;">
-    <table class="table" style="width: 100%; border-collapse: collapse;">
-      <thead>
-        <tr style="background: #f8f9fa;">
-          {% for col in cabecalho %}
-            <th style="padding: 14px; text-align: left;">{{ col }}</th>
-          {% endfor %}
-          <th style="text-align: center;">Status</th>
-          <th style="text-align: center;">Dados Sensíveis</th>
-          <th style="text-align: center;">Verbos</th>
-          <th style="text-align: center;">Interrogativas</th>
-          <th style="text-align: center;">Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for linha in dados %}
-        <tr style="border-top: 1px solid #eee;">
-          {% for valor in linha.campos %}
-            <td class="small" style="padding: 12px; text-align: left;">{{ valor }}</td>
-          {% endfor %}
+        <div style="overflow-x: auto;">
+            <table class="table" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                <tr style="background: #f8f9fa;">
+                    {% for col in cabecalho %}
+                        <th style="padding: 14px; text-align: left;">{{ col }}</th>
+                    {% endfor %}
+                    <th style="text-align: center;">Status</th>
+                    <th style="text-align: center;">Dados Sensíveis</th>
+                    <th style="text-align: center;">Verbos</th>
+                    <th style="text-align: center;">Interrogativas</th>
+                    <th style="text-align: center;">Nomes</th>
+                    <th style="text-align: center;">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for linha in dados %}
+                    <tr style="border-top: 1px solid #eee;">
+                        {% for valor in linha.campos %}
+                            <td class="small" style="padding: 12px; text-align: left;">{{ valor }}</td>
+                        {% endfor %}
 
-          <td style="text-align: center;">
-            {% if linha.status == "Inválido" %}
-              <span class="badge badge-danger">Inválido</span>
-            {% else %}
-              <span class="badge badge-success">Válido</span>
-            {% endif %}
-          </td>
+                        <td style="text-align: center;">
+                            {% if linha.status == "Inválido" %}
+                                <span class="badge badge-danger">Inválido</span>
+                            {% else %}
+                                <span class="badge badge-success">Válido</span>
+                            {% endif %}
+                        </td>
 
-          {% set sensiveis_lista = [] %}
-          {% set verbos_lista = [] %}
-          {% set interr_lista = [] %}
+                        {# Inicialização das listas para agrupar os achados de todas as sub-linhas #}
+                        {% set sensiveis_lista = [] %}
+                        {% set verbos_lista = [] %}
+                        {% set interr_lista = [] %}
+                        {% set nomes_lista = [] %}
 
-          {% for sub_linha in linha.detalhes %}
-            {% for item in sub_linha.encontrados %}
-              {% if item not in sensiveis_lista %}
-                {% if sensiveis_lista.append(item) %}{% endif %}
-              {% endif %}
-            {% endfor %}
-            {% for v in sub_linha.verbos %}
-              {% if v not in verbos_lista %}
-                {% if verbos_lista.append(v) %}{% endif %}
-              {% endif %}
-            {% endfor %}
-            {% for i in sub_linha.interrogativas %}
-              {% if i not in interr_lista %}
-                {% if interr_lista.append(i) %}{% endif %}
-              {% endif %}
-            {% endfor %}
-          {% endfor %}
+                        {% for sub_linha in linha.detalhes %}
+                            {# Coleta Termos Sensíveis #}
+                            {% for item in sub_linha.termos_sensiveis_encontrados %}
+                                {% if item not in sensiveis_lista %}
+                                    {% if sensiveis_lista.append(item) %}{% endif %}
+                                {% endif %}
+                            {% endfor %}
 
-          <td style="text-align: center;">
-            {% if sensiveis_lista %}
-              <span style="color: var(--danger); font-weight: 500;">{{ sensiveis_lista | join(', ') }}</span>
-            {% else %}
-              <span class="muted">Nenhum</span>
-            {% endif %}
-          </td>
+                            {# Coleta Verbos #}
+                            {% for v in sub_linha.verbos %}
+                                {% if v not in verbos_lista %}
+                                    {% if verbos_lista.append(v) %}{% endif %}
+                                {% endif %}
+                            {% endfor %}
 
-          <td style="text-align: center;">
-            {{ verbos_lista | join(', ') if verbos_lista else '---' }}
-          </td>
+                            {# Coleta Interrogativas #}
+                            {% for i in sub_linha.interrogativas %}
+                                {% if i not in interr_lista %}
+                                    {% if interr_lista.append(i) %}{% endif %}
+                                {% endif %}
+                            {% endfor %}
 
-          <td style="text-align: center;">
-            {{ interr_lista | join(', ') if interr_lista else '---' }}
-          </td>
+                            {# Coleta Nomes (Corrigido para usar a chave correta) #}
+                            {% for n in sub_linha.nomes %}
+                                {% if n not in nomes_lista %}
+                                    {% if nomes_lista.append(n) %}{% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endfor %}
 
-          <td style="text-align: center;">
-            <a href="{{ url_for('testes_detalhados.pagina_teste_detalhado', linha=' '.join(linha.campos), id=loop.index) }}"
-               class="btn-primary" style="padding: 6px 12px; font-size: 0.85rem;">
-              Detalhes
-            </a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-</section>
+                        <td style="text-align: center;">
+                            {% if sensiveis_lista %}
+                                <span style="color: var(--danger); font-weight: 600;">{{ sensiveis_lista | join(', ') }}</span>
+                            {% else %}
+                                <span class="muted">---</span>
+                            {% endif %}
+                        </td>
+
+                        <td style="text-align: center; font-size: 0.9rem;">
+                            {{ verbos_lista | join(', ') if verbos_lista else '---' }}
+                        </td>
+
+                        <td style="text-align: center; font-size: 0.9rem;">
+                            {{ interr_lista | join(', ') if interr_lista else '---' }}
+                        </td>
+
+                        <td style="text-align: center; font-size: 0.9rem;">
+                            {{ nomes_lista | join(', ') if nomes_lista else '---' }}
+                        </td>
+
+                        <td style="text-align: center;">
+                            <a href="{{ url_for('testes_detalhados.pagina_teste_detalhado', linha=' '.join(linha.campos), id=loop.index) }}"
+                               class="btn-primary"
+                               style="padding: 6px 12px; font-size: 0.85rem; border-radius: 4px; text-decoration: none;">
+                                <i class="fas fa-search-plus"></i> Detalhes
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
 {% endblock %}
 
 {% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const ctx = document.getElementById('graficoStatus').getContext('2d');
-  new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: ['Válidos', 'Inválidos'],
-      datasets: [{
-        label: 'Análise de Termos',
-        data: [{{ total_validos }}, {{ total_invalidos }}],
-        backgroundColor: ['#4CAF50', '#F44336'],
-        borderWidth: 1,
-        borderColor: '#ffffff'
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        title: {
-          display: true,
-          text: 'Qualidade das Solicitações',
-          font: { size: 16 },
-          color: '#2c3e50'
-        }
-      }
-    }
-  });
-});
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('graficoStatus').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Válidos', 'Inválidos'],
+                    datasets: [{
+                        label: 'Análise de Termos',
+                        data: [{{ total_validos }}, {{ total_invalidos }}],
+                        backgroundColor: ['#4CAF50', '#F44336'],
+                        borderWidth: 1,
+                        borderColor: '#ffffff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {display: false},
+                        title: {
+                            display: true,
+                            text: 'Qualidade das Solicitações',
+                            font: {size: 16},
+                            color: '#2c3e50'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 {% endblock %}

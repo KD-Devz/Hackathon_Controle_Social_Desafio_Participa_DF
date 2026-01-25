@@ -3,108 +3,219 @@
 {% block title %}Relatório de Auditoria #{{ id }} - Hackathon{% endblock %}
 
 {% block main %}
-<section class="content">
-    <div style="text-align:center; margin-bottom:30px;">
-        <span class="badge" style="background-color: var(--primary); color: white; padding: 8px 18px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">
+    <section class="content">
+        <div style="text-align:center; margin-bottom:30px;">
+        <span class="badge"
+              style="background-color: var(--primary); color: white; padding: 8px 18px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">
             Protocolo #{{ id }}
         </span>
-        <h2 style="color: var(--primary); font-weight: 700; margin-top: 15px;">Relatório de Auditoria de Privacidade</h2>
-    </div>
-
-    <div class="card-analise" style="background-color: #fff; border-left: 5px solid #0056b3; padding: 25px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-        <h4 style="margin-bottom: 12px; color: #666; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;">Conteúdo Analisado:</h4>
-        <p style="font-style: italic; font-size: 1.05rem; line-height: 1.8; color: #2c3e50; background: #fcfcfc; padding: 10px; border-radius: 4px;">
-            "{{ texto }}"
-        </p>
-    </div>
-
-    {% if resposta %}
-        <div style="padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 35px;
-             background-color: {% if resposta.STATUS == 'True' %}#fff5f5{% else %}#f0fff4{% endif %};
-             border: 2px solid {% if resposta.STATUS == 'True' %}#feb2b2{% else %}#9ae6b4{% endif %};">
-
-            <h3 style="margin: 0; color: {% if resposta.STATUS == 'True' %}#c53030{% else %}#22543d{% endif %}; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                {% if resposta.STATUS == 'True' %}
-                    <i class="fas fa-exclamation-triangle"></i> RISCO DETECTADO
-                {% else %}
-                    <i class="fas fa-shield-check"></i> CONTEÚDO SEGURO
-                {% endif %}
-            </h3>
-            <p style="margin-top: 10px; color: #4a5568; font-weight: 500; font-size: 1rem;">
-                {% if resposta.STATUS == 'True' %}
-                    A análise identificou padrões que violam a política de privacidade (LGPD).
-                {% else %}
-                    Esta solicitação está em conformidade com as normas de transparência ativa.
-                {% endif %}
-            </p>
+            <h2 style="color: var(--primary); font-weight: 700; margin-top: 15px;">Relatório de Auditoria de
+                Privacidade</h2>
         </div>
 
-        <h4 style="margin-bottom: 20px; font-weight: 700; color: #2d3748; display: flex; align-items: center; gap: 8px;">
-            <i class="fas fa-list-check"></i> Análise Segmentada por Sentença
-        </h4>
+        <div class="card-analise"
+             style="background-color: #fff; border-left: 5px solid #0056b3; padding: 25px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+            <h4 style="margin-bottom: 15px; color: #666; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;">
+                Conteúdo Analisado:</h4>
+            <div style="background: #fcfcfc; padding: 20px; border-radius: 4px; position: relative;">
+                <p style="font-style: italic; font-size: 1.05rem; line-height: 1.8; color: #4a5568; text-align: justify; margin: 0;">
+                    <span style="font-size: 2rem; color: #cbd5e0; font-family: serif; line-height: 0; vertical-align: middle; margin-right: 5px;">&ldquo;</span>
+                    {{ texto }}
+                    <span style="font-size: 2rem; color: #cbd5e0; font-family: serif; line-height: 0; vertical-align: middle; margin-left: 5px;">&rdquo;</span>
+                </p>
+            </div>
+        </div>
 
-        <div style="overflow-x: auto; background: white; border-radius: 10px; box-shadow: var(--shadow);">
-            <table class="table" style="width: 100%; border-collapse: collapse; min-width: 600px;">
-                <thead>
-                    <tr style="background-color: #edf2f7; text-align: left;">
-                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0; width: 45%;">Segmento</th>
-                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0;">Status</th>
-                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0;">Dados Sensíveis</th>
-                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0;">Lógica Aplicada</th>
+        {% if resposta %}
+            <div style="padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 35px;
+                    background-color: {% if resposta.STATUS == 'True' %}#fff5f5{% else %}#f0fff4{% endif %};
+                    border: 2px solid {% if resposta.STATUS == 'True' %}#feb2b2{% else %}#9ae6b4{% endif %};">
+
+                <h3 style="margin: 0; color: {% if resposta.STATUS == 'True' %}#c53030{% else %}#22543d{% endif %}; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    {% if resposta.STATUS == 'True' %}
+                        <i class="fas fa-exclamation-triangle"></i> RISCO DETECTADO
+                    {% else %}
+                        <i class="fas fa-shield-check"></i> CONTEÚDO SEGURO
+                    {% endif %}
+                </h3>
+                <p style="margin-top: 10px; color: #4a5568; font-weight: 500; font-size: 1rem;">
+                    {% if resposta.STATUS == 'True' %}
+                        A análise identificou padrões que violam a política de privacidade (LGPD).
+                    {% else %}
+                        Esta solicitação está em conformidade com as normas de transparência ativa.
+                    {% endif %}
+                </p>
+            </div>
+
+            <div class="impact-grid"
+                 style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                <div class="card {% if resposta.CRITICIDADE > 0 %}card-red{% else %}card-green{% endif %}">
+                    <div class="icon-big">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h1 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 10px;">Criticidade</h1>
+                    <h2 style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
+            <span class="badge {% if resposta.CRITICIDADE > 0 %}badge-danger{% else %}badge-success{% endif %}"
+                  style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.CRITICIDADE > 0 %}var(--danger){% else %}var(--success){% endif %};">
+                {{ resposta.CRITICIDADE }}
+            </span>
+                    </h2>
+                </div>
+
+                <div class="card {% if resposta.LINEARIDADE > 0 %}card-red{% else %}card-green{% endif %}">
+                    <div class="icon-big">
+                        <i class="fas fa-stream"></i>
+                    </div>
+                    <h1 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 10px;">Linearidade</h1>
+                    <h2 style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
+            <span class="badge {% if resposta.LINEARIDADE > 0 %}badge-danger{% else %}badge-success{% endif %}"
+                  style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.LINEARIDADE > 0 %}var(--danger){% else %}var(--success){% endif %};">
+                {{ resposta.LINEARIDADE }}
+            </span>
+                    </h2>
+                </div>
+
+                <div class="card {% if resposta.IDENTIFICADORES > 0 %}card-red{% else %}card-green{% endif %}">
+                    <div class="icon-big">
+                        <i class="fas fa-fingerprint"></i>
+                    </div>
+                    <h1 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 10px;">Identificadores</h1>
+                    <h2 style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
+            <span class="badge {% if resposta.IDENTIFICADORES > 0 %}badge-danger{% else %}badge-success{% endif %}"
+                  style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.IDENTIFICADORES > 0 %}var(--danger){% else %}var(--success){% endif %};">
+                {{ resposta.IDENTIFICADORES }}
+            </span>
+                    </h2>
+                </div>
+            </div>
+
+            <h4 style="margin-bottom: 20px; font-weight: 700; color: #2d3748; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-list-ul"></i> Detalhamento da Análise por Linha
+            </h4>
+
+            <div style="overflow-x: auto; background: white; border-radius: 10px; box-shadow: var(--shadow); margin-bottom: 40px;">
+                <table class="doc-table" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                    <tr style="background-color: #f8f9fa;">
+                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0; text-align: left;">Fragmento</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0; text-align: center;">Status</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0; text-align: center;">Dados
+                            Sensíveis
+                        </th>
+                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0; text-align: center;">
+                            Interrogativas
+                        </th>
+                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0; text-align: center;">Verbos</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #e2e8f0; text-align: center;">Nomes</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     {% for linha in resposta.linhas %}
                         <tr style="border-bottom: 1px solid #edf2f7;">
-                            <td style="padding: 15px; color: #4a5568; font-size: 0.9rem; line-height: 1.5;">
-                                <strong style="color: #cbd5e0;">{{ loop.index }}.</strong> {{ linha.texto }}
-                            </td>
-                            <td style="padding: 15px;">
+                            <td style="padding: 15px; color: #4a5568; font-size: 0.85rem;">"{{ linha.texto }}"</td>
+                            <td style="padding: 15px; text-align: center;">
                                 {% if linha.status == "True" %}
-                                    <span class="badge badge-danger" style="background: #feb2b2; color: #9b2c2c; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 0.75rem;">CRÍTICO</span>
+                                    <span class="badge"
+                                          style="background: var(--danger); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem;">Sensível</span>
                                 {% else %}
-                                    <span class="badge badge-success" style="background: #c6f6d5; color: #22543d; padding: 4px 10px; border-radius: 6px; font-weight: bold; font-size: 0.75rem;">SEGURO</span>
+                                    <span class="badge"
+                                          style="background: var(--success); color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem;">Seguro</span>
                                 {% endif %}
                             </td>
-                            <td style="padding: 15px;">
-                                {% if linha.encontrados %}
-                                    {% for dado in linha.encontrados %}
-                                        <span style="display: inline-block; background: #edf2f7; color: #2d3748; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin: 2px; border: 1px solid #e2e8f0; font-weight: 600;">
-                                            <i class="fas fa-fingerprint" style="font-size: 0.6rem;"></i> {{ dado }}
-                                        </span>
-                                    {% endfor %}
-                                {% else %}
-                                    <span style="color: #a0aec0; font-size: 0.8rem; font-style: italic;">Nenhum risco</span>
-                                {% endif %}
+                            <td style="padding: 15px; text-align: center; font-weight: 600; color: var(--danger);">
+                                {{ linha.termos_sensiveis_encontrados | join(', ') if linha.termos_sensiveis_encontrados else '--' }}
                             </td>
-                            <td style="padding: 15px; font-size: 0.8rem; color: #718096;">
-                                <div style="margin-bottom: 4px;"><i class="fas fa-terminal" style="font-size: 0.7rem;"></i> <strong>Verbos:</strong> {{ linha.verbos | join(', ') if linha.verbos else 'Nenhum' }}</div>
-                                <div><i class="fas fa-search" style="font-size: 0.7rem;"></i> <strong>Busca:</strong> {{ linha.interrogativas | join(', ') if linha.interrogativas else 'Nenhum' }}</div>
+                            <td style="padding: 15px; text-align: center; font-weight: 600; color: #6b46c1;">
+                                {{ linha.interrogativas | join(', ') if linha.interrogativas else '--' }}
+                            </td>
+                            <td style="padding: 15px; text-align: center; color: #718096; font-size: 0.85rem;">
+                                {{ linha.verbos | join(', ') if linha.verbos else '--' }}
+                            </td>
+                            <td style="padding: 15px; text-align: center; color: var(--primary); font-size: 0.85rem;">
+                                {{ linha.nomes | join(', ') if linha.nomes else '--' }}
                             </td>
                         </tr>
                     {% endfor %}
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="analysis-result" style="margin-top: 40px;">
+                <h3 style="margin: 25px 0 15px; font-size: 1.1rem; color: var(--primary);">
+                    <i class="fas fa-search"></i> Padrões de Documentos Detectados
+                </h3>
+                <table class="doc-table" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                    <tr style="background: #f8f9fa;">
+                        <th style="width: 30%; padding: 12px; text-align: left;">Padrão</th>
+                        <th style="padding: 12px; text-align: left;">Valores Encontrados (LGPD)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for chave, valores in resposta.PADROES.items() %}
+                        <tr style="border-bottom: 1px solid #eee;">
+                            <td style="font-weight: 600; color: var(--text-main); padding: 12px;">
+                                <i class="fas fa-fingerprint" style="margin-right: 8px; color: #666;"></i>{{ chave }}
+                            </td>
+                            <td style="padding: 12px;">
+                                {% if valores %}
+                                    {% for valor in valores %}
+                                        <span class="badge"
+                                              style="background: var(--danger); color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; margin-right: 5px;">
+                                            <i class="fas fa-exclamation-circle"></i> {{ valor }}
+                                        </span>
+                                    {% endfor %}
+                                {% else %}
+                                    <span style="color: var(--text-muted); font-style: italic;">
+                                        <i class="fas fa-check-circle" style="color: var(--success);"></i> Nenhum dado detectado
+                                    </span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+        <div style="margin-top: 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 25px;">
+            <a href="{{ url_for('solicitacao.ver_solicitacoes') }}" class="btn-ghost"
+               style="color: #4a5568; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-arrow-left"></i> Voltar para o Histórico
+            </a>
+
+            <button onclick="window.print()" class="btn-primary"
+                    style="background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600;">
+                <i class="fas fa-print"></i> Gerar PDF / Imprimir
+            </button>
         </div>
-    {% endif %}
+    </section>
 
-    <div style="margin-top: 40px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 25px;">
-        <a href="{{ url_for('solicitacao.ver_solicitacoes') }}" class="btn-ghost" style="color: #4a5568; text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px;">
-            <i class="fas fa-arrow-left"></i> Voltar para o Histórico
-        </a>
+    <style>
+        @media print {
+            .sidebar, .nav-header, .btn-ghost, .btn-primary {
+                display: none !important;
+            }
 
-        <button onclick="window.print()" class="btn-primary" style="background: #2d3748; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600;">
-            <i class="fas fa-print"></i> Gerar PDF / Imprimir
-        </button>
-    </div>
-</section>
+            body {
+                background: white !important;
+            }
 
-<style>
-@media print {
-    .sidebar, .nav-header, .btn-ghost, .btn-primary { display: none !important; }
-    body { background: white !important; }
-    .content { width: 100% !important; margin: 0 !important; padding: 0 !important; }
-    .card-analise { box-shadow: none !important; border: 1px solid #ddd !important; }
-}
-</style>
+            .content {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .card-analise {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+
+            .doc-table th {
+                background-color: #f8f9fa !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
 {% endblock %}

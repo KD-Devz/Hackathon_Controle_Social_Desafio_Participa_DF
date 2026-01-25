@@ -8,5 +8,5 @@ def normalizar_ao_retirar_acentuacao_e_cedilha(texto: str) -> str:
     return sem_acento.upper()
 
 def limpar_texto(texto: str) -> str:
-    apenas_letras_numeros = re.sub(r'[^A-Za-z0-9 ]+', '', texto)
+    apenas_letras_numeros = re.sub(r'[^A-Za-z0-9 ]+', ' ', texto)
     return apenas_letras_numeros.upper()

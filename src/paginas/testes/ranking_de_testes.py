@@ -3,13 +3,14 @@ import sqlite3
 from flask import Blueprint, render_template
 
 from src.utils.banco import obter_caminho_banco
-from src.utils.carregador import termos_sensiveis
+from utils.recursos import RecursosLinguisticos
 
 ranking_bp = Blueprint("ranking_de_testes", __name__)
 
 
 @ranking_bp.route("/ranking_de_testes")
 def pagina_ranking_de_testes():
+    recursos = RecursosLinguisticos()
     # Conecta ao banco SQLite
 
     # raiz = os.path.dirname(os.path.dirname(__file__))
@@ -24,7 +25,7 @@ def pagina_ranking_de_testes():
     conn.close()
 
     # Filtra apenas palavras que estão nos termos sensíveis
-    resultados_filtrados = [(palavra, qtd) for palavra, qtd in resultados if palavra.upper() in termos_sensiveis]
+    resultados_filtrados = [(palavra, qtd) for palavra, qtd in resultados if palavra.upper() in recursos.termos_sensiveis]
 
     # Ordena por quantidade decrescente e pega as 3 primeiras
     top3 = sorted(resultados_filtrados, key=lambda x: x[1], reverse=True)[:10]

@@ -80,14 +80,14 @@
                         <div class="impact-grid">
                             <div class="card {% if resposta.CRITICIDADE > 0 %}card-red{% else %}card-green{% endif %}">
                                 <div class="icon-big">
-                                    <i class="fas fa-layer-group"></i>
+                                    <i class="fas fa-lock"></i>
                                 </div>
                                 <h1 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 10px;">
                                     Criticidade</h1>
                                 <h2 style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
-                                    Valor: <span
-                                        class="badge {% if resposta.CRITICIDADE > 0 %}badge-danger{% else %}badge-success{% endif %}"
-                                        style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.CRITICIDADE > 0 %}var(--danger){% else %}var(--success){% endif %};">
+                                    <span
+                                            class="badge {% if resposta.CRITICIDADE > 0 %}badge-danger{% else %}badge-success{% endif %}"
+                                            style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.CRITICIDADE > 0 %}var(--danger){% else %}var(--success){% endif %};">
                                         {{ resposta.CRITICIDADE }}
                                     </span>
                                 </h2>
@@ -95,24 +95,40 @@
 
                             <div class="card {% if resposta.LINEARIDADE > 0 %}card-red{% else %}card-green{% endif %}">
                                 <div class="icon-big">
-                                    <i class="fas fa-chart-line"></i>
+                                    <i class="fas fa-stream"></i>
                                 </div>
                                 <h1 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 10px;">
                                     Linearidade</h1>
                                 <h2 style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
-                                    Valor: <span
-                                        class="badge {% if resposta.LINEARIDADE > 0 %}badge-danger{% else %}badge-success{% endif %}"
-                                        style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.LINEARIDADE > 0 %}var(--danger){% else %}var(--success){% endif %};">
+                                    <span
+                                            class="badge {% if resposta.LINEARIDADE > 0 %}badge-danger{% else %}badge-success{% endif %}"
+                                            style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.LINEARIDADE > 0 %}var(--danger){% else %}var(--success){% endif %};">
                                         {{ resposta.LINEARIDADE }}
                                     </span>
                                 </h2>
                             </div>
+
+                            <div class="card {% if resposta.IDENTIFICADORES > 0 %}card-red{% else %}card-green{% endif %}">
+                                <div class="icon-big">
+                                    <i class="fas fa-fingerprint"></i>
+                                </div>
+                                <h1 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 10px;">
+                                    Identificadores</h1>
+                                <h2 style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
+                                    <span
+                                            class="badge {% if resposta.IDENTIFICADORES > 0 %}badge-danger{% else %}badge-success{% endif %}"
+                                            style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.IDENTIFICADORES > 0 %}var(--danger){% else %}var(--success){% endif %};">
+                                        {{ resposta.IDENTIFICADORES }}
+                                    </span>
+                                </h2>
+                            </div>
+
                         </div>
                     </div>
 
                     <div class="analysis-result" style="margin-top: 40px; animation: fadeIn 0.5s ease;">
                         <h3 style="margin: 25px 0 15px; font-size: 1.1rem;">
-                            <i class="fas fa-list-ul"></i> Detalhamento da Análise por Linha:
+                            <i class="fas fa-tasks"></i> Detalhamento da Análise por Linha:
                         </h3>
 
                         <table class="doc-table">
@@ -121,14 +137,17 @@
                                 <th>Linhas</th>
                                 <th style="text-align: center;">Status</th>
                                 <th>Termos Sensíveis</th>
+                                <th>Interrogativas</th>
                                 <th>Verbos</th>
+                                <th>Nomes</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for linha in resposta.linhas %}
                                 <tr>
-                                    <td style="font-size: 0.9rem;">"{{ linha.texto }}"</td>
-                                    <td style="text-align: center;">
+                                    <td style="font-size: 0.9rem; text-align: center; padding: 12px;">"{{ linha.texto }}"</td>
+
+                                    <td style="text-align: center; padding: 12px;">
                                         {% if linha.status == "True" %}
                                             <span class="badge"
                                                   style="background: var(--danger); color: white; padding: 4px 8px; border-radius: 4px;">Sensível</span>
@@ -137,19 +156,106 @@
                                                   style="background: var(--success); color: white; padding: 4px 8px; border-radius: 4px;">Seguro</span>
                                         {% endif %}
                                     </td>
-                                    <td style="color: var(--secondary); font-weight: 600;">
-                                        {{ linha.encontrados|join(', ') if linha.encontrados else '--' }}
+
+                                    <td style="font-weight: 600; text-align: center; padding: 12px;">
+                                        {{ linha.termos_sensiveis_encontrados|join(', ') if linha.termos_sensiveis_encontrados else '--' }}
                                     </td>
-                                    <td class="muted" style="font-size: 0.85rem;">
+
+                                    <td style=" font-weight: 600; text-align: center; padding: 12px;">
+                                        {{ linha.interrogativas|join(', ') if linha.interrogativas else '--' }}
+                                    </td>
+
+                                    <td class="muted" style="font-size: 0.85rem; text-align: center; padding: 12px;">
                                         {{ linha.verbos|join(', ') if linha.verbos else '--' }}
+                                    </td>
+
+                                    <td class="muted" style="font-size: 0.85rem; text-align: center; padding: 12px;">
+                                        {{ linha.nomes|join(', ') if linha.nomes else '--' }}
                                     </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
+
+
+                    <div class="analysis-result" style="margin-top: 40px; animation: fadeIn 0.5s ease;">
+                        <h3 style="margin: 25px 0 15px; font-size: 1.1rem; color: var(--primary);">
+                            <i class="fas fa-search"></i> Padrões de Documentos Detectados
+                        </h3>
+
+                        <table class="doc-table">
+                            <thead>
+                            <tr>
+                                <th style="width: 30%;">Padrão</th>
+                                <th>Valores Encontrados (LGPD)</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for chave, valores in resposta.PADROES.items() %}
+                                <tr>
+                                    <td style="font-weight: 600; color: var(--text-main);">
+                                        <i class="fas fa-fingerprint"
+                                           style="margin-right: 8px; color: #666;"></i>{{ chave }}
+                                    </td>
+                                    <td>
+                                        {% if valores %}
+                                            {% for valor in valores %}
+                                                <span class="badge"
+                                                      style="background: var(--danger); color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; margin-right: 5px;">
+                                    <i class="fas fa-exclamation-circle"></i> {{ valor }}
+                                </span>
+                                            {% endfor %}
+                                        {% else %}
+                                            <span style="color: var(--text-muted); font-style: italic;">
+                                <i class="fas fa-check-circle" style="color: var(--success);"></i> Nenhum dado detectado
+                            </span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+
                 {% endif %}
             {% endfor %}
         {% endif %}
     {% endwith %}
+    {# ADICIONE ESTE BLOCO ABAIXO #}
+    <div style="margin-top: 40px; display: flex; justify-content: flex-end; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 25px;">
+        <button onclick="window.print()" class="btn-primary"
+                style="background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <i class="fas fa-print"></i> Gerar PDF / Imprimir Relatório
+        </button>
+    </div>
+
+    <style>
+        @media print {
+            /* Esconde elementos desnecessários na impressão para economizar papel e focar no dado */
+            .sidebar, .nav-header, .doc-form, .section-header, .btn-primary, .muted {
+                display: none !important;
+            }
+
+            body {
+                background: white !important;
+            }
+
+            .main-content {
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .card-analise {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+
+            .analysis-result {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
 {% endblock %}
