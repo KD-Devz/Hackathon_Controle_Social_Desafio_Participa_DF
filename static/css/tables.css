@@ -1,0 +1,24 @@
+.doc-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.doc-table th, .doc-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #e2e8f0;
+    text-align: left;
+}
+
+.doc-table thead {
+    background-color: #f8f9fa;
+}
+
+/* Ícones Específicos da Tabela */
+.table-icon-termos { color: var(--crit-termos); }
+.table-icon-interrogativas { color: var(--secondary); }
+.table-icon-verbos { color: var(--crit-verbos); }
+.table-icon-nomes { color: var(--crit-identificadores); }

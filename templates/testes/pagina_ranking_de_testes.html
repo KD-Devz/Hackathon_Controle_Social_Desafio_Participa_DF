@@ -3,34 +3,58 @@
 {% block title %}Ranking de Termos Sensíveis{% endblock %}
 
 {% block main %}
-    <section class="content" style="max-width: 900px; margin: 0 auto;">
-        <div style="text-align: center; margin-bottom: 30px;">
-            <h4 style="font-size: 1.5rem; margin-bottom: 10px;">Monitoramento de Riscos</h4>
-            <p class="muted">Top 10 termos sensíveis detectados em solicitações </p>
+    <section class="content" style="max-width: 1000px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h2 style="color: var(--primary); font-weight: 800; font-size: 2rem; margin-bottom: 10px;">
+                <i class="fas fa-trophy" style="color: var(--warning);"></i> Monitoramento de Riscos
+            </h2>
+            <p class="muted" style="font-size: 1.1rem;">Top 10 termos sensíveis detectados em solicitações e-SIC</p>
         </div>
 
-        <div class="card" style="padding: 25px; margin-bottom: 30px;">
-            <canvas id="graficoHeroi" style="width: 100%; max-height: 400px;"></canvas>
+        <div class="card-glow" style="--card-color: var(--secondary); padding: 30px; margin-bottom: 40px;">
+            <div class="card-label">Distribuição de Frequência</div>
+            <div style="width: 100%; height: 350px; position: relative; margin-top: 20px;">
+                <canvas id="graficoHeroi"></canvas>
+            </div>
         </div>
 
-        <div class="card">
-            <h4 style="font-size: 1rem; margin-bottom: 15px; color: var(--primary);">Detalhamento de Frequência</h4>
-            <table class="table">
+        <div class="card-glow" style="--card-color: var(--primary); padding: 25px;">
+            <h4 style="font-size: 1.2rem; margin-bottom: 20px; color: var(--primary); display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-list-ol"></i> Detalhamento de Ocorrências
+            </h4>
+
+            <table class="doc-table">
                 <thead>
                     <tr>
-                        <th style="width: 60px;" class="center">#</th>
+                        <th style="width: 80px; text-align: center;">Posição</th>
                         <th>Termo Detectado</th>
-                        <th class="center">Ocorrências</th>
-                        <th>Nível de Risco</th>
+                        <th style="text-align: center;">Ocorrências</th>
+                        <th style="text-align: center;">Nível de Risco</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for i in range(palavras|length) %}
                     <tr>
-                        <td class="center"><strong>{{ i + 1 }}º</strong></td>
-                        <td><code style="background: var(--bg); padding: 2px 6px; border-radius: 4px;">{{ palavras[i] }}</code></td>
-                        <td class="center">{{ quantidades[i] }}</td>
+                        <td style="text-align: center;">
+                            {% if i == 0 %}
+                                <span style="font-size: 1.2rem;">🥇</span>
+                            {% elif i == 1 %}
+                                <span style="font-size: 1.2rem;">🥈</span>
+                            {% elif i == 2 %}
+                                <span style="font-size: 1.2rem;">🥉</span>
+                            {% else %}
+                                <strong>{{ i + 1 }}º</strong>
+                            {% endif %}
+                        </td>
                         <td>
+                            <code style="background: #f1f3f5; color: var(--risco-severo); padding: 4px 10px; border-radius: 6px; font-weight: 700; font-size: 1rem;">
+                                {{ palavras[i] }}
+                            </code>
+                        </td>
+                        <td style="text-align: center; font-weight: 600;">
+                            {{ quantidades[i] }}
+                        </td>
+                        <td style="text-align: center;">
                             {% if quantidades[i] > 50 %}
                                 <span class="badge badge-danger">Crítico</span>
                             {% else %}
@@ -44,7 +68,9 @@
         </div>
 
         <div style="margin-top: 30px; text-align: center;">
-            <p class="small muted">Os dados acima são atualizados em tempo real com base no banco de dados SQLite do sistema.</p>
+            <p class="muted" style="font-size: 0.85rem; opacity: 0.7;">
+                <i class="fas fa-sync-alt fa-spin"></i> Dados sincronizados em tempo real com o banco de dados oficial.
+            </p>
         </div>
     </section>
 {% endblock %}
@@ -55,11 +81,18 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('graficoHeroi').getContext('2d');
-            
-            // Definição de cores usando o padrão do sistema
+
+            // Pega as cores dinâmicas do seu arquivo variables.css
+            const style = getComputedStyle(document.documentElement);
+            const colorPrimary = style.getPropertyValue('--primary').trim();
+            const colorSecondary = style.getPropertyValue('--secondary').trim();
+            const colorSuccess = style.getPropertyValue('--success').trim();
+            const colorDanger = style.getPropertyValue('--risco-severo').trim();
+            const colorWarning = style.getPropertyValue('--warning').trim();
+
             const colors = [
-                '#0d6efd', '#20c997', '#dc3545', '#fd7e14', '#6610f2',
-                '#ffc107', '#17a2b8', '#e83e8c', '#198754', '#adb5bd'
+                colorSecondary, colorSuccess, colorDanger, colorWarning,
+                colorPrimary, '#6610f2', '#17a2b8', '#e83e8c', '#fd7e14', '#adb5bd'
             ];
 
             new Chart(ctx, {
@@ -70,8 +103,8 @@
                         label: 'Ocorrências',
                         data: {{ quantidades|tojson }},
                         backgroundColor: colors,
-                        borderRadius: 6, // Bordas arredondadas nas barras
-                        borderSkipped: false
+                        borderRadius: 8,
+                        hoverOpacity: 0.8
                     }]
                 },
                 options: {
@@ -82,20 +115,20 @@
                         datalabels: {
                             anchor: 'end',
                             align: 'top',
-                            color: '#444',
-                            font: { weight: 'bold', size: 12 },
-                            formatter: Math.round
+                            color: '#2c3e50',
+                            font: { weight: 'bold', size: 14 },
+                            formatter: (value) => value
                         }
                     },
                     scales: {
                         x: {
                             grid: { display: false },
-                            ticks: { font: { weight: '500' } }
+                            ticks: { font: { weight: '600', size: 12 }, color: '#4a5568' }
                         },
                         y: {
                             display: false,
                             beginAtZero: true,
-                            suggestedMax: Math.max(...{{ quantidades|tojson }}) * 1.2
+                            suggestedMax: Math.max(...{{ quantidades|tojson }}) * 1.3
                         }
                     }
                 },

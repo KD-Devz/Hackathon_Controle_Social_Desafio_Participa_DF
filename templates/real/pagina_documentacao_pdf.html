@@ -1,26 +1,46 @@
-<!-- templates/real/pagina_documentacao_pdf.html -->
 <!doctype html>
 <html lang="pt-br">
 <head>
   <meta charset="utf-8">
-  <title>Documentação Resumida</title>
+  <title>Documentação Resumida - Privacy Shield</title>
   <style>
-    body{font-family:Arial,Helvetica,sans-serif;color:#222;font-size:12px}
-    h1{color:#0d6efd}
-    h2{font-size:14px;color:#333}
-    p{margin:6px 0}
-    pre{background:#f7f9fc;padding:8px;border-radius:6px}
+    @page { margin: 2cm; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.5; }
+    .header { border-bottom: 2px solid #004587; padding-bottom: 10px; margin-bottom: 30px; text-align: center; }
+    h1 { color: #004587; font-size: 24px; margin: 0; }
+    h2 { color: #004587; font-size: 18px; border-left: 4px solid #004587; padding-left: 10px; margin-top: 25px; }
+    .code { background: #f4f4f4; padding: 10px; border-radius: 4px; font-family: monospace; font-size: 11px; display: block; }
+    .footer { margin-top: 50px; font-size: 10px; color: #888; text-align: center; border-top: 1px solid #eee; padding-top: 10px; }
+    .method-tag { display: inline-block; background: #eee; padding: 2px 8px; border-radius: 10px; font-size: 10px; margin-right: 5px; font-weight: bold; }
   </style>
 </head>
 <body>
-  <h1>Documentação Resumida</h1>
-  <h2>Visão Geral</h2>
-  <p>O sistema identifica e protege dados pessoais em solicitações ao governo, equilibrando privacidade (LGPD) e transparência (LAI).</p>
-  <h2>Como funciona</h2>
-  <p>Divisão por linhas; detecção de dados sensíveis; verbos de solicitação; interrogativas; exportação de relatórios.</p>
-  <h2>Instalação</h2>
-  <p>Clonar repositório, criar virtualenv, instalar dependências e inicializar banco.</p>
-  <hr>
-  <p>Gerado em {{ now.strftime('%Y-%m-%d %H:%M:%S') }} UTC</p>
+  <div class="header">
+    <h1>Privacy Shield</h1>
+    <p>Documentação Técnica de Auditoria v1.0</p>
+  </div>
+
+  <h2>1. Visão Geral</h2>
+  <p>O sistema foi desenvolvido para atuar na interseção entre a <strong>Lei de Acesso à Informação (LAI)</strong> e a <strong>Lei Geral de Proteção de Dados (LGPD)</strong>, automatizando a triagem de dados sensíveis em solicitações e-SIC.</p>
+
+  <h2>2. Pipeline de Processamento</h2>
+  <p>
+    <span class="method-tag">ETAPA 1</span> Sanitização de caracteres especiais.<br>
+    <span class="method-tag">ETAPA 2</span> Aplicação de expressões regulares para padrões PII.<br>
+    <span class="method-tag">ETAPA 3</span> Validação matemática de identificadores oficiais.<br>
+    <span class="method-tag">ETAPA 4</span> Reconhecimento de Entidades Nomeadas (NER) via NLP.
+  </p>
+
+  <h2>3. Guia de Deploy Rápido</h2>
+  <div class="code">
+    pip install -r requirements.txt<br>
+    flask db upgrade<br>
+    python app.py
+  </div>
+
+  <div class="footer">
+    <p>Este documento é parte integrante do projeto acadêmico UnB - Ciclo 2025/2</p>
+    <p>Gerado automaticamente em {{ now.strftime('%d/%m/%Y às %H:%M') }}</p>
+  </div>
 </body>
 </html>

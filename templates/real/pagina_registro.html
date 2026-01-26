@@ -1,33 +1,66 @@
 {% extends "base.html" %}
-{% block title %}Registro de Usuário{% endblock %}
+
+{% block title %}Cadastro | Valida Fácil{% endblock %}
 
 {% block main %}
-  <div style="max-width:420px;margin:40px auto;width:100%;">
-    <div class="content" style="padding:28px;text-align:center;">
-      <div style="font-size:1.25rem;color:var(--primary);font-weight:700;margin-bottom:12px;">Crie sua conta</div>
+<div style="display: flex; justify-content: center; align-items: center; min-height: 80vh; padding: 20px;">
 
-      {% with messages = get_flashed_messages(category_filter=["error"]) %}
-        {% if messages %}
-          <div style="margin-bottom:12px;color:var(--danger);font-weight:700;">{{ messages[0] }}</div>
-        {% endif %}
-      {% endwith %}
+    <div class="card-glow" style="--card-color: var(--primary); max-width: 480px; width: 100%; padding: 40px; background: white;">
 
-      <form method="POST" class="pure-form pure-form-stacked">
-        <div class="form-row">
-          <input class="input" type="text" name="nome" placeholder="Nome completo" required>
+        <div style="text-align: center; margin-bottom: 30px;">
+            <div style="font-size: 3.5rem; color: var(--primary); margin-bottom: 15px;">
+                <i class="fas fa-user-plus"></i>
+            </div>
+            <h2 style="margin: 0; font-weight: 800; color: var(--text-main); font-size: 1.8rem;">Criar Nova Conta</h2>
+            <p class="muted" style="font-size: 0.9rem; margin-top: 5px;">Cadastre-se para auditar dados sensíveis</p>
         </div>
-        <div class="form-row">
-          <input class="input" type="email" name="email" placeholder="Email" required>
-        </div>
-        <div class="form-row">
-          <input class="input" type="password" name="senha" placeholder="Senha" required>
-        </div>
-        <button type="submit" class="btn-primary">Registrar</button>
-      </form>
 
-      <div style="margin-top:12px;">
-        <a href="{{ url_for('auth.login') }}" class="btn-ghost">Voltar para login</a>
-      </div>
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+            {% if messages %}
+                <div style="background: #fff5f5; border: 1px solid var(--danger); color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 0.85rem; font-weight: 600; text-align: center;">
+                    <i class="fas fa-exclamation-triangle"></i> {{ messages[0] }}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" class="pure-form pure-form-stacked">
+            <div class="form-row" style="margin-bottom: 18px;">
+                <label style="font-weight: 700; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; display: block;">
+                    <i class="fas fa-id-card"></i> Nome Completo
+                </label>
+                <input class="input" type="text" name="nome" placeholder="Ex: Cabo Calebe" required
+                       style="width: 100%; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; font-size: 1rem;">
+            </div>
+
+            <div class="form-row" style="margin-bottom: 18px;">
+                <label style="font-weight: 700; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; display: block;">
+                    <i class="fas fa-envelope"></i> E-mail Corporativo
+                </label>
+                <input class="input" type="email" name="email" placeholder="nome@exemplo.com" required
+                       style="width: 100%; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; font-size: 1rem;">
+            </div>
+
+            <div class="form-row" style="margin-bottom: 30px;">
+                <label style="font-weight: 700; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; display: block;">
+                    <i class="fas fa-key"></i> Definir Senha
+                </label>
+                <input class="input" type="password" name="senha" placeholder="••••••••" required
+                       style="width: 100%; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; font-size: 1rem;">
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; padding: 16px; font-size: 1rem; text-transform: uppercase; font-weight: 800; letter-spacing: 1px;">
+                Concluir Cadastro
+            </button>
+        </form>
+
+        <div style="margin-top: 25px; text-align: center; border-top: 1px solid #edf2f7; padding-top: 20px;">
+            <p style="font-size: 0.9rem; color: var(--text-muted);">
+                Já possui uma conta ativa? <br>
+                <a href="{{ url_for('auth.login') }}" style="color: var(--primary); font-weight: 700; text-decoration: none;">
+                    Clique aqui para fazer Login
+                </a>
+            </p>
+        </div>
     </div>
-  </div>
+</div>
 {% endblock %}

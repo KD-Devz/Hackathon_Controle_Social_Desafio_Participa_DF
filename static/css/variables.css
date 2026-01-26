@@ -1,0 +1,32 @@
+:root {
+    /* --- Identidade Visual --- */
+    --primary: #004587;
+    --secondary: #007bff;
+    --success: #2ecc71;
+    --danger: #e74c3c;
+    --warning: #f1c40f;
+
+    /* --- Fundo e Texto --- */
+    --bg-body: #f0f2f5;
+    --sidebar-bg: #ffffff;
+    --text-main: #2c3e50;
+    --text-muted: #7f8c8d;
+
+    /* --- Escala de Risco (Auditoria) --- */
+    --risco-alarmante: #2baea9;    /* 0.01 - 0.20 */
+    --risco-perigoso: #f1c40f;     /* 0.21 - 0.40 */
+    --risco-grave: #e67e22;        /* 0.41 - 0.60 */
+    --risco-severo: #ed2131;       /* 0.61 - 0.80 */
+    --risco-catastrofico: #ed2131; /* 0.81 - 1.00 */
+
+    /* --- Critérios Específicos --- */
+    --crit-linearidade: #3182ce;
+    --crit-identificadores: #805ad5;
+    --crit-exigencias: #38a169;
+    --crit-termos: #eab308;
+    --crit-verbos: #f97316;
+
+    /* --- Efeitos Globais --- */
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}

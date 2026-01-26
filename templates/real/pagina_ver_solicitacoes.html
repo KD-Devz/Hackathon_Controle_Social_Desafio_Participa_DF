@@ -1,72 +1,72 @@
 {% extends "base.html" %}
 
-{% block title %}Meu Histórico{% endblock %}
+{% block title %}Meu Histórico | Valida Fácil{% endblock %}
 
 {% block main %}
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-    <h2 style="margin: 0; color: var(--primary);"><i class="fas fa-history"></i> Histórico de Solicitações</h2>
-    <span class="badge" style="background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px;">
-        {{ solicitacoes|length }} registros encontrados
-    </span>
-</div>
+<section class="content">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 15px;">
+        <h2 style="margin: 0; color: var(--primary);"><i class="fas fa-history"></i> Histórico de Solicitações</h2>
+        <span class="badge" style="background: var(--primary); color: white; padding: 6px 16px; border-radius: 20px; font-weight: 600;">
+            {{ solicitacoes|length }} Registros
+        </span>
+    </div>
 
-<div class="info-alert" style="background: #eef2f7; padding: 15px; border-radius: 10px; margin-bottom: 25px; border-left: 4px solid var(--secondary); font-size: 0.9rem; color: #333;">
-    <i class="fas fa-shield-alt" style="color: var(--primary);"></i>
-    Estas solicitações foram processadas pelo motor <strong>Privacy Shield</strong>. Clique em <strong>Auditoria</strong> para ver o detalhamento da análise de dados sensíveis.
-</div>
+    <div class="card-glow" style="--card-color: var(--secondary); padding: 20px; margin-bottom: 30px; display: flex; align-items: center; gap: 15px;">
+        <i class="fas fa-shield-alt" style="font-size: 1.5rem; color: var(--secondary);"></i>
+        <div style="font-size: 0.95rem; color: var(--text-main);">
+            Processado via motor <strong>Privacy Shield</strong>. O detalhamento da análise de dados sensíveis está disponível no botão <strong>Auditoria</strong>.
+        </div>
+    </div>
 
-<div style="background: white; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); overflow: hidden;">
-    <table class="doc-table" style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr style="background-color: #f8f9fa; text-align: left; border-bottom: 2px solid #eee;">
-                <th style="padding: 15px; width: 180px;">Data de Envio</th>
-                <th style="padding: 15px;">Conteúdo da Mensagem</th>
-                <th style="padding: 15px; width: 180px; text-align: center;">Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% if solicitacoes %}
-                {# 🔹 CORREÇÃO: Adicionado id_real para evitar o ValueError (unpack 3 valores) #}
-                {% for texto, data, id_real in solicitacoes %}
-                <tr style="border-bottom: 1px solid #f0f0f0; transition: background 0.3s;" onmouseover="this.style.backgroundColor='#fafafa'" onmouseout="this.style.backgroundColor='transparent'">
-                    <td style="padding: 15px; font-family: 'Courier New', Courier, monospace; color: #666; font-size: 0.9rem;">
-                        <i class="far fa-calendar-alt"></i> {{ data }}
-                    </td>
-                    <td style="padding: 15px;">
-                        <div style="max-width: 550px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #444;" title="{{ texto }}">
-                            {{ texto }}
-                        </div>
-                    </td>
-                    <td style="padding: 15px; text-align: center;">
-                        {# 🔹 CORREÇÃO: Usando solicitação_id=id_real para abrir o relatório específico #}
-                        <a href="{{ url_for('solicitacao.detalhes_solicitacao', solicitacao_id=id_real) }}"
-                           class="btn-primary"
-                           style="padding: 8px 16px; font-size: 0.8rem; background: var(--primary); text-decoration: none; border-radius: 6px; display: inline-flex; align-items: center; gap: 8px;">
-                            <i class="fas fa-file-contract"></i> Auditoria
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            {% else %}
+    <div style="background: white; border-radius: 12px; box-shadow: var(--shadow); overflow: hidden;">
+        <table class="doc-table">
+            <thead>
                 <tr>
-                    <td colspan="3" style="padding: 80px; text-align: center;">
-                        <i class="fas fa-inbox" style="font-size: 3.5rem; color: #ddd; display: block; margin-bottom: 20px;"></i>
-                        <p style="color: #888; font-size: 1.1rem;">Nenhuma solicitação encontrada no seu histórico.</p>
-                        <a href="{{ url_for('solicitacao.pagina_enviar_solicitacao') }}"
-                           class="btn-primary"
-                           style="margin-top: 20px; text-decoration: none; display: inline-block;">
-                           Enviar Nova Solicitação
-                        </a>
-                    </td>
+                    <th style="width: 200px;"><i class="far fa-calendar-alt"></i> Data de Envio</th>
+                    <th><i class="fas fa-comment-alt"></i> Conteúdo da Mensagem</th>
+                    <th style="width: 150px; text-align: center;">Ações</th>
                 </tr>
-            {% endif %}
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                {% if solicitacoes %}
+                    {% for texto, data, id_real in solicitacoes %}
+                    <tr>
+                        <td class="muted" style="font-family: 'Courier New', monospace; font-weight: 600;">
+                            {{ data }}
+                        </td>
+                        <td>
+                            <div style="max-width: 500px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-main);" title="{{ texto }}">
+                                {{ texto }}
+                            </div>
+                        </td>
+                        <td style="text-align: center;">
+                            <a href="{{ url_for('solicitacao.detalhes_solicitacao', solicitacao_id=id_real) }}"
+                               class="btn-primary"
+                               style="padding: 8px 12px; font-size: 0.75rem; border-radius: 6px;">
+                                <i class="fas fa-file-contract"></i> Auditoria
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3" style="padding: 60px; text-align: center;">
+                            <i class="fas fa-inbox" style="font-size: 3rem; color: #ddd; margin-bottom: 15px; display: block;"></i>
+                            <p class="muted">Nenhum registro encontrado no seu histórico.</p>
+                            <a href="{{ url_for('solicitacao.pagina_enviar_solicitacao') }}" class="btn-primary" style="margin-top: 15px;">
+                                Enviar Nova Solicitação
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
 
-<div style="margin-top: 25px;">
-    <a href="{{ url_for('perfil.pagina_meu_perfil') }}" style="color: var(--primary); text-decoration: none; font-size: 0.9rem;">
-        <i class="fas fa-chevron-left"></i> Voltar para meu perfil
-    </a>
-</div>
+    <div style="margin-top: 30px;">
+        <a href="{{ url_for('perfil.pagina_meu_perfil') }}" class="nav-item" style="width: auto; padding: 10px 20px; background: transparent; color: var(--primary);">
+            <i class="fas fa-chevron-left"></i> Voltar para meu Perfil
+        </a>
+    </div>
+</section>
 {% endblock %}

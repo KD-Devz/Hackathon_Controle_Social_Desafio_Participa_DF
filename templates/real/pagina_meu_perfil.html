@@ -1,39 +1,77 @@
 {% extends "base.html" %}
 
-{% block title %}Meu Perfil{% endblock %}
+{% block title %}Meu Perfil | Valida Fácil{% endblock %}
 
 {% block main %}
-<div class="profile-header" style="display: flex; align-items: center; gap: 25px; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 30px;">
-    <div class="profile-avatar" style="width: 90px; height: 90px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: white; font-weight: 800; box-shadow: var(--shadow);">
-        {{ session.get('user_name')[0] | upper if session.get('user_name') else 'U' }}
+<section class="content" style="max-width: 800px; margin: 0 auto;">
+
+    <div class="card-glow" style="--card-color: var(--primary); margin-bottom: 40px; padding: 40px;">
+        <div style="display: flex; align-items: center; gap: 30px;">
+            <div class="profile-avatar" style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; font-weight: 800; border: 4px solid rgba(255,255,255,0.2); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                {{ session.get('user_name')[0] | upper if session.get('user_name') else 'U' }}
+            </div>
+
+            <div class="profile-info">
+                <div class="card-label" style="color: rgba(255,255,255,0.8);">Painel do Usuário</div>
+                <h2 style="margin: 0; font-size: 2rem; color: white; font-weight: 800;">{{ session.get('user_name') }}</h2>
+                <div style="margin-top: 8px;">
+                    <span class="badge badge-success" style="background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71;">
+                        <i class="fas fa-user-shield"></i> Usuário Verificado
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-icon-float" style="color: rgba(255,255,255,0.1); top: 20px; right: 30px; font-size: 4rem;">
+            <i class="fas fa-id-card-alt"></i>
+        </div>
     </div>
 
-    <div class="profile-info">
-        <h2 style="margin: 0; font-size: 1.8rem;">{{ session.get('user_name') }}</h2>
-        <p style="color: var(--text-muted); margin: 5px 0 0 0; display: flex; align-items: center; gap: 8px;">
-            <i class="fas fa-shield-halved" style="color: var(--success);"></i>
-            Usuário Verificado
-        </p>
-    </div>
-</div>
+    <div class="analysis-result">
+        <div class="section-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 25px;">
+            <i class="fas fa-database" style="color: var(--primary); font-size: 1.2rem;"></i>
+            <h3 style="margin: 0; font-size: 1.3rem; color: var(--text-main);">Informações da Conta</h3>
+        </div>
 
-<div class="profile-body">
-    <div class="section-header" style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-        <i class="fas fa-address-card" style="color: var(--primary);"></i>
-        <h3 style="margin: 0; font-size: 1.2rem;">Dados Cadastrais</h3>
+        <table class="doc-table">
+            <tbody>
+                <tr>
+                    <td style="width: 250px; font-weight: 600; color: var(--text-muted);">
+                        <i class="fas fa-user" style="width: 20px;"></i> Nome Completo
+                    </td>
+                    <td style="font-weight: 500; color: var(--text-main);">{{ session.get('user_name') }}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-muted);">
+                        <i class="fas fa-envelope" style="width: 20px;"></i> E-mail de Acesso
+                    </td>
+                    <td style="font-weight: 500; color: var(--text-main);">{{ session.get('user_email', 'N/A') }}</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-muted);">
+                        <i class="fas fa-check-double" style="width: 20px;"></i> Status da Conta
+                    </td>
+                    <td>
+                        <span class="badge badge-success">Ativa / Autenticada</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--text-muted);">
+                        <i class="fas fa-clock" style="width: 20px;"></i> Último Acesso
+                    </td>
+                    <td class="muted">Sessão atual ativa</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
-    <table class="doc-table">
-        <tbody>
-            <tr>
-                <td style="width: 200px; font-weight: 600; color: var(--text-muted);">Nome</td>
-                <td>{{ session.get('user_name') }}</td>
-            </tr>
-            <tr>
-                <td style="font-weight: 600; color: var(--text-muted);">Status da Conta</td>
-                <td><span class="badge" style="background: #d4edda; color: #155724; padding: 4px 12px; border-radius: 15px; font-size: 0.85rem;">Autenticado</span></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <div style="margin-top: 40px; padding-top: 25px; border-top: 1px solid #eee; display: flex; justify-content: flex-end; gap: 15px;">
+        <a href="{{ url_for('index.pagina_index') }}" class="nav-item" style="width: auto; padding: 10px 20px; background: transparent;">
+            <i class="fas fa-chevron-left"></i> Voltar ao Painel
+        </a>
+        <a href="{{ url_for('auth.logout') }}" class="btn-primary" style="background-color: var(--risco-severo);">
+            <i class="fas fa-sign-out-alt"></i> Encerrar Sessão
+        </a>
+    </div>
+</section>
 {% endblock %}

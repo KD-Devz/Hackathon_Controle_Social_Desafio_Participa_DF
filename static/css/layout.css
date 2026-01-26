@@ -1,0 +1,76 @@
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Navbar --- */
+.navbar {
+    height: 70px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.navbar-brand strong {
+    color: #ffcc00;
+    font-weight: 700;
+}
+
+/* --- Estrutura Principal --- */
+.main-layout {
+    display: flex;
+    flex: 1;
+}
+
+.sidebar {
+    width: 260px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid #e1e4e8;
+    padding: 30px 15px;
+}
+
+.content-area {
+    flex: 1;
+    padding: 40px;
+}
+
+/* --- Menu Lateral --- */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    color: var(--text-main);
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    transition: var(--transition);
+}
+
+.nav-item:hover {
+    background: #f8faff;
+    color: var(--secondary);
+    transform: translateX(5px);
+}
+
+/* --- Footer --- */
+.footer {
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid #e1e4e8;
+    background: #f8f9fa;
+    margin-top: auto;
+}
+
+/* --- Impressão --- */
+@media print {
+    .sidebar, .navbar, .btn-primary, .doc-form { display: none !important; }
+    .content-area { padding: 0 !important; }
+}

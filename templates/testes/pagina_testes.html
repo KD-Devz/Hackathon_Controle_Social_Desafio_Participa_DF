@@ -4,58 +4,71 @@
 
 {% block main %}
     <section class="content">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
-            <h2 style="margin: 0; font-size: 1.6rem; color: var(--primary);">Análise de Resultados</h2>
+        <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+            <h2 style="margin: 0; color: var(--primary);"><i class="fas fa-chart-pie"></i> Análise de Resultados</h2>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start; margin-bottom: 40px;">
-            <div class="card" style="padding: 25px; max-width: 450px;">
-                <h3 style="font-size: 1.2rem; color: var(--text-main); margin-bottom: 20px;">Resumo da Amostra</h3>
-                <ul style="list-style: none; padding: 0; margin: 0; font-size: 1rem;">
-                    <li style="margin-bottom: 12px;">
-                        <span style="color: var(--success); font-weight: bold;">●</span> Válidos:
+
+            <div class="card-glow" style="--card-color: var(--primary); padding: 25px;">
+                <div class="card-label">Resumo da Amostra</div>
+                <div class="card-value" style="font-size: 1.4rem;">Processamento Geral</div>
+
+                <ul style="list-style: none; padding: 0; margin: 20px 0; font-size: 1rem;">
+                    <li style="margin-bottom: 12px; display: flex; justify-content: space-between;">
+                        <span><i class="fas fa-check-circle" style="color: var(--success);"></i> Válidos:</span>
                         <strong>{{ total_validos }}</strong>
                     </li>
-                    <li style="margin-bottom: 12px;">
-                        <span style="color: var(--danger); font-weight: bold;">●</span> Inválidos:
+                    <li style="margin-bottom: 12px; display: flex; justify-content: space-between;">
+                        <span><i class="fas fa-times-circle" style="color: var(--risco-severo);"></i> Inválidos:</span>
                         <strong>{{ total_invalidos }}</strong>
                     </li>
-                    <li style="border-top: 1px solid #eee; margin-top: 15px; padding-top: 15px;">
-                        Total Processado: <strong>{{ total_testes }}</strong>
-                    </li>
                 </ul>
+
+                <div class="progress-container">
+                    {% set perc = (total_validos / total_testes * 100)|round if total_testes > 0 else 0 %}
+                    <div class="progress-bar" style="width: {{ perc }}%; background-color: var(--success);"></div>
+                </div>
+                <div class="card-footer-info">
+                    <span>Total: {{ total_testes }}</span>
+                    <span>Eficiência: {{ perc }}%</span>
+                </div>
             </div>
 
-            <div class="card" style="padding: 25px; display: flex; justify-content: center; align-items: center;">
-                <canvas id="graficoStatus" width="280" height="280"></canvas>
+            <div class="card-glow" style="--card-color: var(--secondary); padding: 25px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div class="card-label">Distribuição Visual</div>
+                <div style="width: 100%; height: 200px; position: relative;">
+                    <canvas id="graficoStatus"></canvas>
+                </div>
             </div>
         </div>
 
-        <hr style="margin: 40px 0; border: 0; border-top: 1px solid #ddd;">
+        <hr style="margin: 40px 0; border: 0; border-top: 1px solid #eee;">
 
-        <h3 style="text-align: center; margin-bottom: 25px; color: var(--primary); font-size: 1.3rem;">Visualização dos
-            Dados</h3>
+        <h3 style="margin-bottom: 25px; color: var(--primary); font-size: 1.3rem;">
+            <i class="fas fa-database"></i> Visualização Detalhada dos Dados
+        </h3>
 
         <div style="overflow-x: auto;">
-            <table class="table" style="width: 100%; border-collapse: collapse;">
+            <table class="doc-table">
                 <thead>
-                <tr style="background: #f8f9fa;">
+                <tr>
                     {% for col in cabecalho %}
-                        <th style="padding: 14px; text-align: left;">{{ col }}</th>
+                        <th>{{ col }}</th>
                     {% endfor %}
                     <th style="text-align: center;">Status</th>
-                    <th style="text-align: center;">Dados Sensíveis</th>
-                    <th style="text-align: center;">Verbos</th>
-                    <th style="text-align: center;">Interrogativas</th>
-                    <th style="text-align: center;">Nomes</th>
+                    <th style="text-align: center;"><i class="fas fa-key table-icon-termos"></i> Termos</th>
+                    <th style="text-align: center;"><i class="fas fa-bolt table-icon-verbos"></i> Verbos</th>
+                    <th style="text-align: center;"><i class="fas fa-question-circle table-icon-interrogativas"></i> Dúvidas</th>
+                    <th style="text-align: center;"><i class="fas fa-user-tag table-icon-nomes"></i> Nomes</th>
                     <th style="text-align: center;">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for linha in dados %}
-                    <tr style="border-top: 1px solid #eee;">
+                    <tr>
                         {% for valor in linha.campos %}
-                            <td class="small" style="padding: 12px; text-align: left;">{{ valor }}</td>
+                            <td class="muted" style="font-size: 0.85rem;">{{ valor }}</td>
                         {% endfor %}
 
                         <td style="text-align: center;">
@@ -66,67 +79,48 @@
                             {% endif %}
                         </td>
 
-                        {# Inicialização das listas para agrupar os achados de todas as sub-linhas #}
+                        {# Lógica de agrupamento de dados #}
                         {% set sensiveis_lista = [] %}
                         {% set verbos_lista = [] %}
                         {% set interr_lista = [] %}
                         {% set nomes_lista = [] %}
 
                         {% for sub_linha in linha.detalhes %}
-                            {# Coleta Termos Sensíveis #}
                             {% for item in sub_linha.termos_sensiveis_encontrados %}
-                                {% if item not in sensiveis_lista %}
-                                    {% if sensiveis_lista.append(item) %}{% endif %}
-                                {% endif %}
+                                {% if item not in sensiveis_lista %}{% if sensiveis_lista.append(item) %}{% endif %}{% endif %}
                             {% endfor %}
-
-                            {# Coleta Verbos #}
                             {% for v in sub_linha.verbos %}
-                                {% if v not in verbos_lista %}
-                                    {% if verbos_lista.append(v) %}{% endif %}
-                                {% endif %}
+                                {% if v not in verbos_lista %}{% if verbos_lista.append(v) %}{% endif %}{% endif %}
                             {% endfor %}
-
-                            {# Coleta Interrogativas #}
                             {% for i in sub_linha.interrogativas %}
-                                {% if i not in interr_lista %}
-                                    {% if interr_lista.append(i) %}{% endif %}
-                                {% endif %}
+                                {% if i not in interr_lista %}{% if interr_lista.append(i) %}{% endif %}{% endif %}
                             {% endfor %}
-
-                            {# Coleta Nomes (Corrigido para usar a chave correta) #}
                             {% for n in sub_linha.nomes %}
-                                {% if n not in nomes_lista %}
-                                    {% if nomes_lista.append(n) %}{% endif %}
-                                {% endif %}
+                                {% if n not in nomes_lista %}{% if nomes_lista.append(n) %}{% endif %}{% endif %}
                             {% endfor %}
                         {% endfor %}
 
-                        <td style="text-align: center;">
-                            {% if sensiveis_lista %}
-                                <span style="color: var(--danger); font-weight: 600;">{{ sensiveis_lista | join(', ') }}</span>
-                            {% else %}
-                                <span class="muted">---</span>
-                            {% endif %}
+                        <td style="text-align: center; font-weight: 600; color: var(--risco-severo);">
+                            {{ sensiveis_lista | join(', ') if sensiveis_lista else '---' }}
                         </td>
 
-                        <td style="text-align: center; font-size: 0.9rem;">
+                        <td style="text-align: center; font-size: 0.85rem; color: var(--crit-verbos);">
                             {{ verbos_lista | join(', ') if verbos_lista else '---' }}
                         </td>
 
-                        <td style="text-align: center; font-size: 0.9rem;">
+                        <td style="text-align: center; font-size: 0.85rem; color: var(--secondary);">
                             {{ interr_lista | join(', ') if interr_lista else '---' }}
                         </td>
 
-                        <td style="text-align: center; font-size: 0.9rem;">
+                        <td style="text-align: center; font-size: 0.85rem; color: var(--crit-identificadores);">
                             {{ nomes_lista | join(', ') if nomes_lista else '---' }}
                         </td>
 
                         <td style="text-align: center;">
                             <a href="{{ url_for('testes_detalhados.pagina_teste_detalhado', linha=' '.join(linha.campos), id=loop.index) }}"
                                class="btn-primary"
-                               style="padding: 6px 12px; font-size: 0.85rem; border-radius: 4px; text-decoration: none;">
-                                <i class="fas fa-search-plus"></i> Detalhes
+                               style="padding: 6px 12px; font-size: 0.75rem;">
+                                <i class="fas fa-search-plus"></i> Ver Detalhes
                             </a>
                         </td>
                     </tr>
@@ -142,30 +136,30 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const ctx = document.getElementById('graficoStatus').getContext('2d');
+
+            // Pega as cores das variáveis CSS
+            const colorSuccess = getComputedStyle(document.documentElement).getPropertyValue('--success').trim() || '#4CAF50';
+            const colorDanger = getComputedStyle(document.documentElement).getPropertyValue('--risco-severo').trim() || '#F44336';
+
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
                     labels: ['Válidos', 'Inválidos'],
                     datasets: [{
-                        label: 'Análise de Termos',
                         data: [{{ total_validos }}, {{ total_invalidos }}],
-                        backgroundColor: ['#4CAF50', '#F44336'],
-                        borderWidth: 1,
-                        borderColor: '#ffffff'
+                        backgroundColor: [colorSuccess, colorDanger],
+                        borderWidth: 0,
+                        hoverOffset: 10
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: {display: false},
-                        title: {
-                            display: true,
-                            text: 'Qualidade das Solicitações',
-                            font: {size: 16},
-                            color: '#2c3e50'
-                        }
-                    }
+                        legend: { position: 'bottom' },
+                        title: { display: false }
+                    },
+                    cutout: '70%'
                 }
             });
         });

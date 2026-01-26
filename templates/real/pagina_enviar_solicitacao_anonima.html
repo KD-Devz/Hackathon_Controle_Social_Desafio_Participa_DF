@@ -2,6 +2,23 @@
 {% block title %}Enviar Solicitação Anônima{% endblock %}
 
 {% block main %}
+    <style>
+        /* Estilo para a sombra colorida no topo conforme solicitado */
+        .sombra-topo {
+            box-shadow: 0 -8px 15px -5px currentColor !important;
+            transition: var(--transition);
+        }
+
+        .sombra-topo:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 -12px 20px -5px currentColor !important;
+        }
+
+        .icon-grande {
+            font-size: 2.2rem;
+        }
+    </style>
+
     <div class="section-header" style="margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
         <h2 style="margin: 0; color: var(--primary);">
             <i class="fas fa-user-secret"></i> Solicitação Anônima
@@ -13,12 +30,13 @@
             <label style="font-weight: 600; display: block; margin-bottom: 10px;">Conteúdo da Solicitação:</label>
             <textarea name="solicitacao" class="doc-textarea"
                       placeholder="Digite aqui sua solicitação sem identificação pessoal..."
-                      style="min-height: 150px; width: 100%;" required></textarea>
-            <p class="muted">Sua solicitação será analisada automaticamente para verificar a presença de dados sensíveis
-                antes do envio.</p>
+                      style="min-height: 150px; width: 100%; border-radius: 8px; border: 1px solid #ddd; padding: 15px;"
+                      required></textarea>
+            <p class="muted" style="margin-top: 8px; font-size: 0.85rem;">Sua solicitação será analisada automaticamente
+                para verificar a presença de dados sensíveis antes do envio.</p>
         </div>
         <div style="margin-top: 15px;">
-            <button type="submit" class="btn-primary" style="padding: 12px 30px;">
+            <button type="submit" class="btn-primary" style="padding: 12px 30px; border-radius: 8px; font-weight: 600;">
                 <i class="fas fa-paper-plane"></i> Enviar
             </button>
         </div>
@@ -27,7 +45,6 @@
     {% with messages = get_flashed_messages(with_categories=True) %}
         {% if messages %}
             {% for category, resposta in messages %}
-                {# Garantia de que resposta é um objeto para evitar erro 500 #}
                 {% if resposta is mapping %}
                     <hr style="margin: 50px 0; border: 0; border-top: 1px solid #eee;">
 
@@ -40,19 +57,21 @@
                             Privacidade</h2>
                     </div>
 
+                    {# Card de Conteúdo Original #}
                     <div class="card-analise"
-                         style="background-color: #fff; border-left: 5px solid #0056b3; padding: 25px; margin-bottom: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                         style="background-color: #fff; border-left: 5px solid var(--primary); padding: 25px; margin-bottom: 30px; border-radius: 8px; box-shadow: var(--shadow);">
                         <h4 style="margin-bottom: 15px; color: #666; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700;">
                             Conteúdo Analisado:</h4>
-                        <div style="background: #fcfcfc; padding: 20px; border-radius: 4px; position: relative;">
+                        <div style="background: #fcfcfc; padding: 20px; border-radius: 4px; border: 1px inset #f0f0f0;">
                             <p style="font-style: italic; font-size: 1.05rem; line-height: 1.8; color: #4a5568; text-align: justify; margin: 0;">
-                                <span style="font-size: 2rem; color: #cbd5e0; font-family: serif; line-height: 0; vertical-align: middle; margin-right: 5px;">&ldquo;</span>
+                                <span style="font-size: 2rem; color: #cbd5e0; font-family: serif; vertical-align: middle;">&ldquo;</span>
                                 {{ resposta.MENSAGEM }}
-                                <span style="font-size: 2rem; color: #cbd5e0; font-family: serif; line-height: 0; vertical-align: middle; margin-left: 5px;">&rdquo;</span>
+                                <span style="font-size: 2rem; color: #cbd5e0; font-family: serif; vertical-align: middle;">&rdquo;</span>
                             </p>
                         </div>
                     </div>
 
+                    {# Status de Conformidade #}
                     <div style="padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 35px;
                             background-color: {% if resposta.STATUS == 'True' %}#fff5f5{% else %}#f0fff4{% endif %};
                             border: 2px solid {% if resposta.STATUS == 'True' %}#feb2b2{% else %}#9ae6b4{% endif %};">
@@ -63,153 +82,158 @@
                                 <i class="fas fa-shield-check"></i> CONTEÚDO SEGURO
                             {% endif %}
                         </h3>
-                        <p style="margin-top: 10px; color: #4a5568; font-weight: 500; font-size: 1rem;">
-                            {% if resposta.STATUS == 'True' %}
-                                A análise identificou padrões que violam a política de privacidade (LGPD).
-                            {% else %}
-                                Esta solicitação está em conformidade com as normas de transparência ativa.
-                            {% endif %}
-                        </p>
                     </div>
 
-                    <div class="analysis-result" style="margin-top: 40px;">
-                        <h3 style="margin: 25px 0 15px; font-size: 1.2rem; color: var(--primary);">
-                            <i class="fas fa-tasks"></i> Critérios de Avaliação
+                    <div class="analysis-result">
+                        <h3 style="margin: 25px 0 20px; color: var(--primary);">
+                            <i class="fas fa-tasks"></i> Painel de Impacto
                         </h3>
 
                         <div class="impact-grid">
-                            <div class="card {% if resposta.CRITICIDADE > 0 %}card-red{% else %}card-green{% endif %}">
-                                <div class="icon-big">
-                                    <i class="fas fa-lock"></i>
+
+                            {# 1. CARD CRITICIDADE (DINÂMICO) #}
+                            {# Define a cor baseada no risco #}
+                            {% set cor_risco = '#2baea9' if resposta.CRITICIDADE_NORM <= 0.2
+                      else '#f1c40f' if resposta.CRITICIDADE_NORM <= 0.4else '#e67e22' if resposta.CRITICIDADE_NORM <= 0.6else '#ed2131' %}
+
+                            <div class="card-glow" style="--card-color: {{ cor_risco }};">
+                                <div class="card-label">Grau de Criticidade</div>
+
+                                {# Texto do Nível #}
+                                <div class="card-value">
+                                    {{ resposta.ADJETIVO }}
+                                    <div style="font-size: 0.9rem; font-weight: 600; opacity: 0.8;">
+                                        ({{ ((resposta.CRITICIDADE_NORM * 100)|round)|int }}%)
+                                    </div>
                                 </div>
-                                <h1 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 10px;">
-                                    Criticidade</h1>
-                                <h2 style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
-                                    <span
-                                            class="badge {% if resposta.CRITICIDADE > 0 %}badge-danger{% else %}badge-success{% endif %}"
-                                            style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.CRITICIDADE > 0 %}var(--danger){% else %}var(--success){% endif %};">
-                                        {{ resposta.CRITICIDADE }}
-                                    </span>
-                                </h2>
+
+                                {# Ícone Dinâmico #}
+                                <div class="card-icon-float">
+                                    {% if resposta.CRITICIDADE_NORM <= 0.2 %}<i class="fas fa-shield-check"></i>
+                                    {% elif resposta.CRITICIDADE_NORM <= 0.4 %}<i class="fas fa-info-circle"></i>
+                                    {% elif resposta.CRITICIDADE_NORM <= 0.6 %}
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    {% elif resposta.CRITICIDADE_NORM <= 0.8 %}<i class="fas fa-radiation"></i>
+                                    {% else %}<i class="fas fa-biohazard"></i>{% endif %}
+                                </div>
+
+                                {# Barra de Progresso #}
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                         style="width: {{ (resposta.CRITICIDADE_NORM * 100)|round }}%;"></div>
+                                </div>
+
+                                <div class="card-footer-info">
+                                    <span>Índice: {{ (resposta.CRITICIDADE_NORM * 100)|round(1) }}%</span>
+                                    <span>Bruto: {{ resposta.CRITICIDADE }}</span>
+                                </div>
                             </div>
 
-                            <div class="card {% if resposta.LINEARIDADE > 0 %}card-red{% else %}card-green{% endif %}">
-                                <div class="icon-big">
-                                    <i class="fas fa-stream"></i>
+                            {# 2. CARD LINEARIDADE (AZUL) #}
+                            <div class="card-glow" style="--card-color: var(--crit-linearidade);">
+                                <div class="card-label">Linearidade</div>
+                                <div class="card-value">{{ resposta.LINEARIDADE }}</div>
+                                <div class="card-icon-float"><i class="fas fa-stream"></i></div>
+
+                                {# Barra Fixa ou Calculada (Exemplo: base 500 max) #}
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                         style="width: {{ (resposta.LINEARIDADE / 5)|round }}%; max-width: 100%;"></div>
                                 </div>
-                                <h1 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 10px;">
-                                    Linearidade</h1>
-                                <h2 style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
-                                    <span
-                                            class="badge {% if resposta.LINEARIDADE > 0 %}badge-danger{% else %}badge-success{% endif %}"
-                                            style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.LINEARIDADE > 0 %}var(--danger){% else %}var(--success){% endif %};">
-                                        {{ resposta.LINEARIDADE }}
-                                    </span>
-                                </h2>
+                                <div class="card-footer-info">
+                                    <span>Contagem de frases</span>
+                                </div>
                             </div>
 
-                            <div class="card {% if resposta.IDENTIFICADORES > 0 %}card-red{% else %}card-green{% endif %}">
-                                <div class="icon-big">
-                                    <i class="fas fa-fingerprint"></i>
+                            {# 3. CARD IDENTIFICADORES (ROXO) #}
+                            <div class="card-glow" style="--card-color: var(--crit-identificadores);">
+                                <div class="card-label">Identificadores</div>
+                                <div class="card-value">{{ resposta.IDENTIFICADORES }}</div>
+                                <div class="card-icon-float"><i class="fas fa-fingerprint"></i></div>
+
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                         style="width: {{ (resposta.IDENTIFICADORES * 10)|round }}%; max-width: 100%;"></div>
                                 </div>
-                                <h1 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 10px;">
-                                    Identificadores</h1>
-                                <h2 style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
-                                    <span
-                                            class="badge {% if resposta.IDENTIFICADORES > 0 %}badge-danger{% else %}badge-success{% endif %}"
-                                            style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.IDENTIFICADORES > 0 %}var(--danger){% else %}var(--success){% endif %};">
-                                        {{ resposta.IDENTIFICADORES }}
-                                    </span>
-                                </h2>
+                                <div class="card-footer-info">
+                                    <span>Dados sensíveis</span>
+                                </div>
+                            </div>
+
+                            {# 4. CARD EXIGÊNCIAS (VERDE) #}
+                            <div class="card-glow" style="--card-color: var(--crit-exigencias);">
+                                <div class="card-label">Exigências</div>
+                                <div class="card-value">{{ resposta.EXIGENCIAS }}</div>
+                                <div class="card-icon-float"><i class="fas fa-gavel"></i></div>
+
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                         style="width: {{ (resposta.EXIGENCIAS * 5)|round }}%; max-width: 100%;"></div>
+                                </div>
+                                <div class="card-footer-info">
+                                    <span>Imperativos detectados</span>
+                                </div>
                             </div>
 
                         </div>
                     </div>
 
-                    <div class="analysis-result" style="margin-top: 40px; animation: fadeIn 0.5s ease;">
-                        <h3 style="margin: 25px 0 15px; font-size: 1.1rem;">
-                            <i class="fas fa-tasks"></i> Detalhamento da Análise por Linha:
-                        </h3>
-
+                    {# Tabela de Detalhamento #}
+                    <div class="analysis-result" style="margin-top: 40px;">
+                        <h3 style="margin-bottom: 15px;"><i class="fas fa-list-ol"></i> Análise por Linha</h3>
                         <table class="doc-table">
                             <thead>
                             <tr>
                                 <th>Linhas</th>
                                 <th style="text-align: center;">Status</th>
-                                <th>Termos Sensíveis</th>
-                                <th>Interrogativas</th>
-                                <th>Verbos</th>
-                                <th>Nomes</th>
+                                <th><i class="fas fa-key table-icon-termos"></i> Termos</th>
+                                <th><i class="fas fa-question-circle table-icon-interrogativas"></i> Dúvidas</th>
+                                <th><i class="fas fa-bolt table-icon-verbos"></i> Verbos</th>
+                                <th><i class="fas fa-user-tag table-icon-nomes"></i> Nomes</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for linha in resposta.linhas %}
                                 <tr>
-                                    <td style="font-size: 0.9rem; text-align: center; padding: 12px;">"{{ linha.texto }}"</td>
-
-                                    <td style="text-align: center; padding: 12px;">
-                                        {% if linha.status == "True" %}
-                                            <span class="badge"
-                                                  style="background: var(--danger); color: white; padding: 4px 8px; border-radius: 4px;">Sensível</span>
-                                        {% else %}
-                                            <span class="badge"
-                                                  style="background: var(--success); color: white; padding: 4px 8px; border-radius: 4px;">Seguro</span>
-                                        {% endif %}
+                                    <td style="font-size: 0.85rem; max-width: 250px;">"{{ linha.texto }}"</td>
+                                    <td style="text-align: center;">
+                                        <span class="badge {% if linha.status == 'True' %}badge-danger{% else %}badge-success{% endif %}">
+                                            {{ 'Sensível' if linha.status == 'True' else 'Seguro' }}
+                                        </span>
                                     </td>
-
-                                    <td style="font-weight: 600; text-align: center; padding: 12px;">
-                                        {{ linha.termos_sensiveis_encontrados|join(', ') if linha.termos_sensiveis_encontrados else '--' }}
-                                    </td>
-
-                                    <td style=" font-weight: 600; text-align: center; padding: 12px;">
-                                        {{ linha.interrogativas|join(', ') if linha.interrogativas else '--' }}
-                                    </td>
-
-                                    <td class="muted" style="font-size: 0.85rem; text-align: center; padding: 12px;">
-                                        {{ linha.verbos|join(', ') if linha.verbos else '--' }}
-                                    </td>
-
-                                    <td class="muted" style="font-size: 0.85rem; text-align: center; padding: 12px;">
-                                        {{ linha.nomes|join(', ') if linha.nomes else '--' }}
-                                    </td>
+                                    <td style="font-weight: 600; color: var(--crit-termos);">{{ linha.termos_sensiveis_encontrados|join(', ') or '--' }}</td>
+                                    <td style="font-weight: 600; color: var(--secondary);">{{ linha.interrogativas|join(', ') or '--' }}</td>
+                                    <td style="font-size: 0.85rem; color: var(--crit-verbos);">{{ linha.verbos|join(', ') or '--' }}</td>
+                                    <td style="font-size: 0.85rem; color: var(--crit-identificadores);">{{ linha.nomes|join(', ') or '--' }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
                         </table>
                     </div>
 
-
-                    <div class="analysis-result" style="margin-top: 40px; animation: fadeIn 0.5s ease;">
-                        <h3 style="margin: 25px 0 15px; font-size: 1.1rem; color: var(--primary);">
-                            <i class="fas fa-search"></i> Padrões de Documentos Detectados
-                        </h3>
-
+                    {# Padrões Detectados #}
+                    <div class="analysis-result" style="margin-top: 40px; margin-bottom: 50px;">
+                        <h3 style="margin-bottom: 15px; color: var(--primary);"><i class="fas fa-search"></i> Padrões
+                            LGPD Detectados</h3>
                         <table class="doc-table">
                             <thead>
                             <tr>
-                                <th style="width: 30%;">Padrão</th>
-                                <th>Valores Encontrados (LGPD)</th>
+                                <th style="width: 30%;">Tipo de Dado</th>
+                                <th>Valores Identificados</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for chave, valores in resposta.PADROES.items() %}
                                 <tr>
-                                    <td style="font-weight: 600; color: var(--text-main);">
-                                        <i class="fas fa-fingerprint"
-                                           style="margin-right: 8px; color: #666;"></i>{{ chave }}
-                                    </td>
+                                    <td style="font-weight: 600;"><i class="fas fa-fingerprint"
+                                                                     style="margin-right: 8px;"></i> {{ chave }}</td>
                                     <td>
                                         {% if valores %}
                                             {% for valor in valores %}
-                                                <span class="badge"
-                                                      style="background: var(--danger); color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; margin-right: 5px;">
-                                    <i class="fas fa-exclamation-circle"></i> {{ valor }}
-                                </span>
+                                                <span class="badge badge-danger" style="margin: 2px;">{{ valor }}</span>
                                             {% endfor %}
                                         {% else %}
-                                            <span style="color: var(--text-muted); font-style: italic;">
-                                <i class="fas fa-check-circle" style="color: var(--success);"></i> Nenhum dado detectado
-                            </span>
+                                            <span class="muted" style="font-style: italic;">Nenhum dado sensível detectado</span>
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -217,24 +241,22 @@
                             </tbody>
                         </table>
                     </div>
-
-
                 {% endif %}
             {% endfor %}
         {% endif %}
     {% endwith %}
-    {# ADICIONE ESTE BLOCO ABAIXO #}
-    <div style="margin-top: 40px; display: flex; justify-content: flex-end; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 25px;">
+
+    {# Botão de Impressão #}
+    <div style="margin-top: 40px; display: flex; justify-content: flex-end; padding: 25px 0; border-top: 1px solid #eee;">
         <button onclick="window.print()" class="btn-primary"
-                style="background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                style="display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
             <i class="fas fa-print"></i> Gerar PDF / Imprimir Relatório
         </button>
     </div>
 
     <style>
         @media print {
-            /* Esconde elementos desnecessários na impressão para economizar papel e focar no dado */
-            .sidebar, .nav-header, .doc-form, .section-header, .btn-primary, .muted {
+            .sidebar, .navbar, .doc-form, .section-header, .btn-primary, .muted, hr {
                 display: none !important;
             }
 
@@ -242,15 +264,14 @@
                 background: white !important;
             }
 
-            .main-content {
-                width: 100% !important;
-                margin: 0 !important;
+            .content-area {
                 padding: 0 !important;
+                max-width: 100% !important;
             }
 
-            .card-analise {
-                box-shadow: none !important;
+            .card, .card-analise, .doc-table {
                 border: 1px solid #ddd !important;
+                box-shadow: none !important;
             }
 
             .analysis-result {
