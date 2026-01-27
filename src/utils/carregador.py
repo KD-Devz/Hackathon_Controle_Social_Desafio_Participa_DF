@@ -59,13 +59,14 @@ def processar_index(mensagem: str):
 
     linhas = [linha.strip() for linha in mensagem.split('.') if linha.strip()]
     resultado_linhas = []
-    status_global = "False"
+    status_global = False
 
     for linha in linhas:
         linha_normalizada = normalizar_ao_retirar_acentuacao_e_cedilha(linha)
         linha_normalizada = limpar_texto(linha_normalizada)
         palavras = linha_normalizada.split()
 
+        print('Linha : ',linha)
         # Detecção de nomes na linha
         nomes_na_linha_atual = set()
         nomes_detectados = obter_nomes(palavras)
@@ -95,18 +96,26 @@ def processar_index(mensagem: str):
         # --- Lógica de Validação Estrita ---
 
         # Verificamos se há algum risco identificado (Dado Sensível ou Padrão de Documento)
-        tem_risco_na_linha = (len(termos_sensiveis_encontrados) > 0 or
-                              len(nomes_linha_unicos) > 0 or
-                              tem_padrao_regex)
+        print('termos:',termos_sensiveis_encontrados)
+        print('verbos:',verbos_encontrados)
+        print('interrogativos:',interrogativas_encontradas)
+
+        tem_risco_na_linha = (len(termos_sensiveis_encontrados) >0)
+
+
+
+        print('tem_risco_na_linha:',tem_risco_na_linha)
+        print('verbos_encontrados ou interrogativas_encontradas :',(len(verbos_encontrados)>0 or len(interrogativas_encontradas)>0))
 
         # Uma solicitação só é INVÁLIDA (True) se houver:
         # (Risco E Verbo) OU (Risco E Interrogação)
-        if tem_risco_na_linha and (verbos_encontrados or interrogativas_encontradas):
-            status = "True"  # Linha Inválida / Sensível
-            status_global = "True"
+        if tem_risco_na_linha and (len(verbos_encontrados)>0 or len(interrogativas_encontradas)>0):
+            print('Te erro detectado')
+            status = True  # Linha Inválida / Sensível
+            status_global = True
             contLinearidade += 1
         else:
-            status = "False"  # Linha Válida / Segura
+            status = False  # Linha Válida / Segura
 
         resultado_linhas.append({
             "texto": linha,
@@ -168,7 +177,7 @@ def processar_testes(caminho_csv: str):
         resultado = processar_index(linha_texto)
 
         # Se STATUS == "True" → inválido
-        if resultado["STATUS"] == "True":
+        if resultado["STATUS"] == True:
             status = "Inválido"
             total_invalidos += 1
         else:

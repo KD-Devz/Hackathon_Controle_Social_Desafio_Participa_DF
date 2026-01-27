@@ -76,7 +76,7 @@
                             background-color: {% if resposta.STATUS == 'True' %}#fff5f5{% else %}#f0fff4{% endif %};
                             border: 2px solid {% if resposta.STATUS == 'True' %}#feb2b2{% else %}#9ae6b4{% endif %};">
                         <h3 style="margin: 0; color: {% if resposta.STATUS == 'True' %}#c53030{% else %}#22543d{% endif %}; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            {% if resposta.STATUS == 'True' %}
+                            {% if resposta.STATUS == True %}
                                 <i class="fas fa-exclamation-triangle"></i> RISCO DETECTADO
                             {% else %}
                                 <i class="fas fa-shield-check"></i> CONTEÚDO SEGURO

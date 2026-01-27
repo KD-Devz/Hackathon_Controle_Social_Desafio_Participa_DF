@@ -27,11 +27,11 @@ def pagina_ranking_de_testes():
     # Filtra apenas palavras que estão nos termos sensíveis
     resultados_filtrados = [(palavra, qtd) for palavra, qtd in resultados if palavra.upper() in recursos.termos_sensiveis]
 
-    # Ordena por quantidade decrescente e pega as 3 primeiras
-    top3 = sorted(resultados_filtrados, key=lambda x: x[1], reverse=True)[:10]
+    # Ordena por quantidade decrescente
+    top = sorted(resultados_filtrados, key=lambda x: x[1], reverse=True)[:10]
 
     # Separa listas para o gráfico
-    palavras = [p for p, _ in top3]
-    quantidades = [q for _, q in top3]
+    palavras = [p for p, _ in top]
+    quantidades = [q for _, q in top]
 
     return render_template("testes/pagina_ranking_de_testes.html", palavras=palavras, quantidades=quantidades)
