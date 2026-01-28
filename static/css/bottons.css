@@ -1,31 +1,65 @@
-/* --- Botão Primário --- */
-.btn-primary {
-    background: var(--secondary);
-    color: white;
-    padding: 10px 25px;
-    border-radius: 25px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: var(--transition);
+/* --- Estilo Base para todos os Botões --- */
+.btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border-radius: 8px; /* Bordas levemente arredondadas são mais modernas que o pill total */
+    border: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: var(--transition); /* Usa a transição global */
+    text-decoration: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* --- Botão Primário (Padronizado) --- */
+.btn-primary {
+    background-color: var(--primary); /* Usa o azul escuro da identidade */
+    color: white;
 }
 
 .btn-primary:hover {
+    background-color: var(--secondary); /* Muda para o azul mais claro ao passar o mouse */
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    box-shadow: var(--shadow); /* Usa a sombra definida em variables.css */
 }
 
-/* --- Badges (Etiquetas) --- */
-.badge {
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.75rem;
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* --- Botão com Ícone (Ajuste fino) --- */
+.btn i {
+    font-size: 1.1rem;
+}
+
+/* Botão Base */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: none;
     font-weight: 600;
-    display: inline-block;
+    transition: var(--transition);
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.95rem;
 }
 
-.badge-danger { background-color: #feb2b2; color: #9b2c2c; }
-.badge-success { background-color: #c6f6d5; color: #22543d; }
+/* Cores Variadas */
+.btn-primary { background: var(--primary); color: white; }
+.btn-success { background: var(--success); color: white; }
+.btn-danger  { background: var(--risco-severo); color: white; }
+.btn-outline { background: transparent; border: 1px solid #ddd; color: var(--text-muted); }
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    filter: brightness(1.1);
+}

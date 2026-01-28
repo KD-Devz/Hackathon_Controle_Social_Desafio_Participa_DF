@@ -1,77 +1,141 @@
 {% extends "base.html" %}
 
-{% block title %}Meu Perfil | Valida Fácil{% endblock %}
-
 {% block main %}
-<section class="content" style="max-width: 800px; margin: 0 auto;">
+    <div class="profile-container" style="display: flex; gap: 40px; align-items: flex-start; padding: 20px;">
 
-    <div class="card-glow" style="--card-color: var(--primary); margin-bottom: 40px; padding: 40px;">
-        <div style="display: flex; align-items: center; gap: 30px;">
-            <div class="profile-avatar" style="width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary), var(--secondary)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; font-weight: 800; border: 4px solid rgba(255,255,255,0.2); box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                {{ session.get('user_name')[0] | upper if session.get('user_name') else 'U' }}
-            </div>
-
-            <div class="profile-info">
-                <div class="card-label" style="color: rgba(255,255,255,0.8);">Painel do Usuário</div>
-                <h2 style="margin: 0; font-size: 2rem; color: white; font-weight: 800;">{{ session.get('user_name') }}</h2>
-                <div style="margin-top: 8px;">
-                    <span class="badge badge-success" style="background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71;">
-                        <i class="fas fa-user-shield"></i> Usuário Verificado
-                    </span>
+        <aside class="profile-sidebar">
+            <div class="card-glow"
+                 style="--card-color: var(--primary); width: 260px; padding: 20px; text-align: center; border-radius: 15px;">
+                <div class="photo-frame">
+                    {% if usuario.foto %}
+                        <img src="{{ url_for('static', filename='uploads/' + usuario.foto) }}" class="user-photo">
+                    {% else %}
+                        <div class="user-photo-placeholder">{{ usuario.nome[0] | upper }}</div>
+                    {% endif %}
                 </div>
+
+                <h3 style="margin-top: 15px; color: var(--text-main);">{{ usuario.nome }}</h3>
+                <p class="muted"
+                   style="font-size: 0.85rem; min-height: 50px;">{{ usuario.bio or 'Sem biografia definida.' }}</p>
+
+                <button onclick="toggleEdicao()" class="btn btn-primary" style="width: 100%; margin-top: 15px;">
+                    <i class="fas fa-user-edit"></i> Editar Perfil
+                </button>
             </div>
-        </div>
+        </aside>
 
-        <div class="card-icon-float" style="color: rgba(255,255,255,0.1); top: 20px; right: 30px; font-size: 4rem;">
-            <i class="fas fa-id-card-alt"></i>
-        </div>
+        <section class="profile-details" style="flex: 1;">
+
+            <div id="view-info" class="glass-card" style="padding: 30px;">
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-info-circle"></i> Meus Dados</h3>
+                <table class="doc-table">
+                    <tr>
+                        <td><strong>E-mail:</strong></td>
+                        <td>{{ usuario.email }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Telefone:</strong></td>
+                        <td>{{ usuario.telefone or 'Não informado' }}</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GitHub:</strong></td>
+                        <td>{{ usuario.github or 'Não informado' }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="edit-form" class="glass-card" style="display: none; padding: 30px; animation: fadeIn 0.3s;">
+                <h3 style="margin-bottom: 20px;"><i class="fas fa-user-cog"></i> Atualizar Perfil</h3>
+                <form action="{{ url_for('perfil.atualizar_perfil') }}" method="POST" enctype="multipart/form-data">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label>Nome Completo</label>
+                            <input type="text" name="nome" value="{{ usuario.nome }}" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Foto de Perfil</label>
+                            <input type="file" name="foto" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Telefone</label>
+                            <input type="text" name="telefone" value="{{ usuario.telefone or '' }}" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>GitHub (Link)</label>
+                            <input type="text" name="github" value="{{ usuario.github or '' }}" class="form-input">
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Biografia</label>
+                            <textarea name="bio" class="form-input" rows="3">{{ usuario.bio or '' }}</textarea>
+                        </div>
+                    </div>
+                    <div style="margin-top: 25px; display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-success">Salvar</button>
+                        <button type="button" onclick="toggleEdicao()" class="btn btn-outline">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </section>
     </div>
 
-    <div class="analysis-result">
-        <div class="section-header" style="display: flex; align-items: center; gap: 12px; margin-bottom: 25px;">
-            <i class="fas fa-database" style="color: var(--primary); font-size: 1.2rem;"></i>
-            <h3 style="margin: 0; font-size: 1.3rem; color: var(--text-main);">Informações da Conta</h3>
-        </div>
+    <script>
+        function toggleEdicao() {
+            const form = document.getElementById('edit-form');
+            const info = document.getElementById('view-info');
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                info.style.display = 'none';
+            } else {
+                form.style.display = 'none';
+                info.style.display = 'block';
+            }
+        }
+    </script>
 
-        <table class="doc-table">
-            <tbody>
-                <tr>
-                    <td style="width: 250px; font-weight: 600; color: var(--text-muted);">
-                        <i class="fas fa-user" style="width: 20px;"></i> Nome Completo
-                    </td>
-                    <td style="font-weight: 500; color: var(--text-main);">{{ session.get('user_name') }}</td>
-                </tr>
-                <tr>
-                    <td style="font-weight: 600; color: var(--text-muted);">
-                        <i class="fas fa-envelope" style="width: 20px;"></i> E-mail de Acesso
-                    </td>
-                    <td style="font-weight: 500; color: var(--text-main);">{{ session.get('user_email', 'N/A') }}</td>
-                </tr>
-                <tr>
-                    <td style="font-weight: 600; color: var(--text-muted);">
-                        <i class="fas fa-check-double" style="width: 20px;"></i> Status da Conta
-                    </td>
-                    <td>
-                        <span class="badge badge-success">Ativa / Autenticada</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="font-weight: 600; color: var(--text-muted);">
-                        <i class="fas fa-clock" style="width: 20px;"></i> Último Acesso
-                    </td>
-                    <td class="muted">Sessão atual ativa</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <style>
+        .photo-frame {
+            width: 100%;
+            aspect-ratio: 3 / 4; /* Proporção 3x4 */
+            background: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px dashed #ddd;
+        }
 
-    <div style="margin-top: 40px; padding-top: 25px; border-top: 1px solid #eee; display: flex; justify-content: flex-end; gap: 15px;">
-        <a href="{{ url_for('index.pagina_index') }}" class="nav-item" style="width: auto; padding: 10px 20px; background: transparent;">
-            <i class="fas fa-chevron-left"></i> Voltar ao Painel
-        </a>
-        <a href="{{ url_for('auth.logout') }}" class="btn-primary" style="background-color: var(--risco-severo);">
-            <i class="fas fa-sign-out-alt"></i> Encerrar Sessão
-        </a>
-    </div>
-</section>
+        .user-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-photo-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            background: var(--primary);
+            color: white;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-top: 5px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 {% endblock %}

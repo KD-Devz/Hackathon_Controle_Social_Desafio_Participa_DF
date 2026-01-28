@@ -5,10 +5,12 @@
 {% block main %}
     <section class="content">
         <div style="text-align:center; margin-bottom:40px;">
-            <span class="badge" style="background-color: var(--primary); color: white; padding: 8px 18px; border-radius: 20px;">
+            <span class="badge"
+                  style="background-color: var(--primary); color: white; padding: 8px 18px; border-radius: 20px;">
                 Protocolo e-SIC #{{ id }}
             </span>
-            <h2 style="color: var(--primary); font-weight: 700; margin-top: 15px;">Relatório de Auditoria de Privacidade</h2>
+            <h2 style="color: var(--primary); font-weight: 700; margin-top: 15px;">Relatório de Auditoria de
+                Privacidade</h2>
         </div>
 
         <div class="card-glow" style="--card-color: var(--primary); margin-bottom: 30px;">
@@ -45,9 +47,7 @@
 
                     {# 1. Card de Criticidade (Destaque Principal) #}
                     {% set cor_risco = '#2baea9' if resposta.CRITICIDADE_NORM <= 0.2
-                                  else '#f1c40f' if resposta.CRITICIDADE_NORM <= 0.4
-                                  else '#e67e22' if resposta.CRITICIDADE_NORM <= 0.6
-                                  else '#ed2131' %}
+                                  else '#f1c40f' if resposta.CRITICIDADE_NORM <= 0.4else '#e67e22' if resposta.CRITICIDADE_NORM <= 0.6else '#ed2131' %}
 
                     <div class="card-glow" style="--card-color: {{ cor_risco }};">
                         <div class="card-label">Grau de Criticidade</div>
@@ -57,7 +57,8 @@
                         </div>
 
                         <div class="progress-container">
-                            <div class="progress-bar" style="width: {{ (resposta.CRITICIDADE_NORM * 100)|round }}%;"></div>
+                            <div class="progress-bar"
+                                 style="width: {{ (resposta.CRITICIDADE_NORM * 100)|round }}%;"></div>
                         </div>
                         <div class="card-footer-info">
                             <span>Índice: {{ (resposta.CRITICIDADE_NORM * 100)|round(1) }}%</span>
@@ -71,7 +72,8 @@
                         <div class="card-value">{{ resposta.LINEARIDADE }}</div>
                         <div class="card-icon-float"><i class="fas fa-stream"></i></div>
                         <div class="progress-container">
-                            <div class="progress-bar" style="width: {{ (resposta.LINEARIDADE * 10) if resposta.LINEARIDADE < 10 else 100 }}%;"></div>
+                            <div class="progress-bar"
+                                 style="width: {{ (resposta.LINEARIDADE * 10) if resposta.LINEARIDADE < 10 else 100 }}%;"></div>
                         </div>
                     </div>
 
@@ -81,7 +83,8 @@
                         <div class="card-value">{{ resposta.IDENTIFICADORES }}</div>
                         <div class="card-icon-float"><i class="fas fa-fingerprint"></i></div>
                         <div class="progress-container">
-                            <div class="progress-bar" style="width: {{ (resposta.IDENTIFICADORES * 20) if resposta.IDENTIFICADORES < 5 else 100 }}%;"></div>
+                            <div class="progress-bar"
+                                 style="width: {{ (resposta.IDENTIFICADORES * 20) if resposta.IDENTIFICADORES < 5 else 100 }}%;"></div>
                         </div>
                     </div>
 
@@ -91,7 +94,8 @@
                         <div class="card-value">{{ resposta.EXIGENCIAS }}</div>
                         <div class="card-icon-float"><i class="fas fa-gavel"></i></div>
                         <div class="progress-container">
-                            <div class="progress-bar" style="width: {{ (resposta.EXIGENCIAS * 5) if resposta.EXIGENCIAS < 20 else 100 }}%;"></div>
+                            <div class="progress-bar"
+                                 style="width: {{ (resposta.EXIGENCIAS * 5) if resposta.EXIGENCIAS < 20 else 100 }}%;"></div>
                         </div>
                     </div>
                 </div>
@@ -104,16 +108,16 @@
                 <div style="overflow-x: auto;">
                     <table class="doc-table">
                         <thead>
-                            <tr>
-                                <th style="width: 35%;">Texto da Linha</th>
-                                <th style="text-align: center;">Status</th>
-                                <th style="text-align: center;">Termos Sensíveis</th>
-                                <th style="text-align: center;">Dúvidas</th>
-                                <th style="text-align: center;">Nomes</th>
-                            </tr>
+                        <tr>
+                            <th style="width: 35%;">Texto da Linha</th>
+                            <th style="text-align: center;">Status</th>
+                            <th style="text-align: center;">Termos Sensíveis</th>
+                            <th style="text-align: center;">Dúvidas</th>
+                            <th style="text-align: center;">Nomes</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            {% for linha in resposta.linhas %}
+                        {% for linha in resposta.linhas %}
                             <tr>
                                 <td class="muted" style="font-size: 0.85rem;">"{{ linha.texto }}"</td>
                                 <td style="text-align: center;">
@@ -131,7 +135,7 @@
                                     {{ linha.nomes|join(', ') if linha.nomes else '--' }}
                                 </td>
                             </tr>
-                            {% endfor %}
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -143,15 +147,16 @@
                 </h3>
                 <table class="doc-table">
                     <thead>
-                        <tr>
-                            <th style="width: 30%;">Tipo de Dado</th>
-                            <th>Valores Detectados</th>
-                        </tr>
+                    <tr>
+                        <th style="width: 30%;">Tipo de Dado</th>
+                        <th>Valores Detectados</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        {% for chave, valores in resposta.PADROES.items() %}
+                    {% for chave, valores in resposta.PADROES.items() %}
                         <tr>
-                            <td style="font-weight: 600;"><i class="fas fa-tag muted" style="margin-right: 8px;"></i> {{ chave }}</td>
+                            <td style="font-weight: 600;"><i class="fas fa-tag muted"
+                                                             style="margin-right: 8px;"></i> {{ chave }}</td>
                             <td>
                                 {% if valores %}
                                     {% for valor in valores %}
@@ -160,11 +165,12 @@
                                         </span>
                                     {% endfor %}
                                 {% else %}
-                                    <span class="muted"><i class="fas fa-check-circle" style="color: var(--success);"></i> Nenhum dado detectado</span>
+                                    <span class="muted"><i class="fas fa-check-circle"
+                                                           style="color: var(--success);"></i> Nenhum dado detectado</span>
                                 {% endif %}
                             </td>
                         </tr>
-                        {% endfor %}
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -177,12 +183,15 @@
         {% endif %}
 
         <div style="margin-top: 50px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 30px;">
-            <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="nav-item" style="width: auto; padding: 10px 20px;">
+            <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="nav-item"
+               style="width: auto; padding: 10px 20px;">
                 <i class="fas fa-arrow-left"></i> Voltar ao Histórico
             </a>
 
-            <button onclick="window.print()" class="btn-primary" style="background-color: var(--primary);"><i class="fas fa-print"></i> Gerar PDF do Relatório
-</button>
+            <button onclick="window.print()" class="btn btn-primary">
+                <i class="fas fa-print"></i>
+                Gerar PDF
+            </button>
 
         </div>
     </section>

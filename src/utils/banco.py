@@ -3,6 +3,7 @@ import os
 import sqlite3
 from typing import Optional, Tuple
 
+
 # Caminho absoluto para o arquivo do banco (projeto_root/dados/banco.db)
 def obter_caminho_banco() -> str:
     # __file__ -> src/utils/banco.py
@@ -25,47 +26,126 @@ def inicializar_banco() -> None:
         cursor = conn.cursor()
 
         cursor.execute("""
-        CREATE TABLE IF NOT EXISTS palavras_proibidas_mais_buscadas (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            palavra TEXT NOT NULL,
-            quantidade INTEGER NOT NULL DEFAULT 0
-        )
-        """)
+                       CREATE TABLE IF NOT EXISTS palavras_proibidas_mais_buscadas
+                       (
+                           id
+                           INTEGER
+                           PRIMARY
+                           KEY
+                           AUTOINCREMENT,
+                           palavra
+                           TEXT
+                           NOT
+                           NULL,
+                           quantidade
+                           INTEGER
+                           NOT
+                           NULL
+                           DEFAULT
+                           0
+                       )
+                       """)
 
         cursor.execute("""
-        CREATE TABLE IF NOT EXISTS usuarios (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
-            email TEXT UNIQUE NOT NULL,
-            senha TEXT NOT NULL
-        )
-        """)
+                       CREATE TABLE IF NOT EXISTS usuarios
+                       (
+                           id
+                           INTEGER
+                           PRIMARY
+                           KEY
+                           AUTOINCREMENT,
+                           nome
+                           TEXT
+                           NOT
+                           NULL,
+                           email
+                           TEXT
+                           UNIQUE
+                           NOT
+                           NULL,
+                           senha
+                           TEXT
+                           NOT
+                           NULL,
+                           bio
+                           TEXT,
+                           telefone
+                           TEXT,
+                           github
+                           TEXT,
+                           foto
+                           TEXT
+                       )
+                       """)
 
         cursor.execute("""
-        CREATE TABLE IF NOT EXISTS solicitacoes (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            usuario_id INTEGER NOT NULL,
-            texto TEXT NOT NULL,
-            data_envio TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
-        )
-        """)
+                       CREATE TABLE IF NOT EXISTS solicitacoes
+                       (
+                           id
+                           INTEGER
+                           PRIMARY
+                           KEY
+                           AUTOINCREMENT,
+                           usuario_id
+                           INTEGER
+                           NOT
+                           NULL,
+                           texto
+                           TEXT
+                           NOT
+                           NULL,
+                           data_envio
+                           TIMESTAMP
+                           DEFAULT
+                           CURRENT_TIMESTAMP,
+                           FOREIGN
+                           KEY
+                       (
+                           usuario_id
+                       ) REFERENCES usuarios
+                       (
+                           id
+                       )
+                           )
+                       """)
 
         cursor.execute("""
-        CREATE TABLE IF NOT EXISTS comentarios_documentacao (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT,
-            comentario TEXT NOT NULL,
-            criado_em TEXT NOT NULL
-        )
-        """)
+                       CREATE TABLE IF NOT EXISTS comentarios_documentacao
+                       (
+                           id
+                           INTEGER
+                           PRIMARY
+                           KEY
+                           AUTOINCREMENT,
+                           nome
+                           TEXT,
+                           comentario
+                           TEXT
+                           NOT
+                           NULL,
+                           criado_em
+                           TEXT
+                           NOT
+                           NULL
+                       )
+                       """)
 
         cursor.execute("""
                        CREATE TABLE IF NOT EXISTS solicitacoes_anonimas
                        (
-                           id         INTEGER PRIMARY KEY AUTOINCREMENT,
-                           texto      TEXT     NOT NULL,
-                           data_envio DATETIME NOT NULL
+                           id
+                           INTEGER
+                           PRIMARY
+                           KEY
+                           AUTOINCREMENT,
+                           texto
+                           TEXT
+                           NOT
+                           NULL,
+                           data_envio
+                           DATETIME
+                           NOT
+                           NULL
                        )
                        """)
 
@@ -77,21 +157,23 @@ def registrar_palavra_proibida(palavra: str) -> None:
     with sqlite3.connect(db_path) as conn:
         cursor = conn.cursor()
         cursor.execute("""
-            SELECT quantidade FROM palavras_proibidas_mais_buscadas WHERE palavra = ?
-        """, (palavra,))
+                       SELECT quantidade
+                       FROM palavras_proibidas_mais_buscadas
+                       WHERE palavra = ?
+                       """, (palavra,))
         row = cursor.fetchone()
         if row:
             nova_qtd = row[0] + 1
             cursor.execute("""
-                UPDATE palavras_proibidas_mais_buscadas
-                SET quantidade = ?
-                WHERE palavra = ?
-            """, (nova_qtd, palavra))
+                           UPDATE palavras_proibidas_mais_buscadas
+                           SET quantidade = ?
+                           WHERE palavra = ?
+                           """, (nova_qtd, palavra))
         else:
             cursor.execute("""
-                INSERT INTO palavras_proibidas_mais_buscadas (palavra, quantidade)
-                VALUES (?, ?)
-            """, (palavra, 1))
+                           INSERT INTO palavras_proibidas_mais_buscadas (palavra, quantidade)
+                           VALUES (?, ?)
+                           """, (palavra, 1))
         conn.commit()
 
 
@@ -144,11 +226,10 @@ def listar_comentarios_documentacao(limit: int = 200):
     with sqlite3.connect(db_path) as conn:
         cursor = conn.cursor()
         cursor.execute("""
-            SELECT id, nome, comentario, criado_em
-            FROM comentarios_documentacao
-            ORDER BY criado_em DESC
-            LIMIT ?
-        """, (limit,))
+                       SELECT id, nome, comentario, criado_em
+                       FROM comentarios_documentacao
+                       ORDER BY criado_em DESC LIMIT ?
+                       """, (limit,))
         rows = cursor.fetchall()
     comentarios = [
         {"id": r[0], "nome": r[1] or "Anônimo", "comentario": r[2], "criado_em": r[3]}
@@ -162,7 +243,7 @@ def inserir_comentario_documentacao(nome: Optional[str], comentario: str, criado
     with sqlite3.connect(db_path) as conn:
         cursor = conn.cursor()
         cursor.execute("""
-            INSERT INTO comentarios_documentacao (nome, comentario, criado_em)
-            VALUES (?, ?, ?)
-        """, (nome, comentario, criado_em))
+                       INSERT INTO comentarios_documentacao (nome, comentario, criado_em)
+                       VALUES (?, ?, ?)
+                       """, (nome, comentario, criado_em))
         conn.commit()
