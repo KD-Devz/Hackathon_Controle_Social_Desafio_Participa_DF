@@ -3,168 +3,267 @@
 {% block title %}Documentação Técnica | Privacy Shield{% endblock %}
 
 {% block main %}
-<div class="doc-container" style="display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start;">
+    <div class="doc-container" style="display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start;">
 
-    <aside class="doc-sidebar" style="position: sticky; top: 100px;">
-        <div class="card-glow" style="--card-color: var(--primary); padding: 20px;">
-            <div class="card-label">Documentação</div>
-            <div style="font-weight: 800; color: var(--primary); margin-bottom: 20px;">
-                <i class="fas fa-layer-group"></i> Painel Técnico
-            </div>
-
-            <nav class="doc-nav" style="display: flex; flex-direction: column; gap: 8px;">
-                <button class="doc-btn active" data-target="arquitetura"><i class="fas fa-sitemap"></i> Arquitetura</button>
-                <button class="doc-btn" data-target="instalacao"><i class="fas fa-download"></i> Instalação</button>
-                <button class="doc-btn" data-target="metodologia"><i class="fas fa-microscope"></i> Metodologia</button>
-                <button class="doc-btn" data-target="seguranca"><i class="fas fa-shield-alt"></i> Segurança/LGPD</button>
-                <button class="doc-btn" data-target="api"><i class="fas fa-terminal"></i> API Reference</button>
-                <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
-                <button class="doc-btn btn-community" data-target="comunidade" style="color: var(--secondary);">
-                    <i class="fas fa-comments"></i> Feedback
-                </button>
-            </nav>
-        </div>
-    </aside>
-
-    <section class="doc-content-area" id="content-viewport">
-
-        <article id="arquitetura" class="section active">
-            <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
-                <i class="fas fa-sitemap"></i> Arquitetura do Sistema
-            </h2>
-            <p class="muted" style="line-height: 1.6; margin-bottom: 20px;">
-                O <strong>Privacy Shield</strong> opera como um middleware de auditoria, processando fluxos de texto para identificar PII (Personally Identifiable Information).
-            </p>
-
-
-
-            <div class="impact-grid" style="grid-template-columns: 1fr 1fr; margin-top: 20px;">
-                <div class="card-glow" style="--card-color: var(--secondary); padding: 15px;">
-                    <div class="card-label">Core Engine</div>
-                    <p class="small">Processamento NLP e Regex de alta performance em Python.</p>
+        <aside class="doc-sidebar" style="position: sticky; top: 100px;">
+            <div class="card-glow" style="--card-color: var(--primary); padding: 20px;">
+                <div class="card-label">Documentação</div>
+                <div style="font-weight: 800; color: var(--primary); margin-bottom: 20px;">
+                    <i class="fas fa-layer-group"></i> Painel Técnico
                 </div>
-                <div class="card-glow" style="--card-color: var(--crit-identificadores); padding: 15px;">
-                    <div class="card-label">ORM Layer</div>
-                    <p class="small">Persistência segura via SQLAlchemy e SQLite.</p>
+
+                <nav class="doc-nav" style="display: flex; flex-direction: column; gap: 8px;">
+                    <button class="doc-btn active" data-target="arquitetura"><i class="fas fa-sitemap"></i> Arquitetura
+                    </button>
+                    <button class="doc-btn" data-target="instalacao"><i class="fas fa-download"></i> Instalação</button>
+                    <button class="doc-btn" data-target="metodologia"><i class="fas fa-microscope"></i> Metodologia
+                    </button>
+                    <button class="doc-btn" data-target="dicionario-termos"><i class="fas fa-book"></i> Glossário
+                    </button>
+                    <button class="doc-btn" data-target="dicionario-dados"><i class="fas fa-database"></i> Banco de
+                        Dados
+                    </button>
+                    <button class="doc-btn" data-target="legenda-cores"><i class="fas fa-palette"></i> Escala de Risco
+                    </button>
+                    <button class="doc-btn" data-target="seguranca"><i class="fas fa-shield-alt"></i> Segurança/LGPD
+                    </button>
+                    <button class="doc-btn" data-target="api"><i class="fas fa-terminal"></i> API Reference</button>
+                    <button class="doc-btn" data-target="comunidade"><i class="fas fa-comments"></i> Feedback</button>
+
+                    <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
+
+                    <a href="{{ url_for('documentacao.documentacao_pdf') }}" class="btn-primary"
+                       style="text-decoration: none; justify-content: center; font-size: 0.9rem;">
+                        <i class="fas fa-file-pdf"></i> Pdf Completo
+                    </a>
+                </nav>
+            </div>
+        </aside>
+
+        <section class="doc-content-area" id="content-viewport">
+
+            <article id="arquitetura" class="section active">
+                <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
+                    <i class="fas fa-sitemap"></i> Arquitetura do Sistema
+                </h2>
+                <p class="muted">
+                    O <strong>Privacy Shield</strong> opera como um middleware de auditoria, processando fluxos de texto
+                    para identificar PII (Personally Identifiable Information).
+                </p>
+
+                <div class="impact-grid" style="grid-template-columns: 1fr 1fr; margin-top: 20px;">
+                    <div class="card-glow" style="--card-color: var(--secondary); padding: 15px;">
+                        <div class="card-label">Core Engine</div>
+                        <p class="small">Processamento NLP e Regex em Python.</p>
+                    </div>
+                    <div class="card-glow" style="--card-color: var(--crit-identificadores); padding: 15px;">
+                        <div class="card-label">ORM Layer</div>
+                        <p class="small">Persistência segura via SQLAlchemy e SQLite.</p>
+                    </div>
                 </div>
-            </div>
-        </article>
+            </article>
 
-        <article id="instalacao" class="section" style="display: none;">
-            <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
-                <i class="fas fa-download"></i> Guia de Instalação
-            </h2>
-            <div style="background: #2d3748; color: #a0aec0; padding: 20px; border-radius: 8px; font-family: 'Courier New', monospace;">
-                <p style="color: #68d391; margin-bottom: 10px;"># Clonar e configurar ambiente</p>
-                git clone https://github.com/CalebeAF02/Gerenciador-De-Hoteis---UNB.git<br>
-                cd Gerenciador-De-Hoteis---UNB<br>
-                python -m venv venv<br>
-                source venv/bin/activate <span style="color: #ed64a6;"># Linux/Mac</span><br>
-                pip install -r requirements.txt
-            </div>
-        </article>
+            <article id="instalacao" class="section" style="display: none;">
+                <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
+                    <i class="fas fa-download"></i> Guia de Instalação
+                </h2>
+                <div style="background: #2d3748; color: #a0aec0; padding: 20px; border-radius: 8px; font-family: monospace;">
+                    git clone https://github.com/CalebeAF02/Gerenciador-De-Hoteis---UNB.git<br>
+                    cd Gerenciador-De-Hoteis---UNB<br>
+                    python -m venv venv<br>
+                    source venv/bin/activate<br>
+                    pip install -r requirements.txt
+                </div>
+            </article>
 
-        <article id="metodologia" class="section" style="display: none;">
-            <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
-                <i class="fas fa-microscope"></i> Metodologia de Detecção
-            </h2>
-            <div class="impact-grid">
+            <article id="metodologia" class="section" style="display: none;">
+                <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
+                    <i class="fas fa-microscope"></i> Metodologia e Cálculo
+                </h2>
+                <p class="muted">Cálculo de Score ponderado conforme a sensibilidade do dado:</p>
+                <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px; margin: 15px 0;">
+                    $Score = \frac{\sum (Identificadores \times Pesos)}{Fator Normalizador}$
+                </div>
+                <table class="doc-table">
+                    <thead>
+                    <tr>
+                        <th>Dado</th>
+                        <th>Peso</th>
+                        <th>Validação</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>CPF/CNPJ</td>
+                        <td><span class="badge badge-danger">0.95</span></td>
+                        <td>Módulo 11</td>
+                    </tr>
+                    <tr>
+                        <td>E-mail</td>
+                        <td><span class="badge" style="background:var(--risco-grave); color:white;">0.60</span></td>
+                        <td>Regex</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article id="dicionario-termos" class="section" style="display: none;">
+                <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
+                    <i class="fas fa-book"></i> Glossário de Termos
+                </h2>
+                <table class="doc-table">
+                    <thead>
+                    <tr>
+                        <th>Termo</th>
+                        <th>Descrição</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><strong>PII</strong></td>
+                        <td>Informação que identifica um indivíduo diretamente.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Regex</strong></td>
+                        <td>Expressões regulares para busca de padrões.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article id="dicionario-dados" class="section" style="display: none;">
+                <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
+                    <i class="fas fa-database"></i> Estrutura de Dados
+                </h2>
+                <h3 style="color: var(--secondary); margin-top: 15px;">Tabela: <code>solicitacoes</code></h3>
+                <table class="doc-table">
+                    <thead>
+                    <tr>
+                        <th>Campo</th>
+                        <th>Tipo</th>
+                        <th>Descrição</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>id</code></td>
+                        <td>Integer</td>
+                        <td>Chave Primária</td>
+                    </tr>
+                    <tr>
+                        <td><code>score_risco</code></td>
+                        <td>Float</td>
+                        <td>Nível de criticidade (0.0 a 1.0)</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article id="legenda-cores" class="section" style="display: none;">
+                <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
+                    <i class="fas fa-palette"></i> Escala de Criticidade
+                </h2>
+                <div class="impact-grid">
+                    <div class="card-glow" style="--card-color: var(--risco-alarmante);">
+                        <div class="card-label">0.0-0.2</div>
+                        Alarmante
+                    </div>
+                    <div class="card-glow" style="--card-color: var(--risco-grave);">
+                        <div class="card-label">0.4-0.6</div>
+                        Grave
+                    </div>
+                    <div class="card-glow" style="--card-color: var(--risco-severo);">
+                        <div class="card-label">0.8-1.0</div>
+                        Catastrófico
+                    </div>
+                </div>
+            </article>
+
+            <article id="seguranca" class="section" style="display: none;">
+                <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
+                    <i class="fas fa-shield-alt"></i> Segurança/LGPD
+                </h2>
                 <div class="card-glow" style="--card-color: var(--success);">
-                    <div class="card-label">Matemática</div>
-                    <div class="card-value" style="font-size: 1.2rem;">Módulo 11</div>
-                    <p class="small">Validação algorítmica de CPF e CNPJ.</p>
+                    <p class="small">Princípio de <strong>Privacy by Design</strong>: dados sensíveis são anonimizados
+                        antes da persistência.</p>
                 </div>
-                <div class="card-glow" style="--card-color: var(--warning);">
-                    <div class="card-label">Heurística</div>
-                    <div class="card-value" style="font-size: 1.2rem;">Regex</div>
-                    <p class="small">Padrões estruturais para e-mails e datas.</p>
+            </article>
+
+            <article id="api" class="section" style="display: none;">
+                <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
+                    <i class="fas fa-terminal"></i> API Reference
+                </h2>
+                <div class="card-glow" style="--card-color: var(--text-main);">
+                    <span class="badge badge-success">POST</span> <code>/analisar</code>
+                    <pre style="margin-top:10px; font-size: 0.8rem;">{"texto": "analise aqui", "user_id": 1}</pre>
                 </div>
-                <div class="card-glow" style="--card-color: var(--secondary);">
-                    <div class="card-label">Semântica</div>
-                    <div class="card-value" style="font-size: 1.2rem;">PLN</div>
-                    <p class="small">Processamento de Linguagem Natural para nomes.</p>
-                </div>
-            </div>
-        </article>
+            </article>
 
-        <article id="api" class="section" style="display: none;">
-            <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
-                <i class="fas fa-terminal"></i> API Reference
-            </h2>
-            <div class="card-glow" style="--card-color: var(--text-main); padding: 20px;">
-                <span class="badge badge-success">POST</span> <code>/analisar</code>
-                <pre style="margin-top:15px; background: #f8f9fa; padding: 10px; border-radius: 5px;">
-{
-  "texto": "String para análise...",
-  "usuario_id": 102
-}</pre>
-            </div>
-        </article>
+            <article id="comunidade" class="section" style="display: none;">
+                <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
+                    <i class="fas fa-comments"></i> Feedback
+                </h2>
+                <form method="POST" action="{{ url_for('documentacao.comentar_documentacao') }}" class="card-glow"
+                      style="--card-color: var(--secondary);">
+                    <input type="text" name="nome" placeholder="Seu Nome" class="doc-input"
+                           style="width:100%; margin-bottom:10px; padding:8px; border-radius:4px; border:1px solid #ddd;">
+                    <textarea name="comentario" placeholder="Sugestões..."
+                              style="width:100%; height:80px; margin-bottom:10px; padding:8px; border-radius:4px; border:1px solid #ddd;"></textarea>
+                    <button type="submit" class="btn-primary" style="width:100%;">Enviar</button>
+                </form>
+            </article>
 
-        <article id="comunidade" class="section" style="display: none;">
-            <h2 class="section-title" style="color: var(--primary); font-weight: 800; margin-bottom: 20px;">
-                <i class="fas fa-comments"></i> Feedback Técnico
-            </h2>
-            <form method="POST" action="{{ url_for('documentacao.comentar_documentacao') }}" class="card-glow" style="--card-color: var(--secondary); padding: 25px;">
-                <input type="text" name="nome" placeholder="Seu Nome ou Instituição" class="doc-input" style="width: 100%; margin-bottom: 15px; padding: 10px; border-radius: 6px; border: 1px solid #ddd;">
-                <textarea name="comentario" placeholder="Descreva sua sugestão ou erro encontrado..." class="doc-textarea" style="width: 100%; height: 100px; padding: 10px; border-radius: 6px; border: 1px solid #ddd; margin-bottom: 15px;"></textarea>
-                <button type="submit" class="btn-primary" style="width: 100%;">Enviar para os Desenvolvedores</button>
-            </form>
+        </section>
+    </div>
 
-            <div class="comment-list" style="margin-top: 30px;">
-                {% for c in comentarios %}
-                <div style="border-left: 3px solid var(--primary); padding: 15px; background: white; margin-bottom: 15px; border-radius: 0 8px 8px 0; box-shadow: var(--shadow);">
-                    <strong style="color: var(--primary);">{{ c.nome }}</strong> <small class="muted">— {{ c.criado_em }}</small>
-                    <p style="margin-top: 8px; font-size: 0.9rem;">{{ c.comentario }}</p>
-                </div>
-                {% endfor %}
-            </div>
-        </article>
+    <style>
+        .doc-btn {
+            background: transparent;
+            border: none;
+            padding: 12px 15px;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    </section>
-</div>
+        .doc-btn:hover {
+            background: #f0f4f8;
+            color: var(--primary);
+        }
 
-<style>
-    .doc-btn {
-        background: transparent;
-        border: none;
-        padding: 12px 15px;
-        text-align: left;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        color: var(--text-muted);
-        transition: var(--transition);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    .doc-btn:hover { background: #f0f4f8; color: var(--primary); }
-    .doc-btn.active { background: var(--primary); color: white; }
-</style>
+        .doc-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
 {% endblock %}
 
 {% block scripts %}
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const buttons = document.querySelectorAll('.doc-btn');
-        const sections = document.querySelectorAll('.section');
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const buttons = document.querySelectorAll('.doc-btn');
+            const sections = document.querySelectorAll('.section');
 
-        buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const target = btn.getAttribute('data-target');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const target = btn.getAttribute('data-target');
+                    if (!target) return;
 
-                // Esconde todas as seções e remove active dos botões
-                sections.forEach(s => s.style.display = 'none');
-                buttons.forEach(b => b.classList.remove('active'));
+                    sections.forEach(s => s.style.display = 'none');
+                    buttons.forEach(b => b.classList.remove('active'));
 
-                // Mostra a alvo e ativa o botão
-                document.getElementById(target).style.display = 'block';
-                btn.classList.add('active');
+                    document.getElementById(target).style.display = 'block';
+                    btn.classList.add('active');
 
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                });
             });
         });
-    });
-</script>
+    </script>
 {% endblock %}
