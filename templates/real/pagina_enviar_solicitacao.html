@@ -15,13 +15,15 @@
         <div class="form-group">
             <label style="font-weight: 600; display: block; margin-bottom: 10px;">Conteúdo da Solicitação:</label>
             <textarea name="solicitacao" class="doc-textarea"
-                      placeholder="Ex: Gostaria de saber o salário do servidor CPF 000.000.000-00..."
-                      style="min-height: 150px; width: 100%;" required></textarea>
-            <p class="muted">O motor de Auditoria Híbrida analisará seu texto em busca de dados sensíveis antes do envio
-                oficial.</p>
+                      placeholder="Digite aqui sua solicitação..."
+                      style="min-height: 150px; width: 100%; border-radius: 8px; border: 1px solid #ddd; padding: 15px;"
+                      required></textarea>
+            <p class="muted" style="margin-top: 8px; font-size: 0.85rem;">Sua solicitação será analisada automaticamente
+                para verificar a presença de dados sensíveis antes do envio.</p>
         </div>
-        <div style="margin-top: 15px;">
-            <button type="submit" class="btn-primary" style="padding: 12px 30px;">
+        <div style="margin-top: 15px; display: flex; justify-content: flex-start;">
+            <button type="submit" class="btn-primary"
+                    style="background-color: #2baea9; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                 <i class="fas fa-microscope"></i> Analisar e Enviar
             </button>
         </div>
@@ -166,39 +168,60 @@
                         <table class="doc-table" style="width: 100%; border-collapse: collapse;">
                             <thead>
                             <tr style="background: #f8f9fa;">
-                                <th style="padding: 12px;">Linhas</th>
-                                <th style="text-align: center; padding: 12px;">Status</th>
-                                <th style="text-align: center; padding: 12px;">Termos Sensíveis</th>
-                                <th style="text-align: center; padding: 12px;">Interrogativas</th>
-                                <th style="text-align: center; padding: 12px;">Verbos</th>
-                                <th style="text-align: center; padding: 12px;">Nomes</th>
+                                <th style="width: 60%; padding: 12px; color: black; text-align: left;">Linhas</th>
+                                <th style="text-align: center; padding: 12px; color: black;">Status</th>
+
+                                <th style="text-align: center; padding: 12px; color: black;">
+                                    <i class="fas fa-key" style="display: block; margin-bottom: 5px; color: #555;"></i>
+                                    Termos Sensíveis
+                                </th>
+                                <th style="text-align: center; padding: 12px; color: black;">
+                                    <i class="fas fa-question-circle"
+                                       style="display: block; margin-bottom: 5px; color: #555;"></i>
+                                    Interrogativas
+                                </th>
+                                <th style="text-align: center; padding: 12px; color: black;">
+                                    <i class="fas fa-bolt" style="display: block; margin-bottom: 5px; color: #555;"></i>
+                                    Verbos
+                                </th>
+                                <th style="text-align: center; padding: 12px; color: black;">
+                                    <i class="fas fa-user-tag"
+                                       style="display: block; margin-bottom: 5px; color: #555;"></i>
+                                    Nomes
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for linha in resposta.linhas %}
                                 <tr style="border-bottom: 1px solid #eee;">
-                                    <td style="font-size: 0.9rem; padding: 12px; text-align: left;">
+                                    <td style="font-size: 0.9rem; padding: 12px; text-align: left; color: black;">
                                         "{{ linha.texto }}"
                                     </td>
+
                                     <td style="text-align: center; padding: 12px;">
-                                        {% if linha.status == True %}
+                                        {% if linha.status == True or linha.status == "True" %}
                                             <span class="badge"
-                                                  style="background: var(--danger); color: white; padding: 4px 8px; border-radius: 4px;">Sensível</span>
+                                                  style="background: #ed2131; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; display: inline-block;">
+                            Sensível
+                        </span>
                                         {% else %}
                                             <span class="badge"
-                                                  style="background: var(--success); color: white; padding: 4px 8px; border-radius: 4px;">Seguro</span>
+                                                  style="background: #2baea9; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; display: inline-block;">
+                            Seguro
+                        </span>
                                         {% endif %}
                                     </td>
-                                    <td style="font-weight: 600; text-align: center; padding: 12px;">
+
+                                    <td style="font-weight: 600; text-align: center; padding: 12px; color: black;">
                                         {{ linha.termos_sensiveis_encontrados|join(', ') if linha.termos_sensiveis_encontrados else '--' }}
                                     </td>
-                                    <td style="font-weight: 600; text-align: center; padding: 12px;">
+                                    <td style="font-weight: 600; text-align: center; padding: 12px; color: black;">
                                         {{ linha.interrogativas|join(', ') if linha.interrogativas else '--' }}
                                     </td>
-                                    <td class="muted" style="font-size: 0.85rem; text-align: center; padding: 12px;">
+                                    <td style="font-size: 0.85rem; text-align: center; padding: 12px; color: black;">
                                         {{ linha.verbos|join(', ') if linha.verbos else '--' }}
                                     </td>
-                                    <td class="muted" style="font-size: 0.85rem; text-align: center; padding: 12px;">
+                                    <td style="font-size: 0.85rem; text-align: center; padding: 12px; color: black;">
                                         {{ linha.nomes|join(', ') if linha.nomes else '--' }}
                                     </td>
                                 </tr>
@@ -253,7 +276,7 @@
     <div style="margin-top: 40px; display: flex; justify-content: flex-end; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 25px;">
         <button onclick="window.print()" class="btn-primary"
                 style="background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <i class="fas fa-print"></i> Gerar PDF / Imprimir Relatório
+            <i class="fas fa-print"></i> Gerar PDF
         </button>
     </div>
 

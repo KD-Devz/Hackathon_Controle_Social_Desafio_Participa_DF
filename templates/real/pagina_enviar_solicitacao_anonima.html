@@ -23,21 +23,24 @@
         <h2 style="margin: 0; color: var(--primary);">
             <i class="fas fa-user-secret"></i> Solicitação Anônima
         </h2>
+        <p class="muted">Envie uma solicitação sem precisar se identificar .</p>
+
     </div>
 
     <form method="POST" action="{{ url_for('anonimo.enviar_solicitacao_anonima') }}" class="doc-form">
         <div class="form-group">
             <label style="font-weight: 600; display: block; margin-bottom: 10px;">Conteúdo da Solicitação:</label>
             <textarea name="solicitacao" class="doc-textarea"
-                      placeholder="Digite aqui sua solicitação sem identificação pessoal..."
+                      placeholder="Digite aqui sua solicitação..."
                       style="min-height: 150px; width: 100%; border-radius: 8px; border: 1px solid #ddd; padding: 15px;"
                       required></textarea>
             <p class="muted" style="margin-top: 8px; font-size: 0.85rem;">Sua solicitação será analisada automaticamente
                 para verificar a presença de dados sensíveis antes do envio.</p>
         </div>
-        <div style="margin-top: 15px;">
-            <button type="submit" class="btn-primary" style="padding: 12px 30px; border-radius: 8px; font-weight: 600;">
-                <i class="fas fa-paper-plane"></i> Enviar
+        <div style="margin-top: 15px; display: flex; justify-content: flex-start;">
+            <button type="submit" class="btn-primary"
+                    style="background-color: #2baea9; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <i class="fas fa-microscope"></i> Analisar e Enviar
             </button>
         </div>
     </form>
@@ -73,9 +76,9 @@
 
                     {# Status de Conformidade #}
                     <div style="padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 35px;
-                            background-color: {% if resposta.STATUS == 'True' %}#fff5f5{% else %}#f0fff4{% endif %};
-                            border: 2px solid {% if resposta.STATUS == 'True' %}#feb2b2{% else %}#9ae6b4{% endif %};">
-                        <h3 style="margin: 0; color: {% if resposta.STATUS == 'True' %}#c53030{% else %}#22543d{% endif %}; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            background-color: {% if resposta.STATUS %}#fff5f5{% else %}#f0fff4{% endif %};
+                            border: 2px solid {% if resposta.STATUS %}#feb2b2{% else %}#9ae6b4{% endif %};">
+                        <h3 style="margin: 0; color: {% if resposta.STATUS %}#c53030{% else %}#22543d{% endif %}; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
                             {% if resposta.STATUS == True %}
                                 <i class="fas fa-exclamation-triangle"></i> RISCO DETECTADO
                             {% else %}
@@ -179,32 +182,70 @@
                     </div>
 
                     {# Tabela de Detalhamento #}
-                    <div class="analysis-result" style="margin-top: 40px;">
-                        <h3 style="margin-bottom: 15px;"><i class="fas fa-list-ol"></i> Análise por Linha</h3>
-                        <table class="doc-table">
+                    <div class="analysis-result" style="margin-top: 40px; animation: fadeIn 0.5s ease;">
+                        <h3 style="margin: 25px 0 15px; font-size: 1.1rem;">
+                            <i class="fas fa-tasks"></i> Detalhamento da Análise por Linha:
+                        </h3>
+
+                        <table class="doc-table" style="width: 100%; border-collapse: collapse;">
                             <thead>
-                            <tr>
-                                <th>Linhas</th>
-                                <th style="text-align: center;">Status</th>
-                                <th><i class="fas fa-key table-icon-termos"></i> Termos</th>
-                                <th><i class="fas fa-question-circle table-icon-interrogativas"></i> Dúvidas</th>
-                                <th><i class="fas fa-bolt table-icon-verbos"></i> Verbos</th>
-                                <th><i class="fas fa-user-tag table-icon-nomes"></i> Nomes</th>
+                            <tr style="background: #f8f9fa;">
+                                <th style="width: 60%; padding: 12px; color: black; text-align: left;">Linhas</th>
+                                <th style="text-align: center; padding: 12px; color: black;">Status</th>
+
+                                <th style="text-align: center; padding: 12px; color: black;">
+                                    <i class="fas fa-key" style="display: block; margin-bottom: 5px; color: #555;"></i>
+                                    Termos Sensíveis
+                                </th>
+                                <th style="text-align: center; padding: 12px; color: black;">
+                                    <i class="fas fa-question-circle"
+                                       style="display: block; margin-bottom: 5px; color: #555;"></i>
+                                    Interrogativas
+                                </th>
+                                <th style="text-align: center; padding: 12px; color: black;">
+                                    <i class="fas fa-bolt" style="display: block; margin-bottom: 5px; color: #555;"></i>
+                                    Verbos
+                                </th>
+                                <th style="text-align: center; padding: 12px; color: black;">
+                                    <i class="fas fa-user-tag"
+                                       style="display: block; margin-bottom: 5px; color: #555;"></i>
+                                    Nomes
+                                </th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for linha in resposta.linhas %}
-                                <tr>
-                                    <td style="font-size: 0.85rem; max-width: 250px;">"{{ linha.texto }}"</td>
-                                    <td style="text-align: center;">
-                                        <span class="badge {% if linha.status == 'True' %}badge-danger{% else %}badge-success{% endif %}">
-                                            {{ 'Sensível' if linha.status == 'True' else 'Seguro' }}
-                                        </span>
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="font-size: 0.9rem; padding: 12px; text-align: left; color: black;">
+                                        "{{ linha.texto }}"
                                     </td>
-                                    <td style="font-weight: 600; color: var(--crit-termos);">{{ linha.termos_sensiveis_encontrados|join(', ') or '--' }}</td>
-                                    <td style="font-weight: 600; color: var(--secondary);">{{ linha.interrogativas|join(', ') or '--' }}</td>
-                                    <td style="font-size: 0.85rem; color: var(--crit-verbos);">{{ linha.verbos|join(', ') or '--' }}</td>
-                                    <td style="font-size: 0.85rem; color: var(--crit-identificadores);">{{ linha.nomes|join(', ') or '--' }}</td>
+
+                                    <td style="text-align: center; padding: 12px;">
+                                        {% if linha.status == True or linha.status == "True" %}
+                                            <span class="badge"
+                                                  style="background: #ed2131; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; display: inline-block;">
+                            Sensível
+                        </span>
+                                        {% else %}
+                                            <span class="badge"
+                                                  style="background: #2baea9; color: white; padding: 4px 10px; border-radius: 4px; font-weight: bold; display: inline-block;">
+                            Seguro
+                        </span>
+                                        {% endif %}
+                                    </td>
+
+                                    <td style="font-weight: 600; text-align: center; padding: 12px; color: black;">
+                                        {{ linha.termos_sensiveis_encontrados|join(', ') if linha.termos_sensiveis_encontrados else '--' }}
+                                    </td>
+                                    <td style="font-weight: 600; text-align: center; padding: 12px; color: black;">
+                                        {{ linha.interrogativas|join(', ') if linha.interrogativas else '--' }}
+                                    </td>
+                                    <td style="font-size: 0.85rem; text-align: center; padding: 12px; color: black;">
+                                        {{ linha.verbos|join(', ') if linha.verbos else '--' }}
+                                    </td>
+                                    <td style="font-size: 0.85rem; text-align: center; padding: 12px; color: black;">
+                                        {{ linha.nomes|join(', ') if linha.nomes else '--' }}
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -212,28 +253,37 @@
                     </div>
 
                     {# Padrões Detectados #}
-                    <div class="analysis-result" style="margin-top: 40px; margin-bottom: 50px;">
-                        <h3 style="margin-bottom: 15px; color: var(--primary);"><i class="fas fa-search"></i> Padrões
-                            LGPD Detectados</h3>
-                        <table class="doc-table">
+                    <div class="analysis-result" style="margin-top: 40px; animation: fadeIn 0.5s ease;">
+                        <h3 style="margin: 25px 0 15px; font-size: 1.1rem; color: var(--primary);">
+                            <i class="fas fa-search"></i> Padrões de Documentos Detectados
+                        </h3>
+
+                        <table class="doc-table" style="width: 100%; border-collapse: collapse;">
                             <thead>
-                            <tr>
-                                <th style="width: 30%;">Tipo de Dado</th>
-                                <th>Valores Identificados</th>
+                            <tr style="background: #f8f9fa;">
+                                <th style="width: 30%; padding: 12px; text-align: left;">Padrão</th>
+                                <th style="padding: 12px; text-align: left;">Valores Encontrados (LGPD)</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for chave, valores in resposta.PADROES.items() %}
-                                <tr>
-                                    <td style="font-weight: 600;"><i class="fas fa-fingerprint"
-                                                                     style="margin-right: 8px;"></i> {{ chave }}</td>
-                                    <td>
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="font-weight: 600; color: var(--text-main); padding: 12px;">
+                                        <i class="fas fa-fingerprint"
+                                           style="margin-right: 8px; color: #666;"></i>{{ chave }}
+                                    </td>
+                                    <td style="padding: 12px;">
                                         {% if valores %}
                                             {% for valor in valores %}
-                                                <span class="badge badge-danger" style="margin: 2px;">{{ valor }}</span>
+                                                <span class="badge"
+                                                      style="background: var(--danger); color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; margin-right: 5px;">
+                                                    <i class="fas fa-exclamation-circle"></i> {{ valor }}
+                                                </span>
                                             {% endfor %}
                                         {% else %}
-                                            <span class="muted" style="font-style: italic;">Nenhum dado sensível detectado</span>
+                                            <span style="color: var(--text-muted); font-style: italic;">
+                                                <i class="fas fa-check-circle" style="color: var(--success);"></i> Nenhum dado detectado
+                                            </span>
                                         {% endif %}
                                     </td>
                                 </tr>
@@ -247,10 +297,10 @@
     {% endwith %}
 
     {# Botão de Impressão #}
-    <div style="margin-top: 40px; display: flex; justify-content: flex-end; padding: 25px 0; border-top: 1px solid #eee;">
+    <div style="margin-top: 40px; display: flex; justify-content: flex-end; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 25px;">
         <button onclick="window.print()" class="btn-primary"
-                style="display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-            <i class="fas fa-print"></i> Gerar PDF / Imprimir Relatório
+                style="background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-weight: 600; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <i class="fas fa-print"></i> Gerar PDF
         </button>
     </div>
 

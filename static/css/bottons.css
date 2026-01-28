@@ -1,65 +1,75 @@
-/* --- Estilo Base para todos os Botões --- */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 12px 24px;
-    border-radius: 8px; /* Bordas levemente arredondadas são mais modernas que o pill total */
-    border: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: var(--transition); /* Usa a transição global */
-    text-decoration: none;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+/* ============================================================
+   SISTEMA DE BOTÕES PADRONIZADOS - PARTICIPA DF
+   ============================================================ */
+
+/* --- Container de Rodapé (Layout da Imagem) --- */
+.btn-footer-container {
+    margin-top: 40px; /* Espaçamento superior conforme solicitado */
+    display: flex; /* Flexbox para alinhamento */
+    justify-content: flex-end; /* Alinha o botão à direita conforme a imagem */
+    align-items: center; /* Centraliza verticalmente */
+    border-top: 1px solid #e2e8f0; /* Linha sutil superior */
+    padding-top: 25px; /* Espaço entre a linha e o botão */
+    gap: 15px; /* Espaçamento entre múltiplos botões */
 }
 
-/* --- Botão Primário (Padronizado) --- */
+/* --- Classe Principal (Idêntica à Imagem) --- */
 .btn-primary {
-    background-color: var(--primary); /* Usa o azul escuro da identidade */
-    color: white;
+    background: var(--primary); /* Azul escuro da sua identidade visual */
+    color: white !important; /* Garante texto branco */
+    border: none; /* Remove bordas padrão */
+    padding: 12px 25px; /* Preenchimento interno para o formato retangular */
+    border-radius: 8px; /* Arredondamento moderno da imagem */
+    cursor: pointer; /* Cursor de clique */
+    display: inline-flex; /* Alinha ícone e texto horizontalmente */
+    align-items: center; /* Centraliza ícone e texto verticalmente */
+    gap: 8px; /* Espaçamento entre o ícone e o texto */
+    font-weight: 600; /* Texto em negrito conforme a imagem */
+    font-size: 0.95rem; /* Tamanho da fonte equilibrado */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave para profundidade */
+    transition: all 0.3s ease; /* Transição suave para efeitos */
+    text-decoration: none; /* Remove sublinhados em links */
 }
 
-.btn-primary:hover {
-    background-color: var(--secondary); /* Muda para o azul mais claro ao passar o mouse */
-    transform: translateY(-2px);
-    box-shadow: var(--shadow); /* Usa a sombra definida em variables.css */
+/* --- Variações de Cores Baseadas no Sistema --- */
+.btn-success {
+    background: var(--success); /* Verde para ações positivas */
+    color: white !important;
+    border-radius: 8px;
 }
 
-.btn-primary:active {
-    transform: translateY(0);
+.btn-danger {
+    background: var(--risco-severo); /* Vermelho para alertas ou exclusão */
+    color: white !important;
+    border-radius: 8px;
 }
 
-/* --- Botão com Ícone (Ajuste fino) --- */
-.btn i {
-    font-size: 1.1rem;
+.btn-outline {
+    background: transparent;
+    border: 1px solid #ddd;
+    color: var(--text-muted); /* Cinza para ações secundárias */
+    border-radius: 8px;
+    box-shadow: none;
 }
 
-/* Botão Base */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 12px 24px;
-    border-radius: 10px;
-    border: none;
-    font-weight: 600;
-    transition: var(--transition);
-    cursor: pointer;
-    text-decoration: none;
-    font-size: 0.95rem;
+/* --- Estados de Interação --- */
+.btn-primary:hover, .btn-success:hover, .btn-danger:hover {
+    filter: brightness(1.1); /* Aumenta o brilho levemente no hover */
+    transform: translateY(-1px); /* Leve elevação */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Sombra mais intensa no hover */
 }
 
-/* Cores Variadas */
-.btn-primary { background: var(--primary); color: white; }
-.btn-success { background: var(--success); color: white; }
-.btn-danger  { background: var(--risco-severo); color: white; }
-.btn-outline { background: transparent; border: 1px solid #ddd; color: var(--text-muted); }
+.btn-outline:hover {
+    background-color: #f8f9fa;
+    border-color: var(--primary);
+    color: var(--primary);
+}
 
-.btn:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-    filter: brightness(1.1);
+.btn-primary:active, .btn-success:active, .btn-danger:active {
+    transform: translateY(0); /* Volta ao estado original ao clicar */
+}
+
+/* Ajuste para ícones FontAwesome */
+.btn-primary i, .btn-success i, .btn-danger i {
+    font-size: 1.1rem; /* Ícone levemente maior que o texto */
 }

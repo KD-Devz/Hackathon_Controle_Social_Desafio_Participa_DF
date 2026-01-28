@@ -5,7 +5,7 @@ from src.utils.texto import (
     limpar_texto,
 )
 from src.utils.texto import normalizar_ao_retirar_acentuacao_e_cedilha
-from utils.recursos import RecursosLinguisticos
+from src.utils.recursos import RecursosLinguisticos
 
 
 # Variáveis globais que podem ser importadas em outros módulos
@@ -226,7 +226,7 @@ def validar_padroes_sensiveis(texto):
     # --- Documentos Civis ---
     padrao_cpf = r'\b\d{3}\.?\d{3}\.?\d{3}-?\d{2}\b'
     padrao_cnpj = r'\b\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2}\b'
-    padrao_rg = r'\b\d{1,2}\.?\d{3}\.?\d{3}-?[\dX]\b|\b\d{5,13}\b'
+    padrao_rg = r'\b\d{1,2}\.?\d{3}\.?\d{3}-?[\dX]\b'
     padrao_titulo = r'\b\d{12}\b'
     padrao_cnh = r'\b\d{11}\b'
     padrao_pis = r'\b\d{3}\.\d{5}\.\d{2}\.\d{1}\b'

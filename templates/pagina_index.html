@@ -3,64 +3,97 @@
 {% block title %}Valida Fácil | Início{% endblock %}
 
 {% block main %}
-<div class="hero-landing" style="text-align: center; padding: 80px 20px; background: linear-gradient(135deg, var(--primary) 0%, #002d5a 100%); color: white; border-radius: 20px; margin-bottom: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
-    <h1 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -1px;">Valida Fácil</h1>
-    <p style="font-size: 1.4rem; max-width: 850px; margin: 0 auto 35px; line-height: 1.6; opacity: 0.9;">
-        Automatizando a proteção de dados sensíveis para garantir o equilíbrio entre a <strong>LGPD</strong> e o <strong>Acesso à Informação</strong>.
-    </p>
-    <div class="cta-group">
-        <a href="{{ url_for('anonimo.enviar_solicitacao_anonima') }}" class="btn-primary" style="padding: 15px 35px; font-size: 1.1rem; border-radius: 50px; background-color: var(--success);">
-            <i class="fas fa-rocket"></i> Iniciar Teste de Auditoria
+    <div class="hero-landing" style="
+    text-align: center;
+    padding: 50px 30px;
+    background: linear-gradient(135deg, var(--primary) 0%, #002d5a 100%);
+    color: white;
+    border-radius: 18px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 25px rgba(0,45,90,0.2);
+    position: relative;
+    overflow: hidden;">
+
+        <div style="position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: rgba(255,255,255,0.05); border-radius: 50%;"></div>
+
+        <div style="position: relative; z-index: 2;">
+            <p style="font-size: 1.3rem; max-width: 600px; margin: 0 auto 25px; line-height: 1.5; opacity: 0.9;">
+                Proteção de dados sensíveis equilibrando a
+                <span style="background: rgba(255,255,255,0.15); padding: 1px 6px; border-radius: 4px;">LGPD</span> e a
+                <strong>Transparência Pública</strong>.
+            </p>
+
+            <div class="cta-group" style="display: flex; gap: 15px; justify-content: center; align-items: center;">
+                <a href="{{ url_for('anonimo.enviar_solicitacao_anonima') }}" class="btn-primary"
+                   style="padding: 12px 28px; font-size: 0.95rem; border-radius: 50px; background-color: #2baea9; color: white; text-decoration: none; font-weight: 700; box-shadow: 0 6px 15px rgba(43,174,169,0.3); display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-shield-check"></i> Iniciar Auditoria
+                </a>
+            </div>
+
+            <div style="margin-top: 30px; display: flex; justify-content: center; gap: 20px; opacity: 0.6; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                <span><i class="fas fa-microscope"></i> NLP</span>
+                <span><i class="fas fa-user-shield"></i> Privacy Shield</span>
+                <span><i class="fas fa-file-pdf"></i> PDF</span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="impact-grid">
+
+        <div class="card-glow"
+             style="--card-color: var(--secondary); display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div class="card-icon-float" style="position: static; margin-bottom: 15px;">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="card-label">Conformidade</div>
+            <div class="card-value" style="font-size: 1.4rem; max-width: 100%;">Segurança Jurídica</div>
+            <p class="muted">Protege o servidor público contra o vazamento involuntário de dados sensíveis, cumprindo as
+                diretrizes da LGPD.</p>
+
+            <div class="progress-container" style="margin-top: 20px;">
+                <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+        </div>
+
+        <div class="card-glow"
+             style="--card-color: var(--success); display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div class="card-icon-float" style="position: static; margin-bottom: 15px;">
+                <i class="fas fa-search-plus"></i>
+            </div>
+            <div class="card-label">Eficiência</div>
+            <div class="card-value" style="font-size: 1.4rem; max-width: 100%;">Transparência Ativa</div>
+            <p class="muted">Acelera a resposta ao cidadão (LAI) ao reduzir o gargalo da triagem manual de documentos e
+                solicitações e-SIC.</p>
+
+            <div class="progress-container" style="margin-top: 20px;">
+                <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+        </div>
+
+        <div class="card-glow"
+             style="--card-color: var(--warning); display: flex; flex-direction: column; align-items: center; text-align: center;">
+            <div class="card-icon-float" style="position: static; margin-bottom: 15px;">
+                <i class="fas fa-brain"></i>
+            </div>
+            <div class="card-label">Tecnologia</div>
+            <div class="card-value" style="font-size: 1.4rem; max-width: 100%;">Inteligência Híbrida</div>
+            <p class="muted">Combina algoritmos matemáticos (Checksum) com NLP para uma detecção precisa e eficiente de
+                padrões.</p>
+
+            <div class="progress-container" style="margin-top: 20px;">
+                <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 50px; text-align: center; padding: 40px; background: #f8f9fa; border-radius: 18px; border: 1px dashed #ddd;">
+        <h3 style="color: var(--primary); margin-bottom: 10px;">Dúvidas sobre o processamento?</h3>
+        <p style="color: #666; margin-bottom: 25px;">Acesse nossa documentação técnica para entender como protegemos seus dados.</p>
+        <a href="{{ url_for('documentacao.pagina_documentacao') }}"
+           style="text-decoration: none; color: var(--primary); font-weight: 700; border: 2px solid var(--primary); padding: 10px 25px; border-radius: 50px; transition: all 0.3s ease;"
+           onmouseover="this.style.background='var(--primary)'; this.style.color='white';"
+           onmouseout="this.style.background='transparent'; this.style.color='var(--primary)';" >
+            <i class="fas fa-book"></i> Ver Documentação Completa
         </a>
     </div>
-</div>
-
-<div class="impact-grid">
-
-    <div class="card-glow" style="--card-color: var(--secondary); display: flex; flex-direction: column; align-items: center; text-align: center;">
-        <div class="card-icon-float" style="position: static; margin-bottom: 15px;">
-            <i class="fas fa-shield-alt"></i>
-        </div>
-        <div class="card-label">Conformidade</div>
-        <div class="card-value" style="font-size: 1.4rem; max-width: 100%;">Segurança Jurídica</div>
-        <p class="muted">Protege o servidor público contra o vazamento involuntário de dados sensíveis, cumprindo as diretrizes da LGPD.</p>
-
-        <div class="progress-container" style="margin-top: 20px;">
-            <div class="progress-bar" style="width: 100%;"></div>
-        </div>
-    </div>
-
-    <div class="card-glow" style="--card-color: var(--success); display: flex; flex-direction: column; align-items: center; text-align: center;">
-        <div class="card-icon-float" style="position: static; margin-bottom: 15px;">
-            <i class="fas fa-search-plus"></i>
-        </div>
-        <div class="card-label">Eficiência</div>
-        <div class="card-value" style="font-size: 1.4rem; max-width: 100%;">Transparência Ativa</div>
-        <p class="muted">Acelera a resposta ao cidadão (LAI) ao reduzir o gargalo da triagem manual de documentos e solicitações e-SIC.</p>
-
-        <div class="progress-container" style="margin-top: 20px;">
-            <div class="progress-bar" style="width: 100%;"></div>
-        </div>
-    </div>
-
-    <div class="card-glow" style="--card-color: var(--warning); display: flex; flex-direction: column; align-items: center; text-align: center;">
-        <div class="card-icon-float" style="position: static; margin-bottom: 15px;">
-            <i class="fas fa-brain"></i>
-        </div>
-        <div class="card-label">Tecnologia</div>
-        <div class="card-value" style="font-size: 1.4rem; max-width: 100%;">Inteligência Híbrida</div>
-        <p class="muted">Combina algoritmos matemáticos (Checksum) com NLP para uma detecção precisa e eficiente de padrões.</p>
-
-        <div class="progress-container" style="margin-top: 20px;">
-            <div class="progress-bar" style="width: 100%;"></div>
-        </div>
-    </div>
-
-</div>
-
-<div style="text-align: center; margin-top: 50px;">
-    <a href="{{ url_for('documentacao.pagina_documentacao') }}" style="text-decoration: none; color: var(--primary); font-weight: 700; font-size: 1.1rem; transition: var(--transition);">
-        Explorar Arquitetura Técnica <i class="fas fa-arrow-right"></i>
-    </a>
-</div>
 {% endblock %}

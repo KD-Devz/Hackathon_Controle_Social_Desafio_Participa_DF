@@ -1,10 +1,10 @@
 import os
 import csv
-from utils.conjugador import gerar_lista_variacoes
-from utils.texto import normalizar_ao_retirar_acentuacao_e_cedilha
+from src.utils.conjugador import gerar_lista_variacoes
+from src.utils.texto import normalizar_ao_retirar_acentuacao_e_cedilha
 
 def carregar_csv(arquivo):
-    raiz = os.path.dirname(os.path.dirname(__file__))
+    raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     caminho = os.path.join(raiz, "../validadores", arquivo)
 
     linhas = []
@@ -20,7 +20,7 @@ def carregar_csv(arquivo):
     return linhas
 
 def carregar_txt(arquivo):
-    raiz = os.path.dirname(os.path.dirname(__file__))
+    raiz = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     caminho = os.path.join(raiz, "../validadores", arquivo)
 
     with open(caminho, "r", encoding="utf-8") as f:

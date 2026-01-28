@@ -2,30 +2,23 @@ import sqlite3
 from flask import Blueprint, request, session, redirect, url_for, flash, render_template
 from datetime import datetime
 from src.utils.banco import obter_caminho_banco
-from src.utils.carregador import processar_index   # 🔹 Função de validação
+from src.utils.carregador import processar_index
 from src.paginas.real.auth import login_required
 
 solicitacao_bp = Blueprint("solicitacao", __name__)
 
-# 🔹 Rota GET → abre a página com o formulário
 @solicitacao_bp.route("/nova_solicitacao")
 @login_required
 def pagina_enviar_solicitacao():
     user_id = session["user_id"]
-
-    # Busca dados do usuário para exibir na página
     conn = sqlite3.connect(obter_caminho_banco())
     cursor = conn.cursor()
     cursor.execute("SELECT nome, email FROM usuarios WHERE id = ?", (user_id,))
     resultado = cursor.fetchone()
     conn.close()
-
     usuario = {"nome": resultado[0], "email": resultado[1]} if resultado else {}
-
     return render_template("real/pagina_enviar_solicitacao.html", usuario=usuario)
 
-
-# 🔹 Rota POST → processa e salva a solicitação
 @solicitacao_bp.route("/enviar_solicitacao", methods=["POST"])
 @login_required
 def enviar_solicitacao():
@@ -34,17 +27,22 @@ def enviar_solicitacao():
         flash("A solicitação não pode estar vazia.", "error")
         return redirect(url_for("solicitacao.pagina_enviar_solicitacao"))
 
-    # 🔹 Processa a mensagem com carregador.py
+    # Processa a análise
     resultado = processar_index(texto)
 
-    # Se STATUS == "True" → inválida (contém dados sensíveis)
-    if resultado["STATUS"] == "True":
-        flash(resultado, "error")  # envia o resultado completo para renderizar na página
+    # 🔹 CORREÇÃO: Lógica rigorosa e uso de booleanos reais (sem aspas)
+    # Se status for True OU houver itens nas listas de verbos/interrogações -> Inválido
+    tem_verbos = len(resultado.get("VERBOS", [])) > 0
+    tem_interrogacoes = len(resultado.get("INTERROGACOES", [])) > 0
+    status_invalido = resultado.get("STATUS") is True
+
+    if status_invalido or tem_verbos or tem_interrogacoes:
+        # Garante que o status no dicionário de retorno seja consistente para o HTML
+        resultado["STATUS"] = True
+        flash(resultado, "error")
         return redirect(url_for("solicitacao.pagina_enviar_solicitacao"))
 
     user_id = session["user_id"]
-
-    # 🔹 Se passou na validação, salva no banco
     conn = sqlite3.connect(obter_caminho_banco())
     cursor = conn.cursor()
     cursor.execute("""
@@ -54,19 +52,15 @@ def enviar_solicitacao():
     conn.commit()
     conn.close()
 
-    flash(resultado, "success")  # envia o resultado completo para renderizar na página
+    flash(resultado, "success")
     return redirect(url_for("solicitacao.pagina_enviar_solicitacao"))
 
-
-# 🔹 Rota GET → ver histórico de solicitações
-# No seu solicitacao.py
 @solicitacao_bp.route("/ver_solicitacoes")
 @login_required
 def ver_solicitacoes():
     user_id = session["user_id"]
     conn = sqlite3.connect(obter_caminho_banco())
     cursor = conn.cursor()
-    # ADICIONE O 'id' NO SELECT
     cursor.execute("""
         SELECT texto, data_envio, id 
         FROM solicitacoes 
@@ -77,21 +71,16 @@ def ver_solicitacoes():
     conn.close()
     return render_template("real/pagina_ver_solicitacoes.html", solicitacoes=solicitacoes)
 
-
 @solicitacao_bp.route("/detalhes_solicitacao/<int:solicitacao_id>")
 @login_required
 def detalhes_solicitacao(solicitacao_id):
     conn = sqlite3.connect(obter_caminho_banco())
     cursor = conn.cursor()
-
-    # BUSCA PELO ID ÚNICO: Garante que pegamos a correta, não a última
     cursor.execute("""
                    SELECT texto, data_envio
                    FROM solicitacoes
-                   WHERE id = ?
-                     AND usuario_id = ?
+                   WHERE id = ? AND usuario_id = ?
                    """, (solicitacao_id, session["user_id"]))
-
     resultado_db = cursor.fetchone()
     conn.close()
 
@@ -100,9 +89,6 @@ def detalhes_solicitacao(solicitacao_id):
         return redirect(url_for("solicitacao.ver_solicitacoes"))
 
     texto_solicitacao = resultado_db[0]
-
-    # Processa exatamente o texto encontrado
-    from src.utils.carregador import processar_index
     analise = processar_index(texto_solicitacao)
 
     return render_template(

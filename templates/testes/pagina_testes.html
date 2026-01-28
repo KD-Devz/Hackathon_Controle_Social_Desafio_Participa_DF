@@ -4,7 +4,8 @@
 
 {% block main %}
     <section class="content">
-        <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+        <div class="section-header"
+             style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
             <h2 style="margin: 0; color: var(--primary);"><i class="fas fa-chart-pie"></i> Análise de Resultados</h2>
         </div>
 
@@ -35,7 +36,8 @@
                 </div>
             </div>
 
-            <div class="card-glow" style="--card-color: var(--secondary); padding: 25px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <div class="card-glow"
+                 style="--card-color: var(--secondary); padding: 25px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                 <div class="card-label">Distribuição Visual</div>
                 <div style="width: 100%; height: 200px; position: relative;">
                     <canvas id="graficoStatus"></canvas>
@@ -54,28 +56,28 @@
                 <thead>
                 <tr>
                     {% for col in cabecalho %}
-                        <th>{{ col }}</th>
+                        <th style="color: black;">{{ col }}</th>
                     {% endfor %}
-                    <th style="text-align: center;">Status</th>
-                    <th style="text-align: center;"><i class="fas fa-key table-icon-termos"></i> Termos</th>
-                    <th style="text-align: center;"><i class="fas fa-bolt table-icon-verbos"></i> Verbos</th>
-                    <th style="text-align: center;"><i class="fas fa-question-circle table-icon-interrogativas"></i> Dúvidas</th>
-                    <th style="text-align: center;"><i class="fas fa-user-tag table-icon-nomes"></i> Nomes</th>
-                    <th style="text-align: center;">Ações</th>
+                    <th style="text-align: center; color: black;">Status</th>
+                    <th style="text-align: center; color: black;">Termos</th>
+                    <th style="text-align: center; color: black;">Verbos</th>
+                    <th style="text-align: center; color: black;">Dúvidas</th>
+                    <th style="text-align: center; color: black;">Nomes</th>
+                    <th style="text-align: center; color: black;">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for linha in dados %}
                     <tr>
                         {% for valor in linha.campos %}
-                            <td class="muted" style="font-size: 0.85rem;">{{ valor }}</td>
+                            <td style="font-size: 0.85rem; color: black;">{{ valor }}</td>
                         {% endfor %}
 
-                        <td style="text-align: center;">
+                        <td style="text-align: center; font-weight: bold;">
                             {% if linha.status == "Inválido" %}
-                                <span class="badge badge-danger">Inválido</span>
+                                <span style="color: #ed2131;">Inválido</span>
                             {% else %}
-                                <span class="badge badge-success">Válido</span>
+                                <span style="color: #2baea9;">Válido</span>
                             {% endif %}
                         </td>
 
@@ -87,7 +89,8 @@
 
                         {% for sub_linha in linha.detalhes %}
                             {% for item in sub_linha.termos_sensiveis_encontrados %}
-                                {% if item not in sensiveis_lista %}{% if sensiveis_lista.append(item) %}{% endif %}{% endif %}
+                                {% if item not in sensiveis_lista %}{% if sensiveis_lista.append(item) %}
+                                {% endif %}{% endif %}
                             {% endfor %}
                             {% for v in sub_linha.verbos %}
                                 {% if v not in verbos_lista %}{% if verbos_lista.append(v) %}{% endif %}{% endif %}
@@ -100,26 +103,26 @@
                             {% endfor %}
                         {% endfor %}
 
-                        <td style="text-align: center; font-weight: 600; color: var(--risco-severo);">
+                        <td style="text-align: center; font-weight: 600; color: black;">
                             {{ sensiveis_lista | join(', ') if sensiveis_lista else '---' }}
                         </td>
 
-                        <td style="text-align: center; font-size: 0.85rem; color: var(--crit-verbos);">
+                        <td style="text-align: center; font-size: 0.85rem; color: black;">
                             {{ verbos_lista | join(', ') if verbos_lista else '---' }}
                         </td>
 
-                        <td style="text-align: center; font-size: 0.85rem; color: var(--secondary);">
+                        <td style="text-align: center; font-size: 0.85rem; color: black;">
                             {{ interr_lista | join(', ') if interr_lista else '---' }}
                         </td>
 
-                        <td style="text-align: center; font-size: 0.85rem; color: var(--crit-identificadores);">
+                        <td style="text-align: center; font-size: 0.85rem; color: black;">
                             {{ nomes_lista | join(', ') if nomes_lista else '---' }}
                         </td>
 
-                        <td style="text-align: center;">
+                        <td style="text-align: center; padding: 12px;">
                             <a href="{{ url_for('testes_detalhados.pagina_teste_detalhado', linha=' '.join(linha.campos), id=loop.index) }}"
                                class="btn-primary"
-                               style="padding: 6px 12px; font-size: 0.75rem;">
+                               style="background-color: #5a9e94; color: white; text-decoration: none; padding: 6px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 5px; border: none; transition: background 0.3s ease;">
                                 <i class="fas fa-search-plus"></i> Ver Detalhes
                             </a>
                         </td>
@@ -156,8 +159,8 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { position: 'bottom' },
-                        title: { display: false }
+                        legend: {position: 'bottom'},
+                        title: {display: false}
                     },
                     cutout: '70%'
                 }
