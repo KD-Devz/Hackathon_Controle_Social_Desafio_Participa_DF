@@ -1,46 +1,175 @@
 <!doctype html>
 <html lang="pt-br">
 <head>
-  <meta charset="utf-8">
-  <title>Documentação Resumida - Privacy Shield</title>
-  <style>
-    @page { margin: 2cm; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #333; line-height: 1.5; }
-    .header { border-bottom: 2px solid #004587; padding-bottom: 10px; margin-bottom: 30px; text-align: center; }
-    h1 { color: #004587; font-size: 24px; margin: 0; }
-    h2 { color: #004587; font-size: 18px; border-left: 4px solid #004587; padding-left: 10px; margin-top: 25px; }
-    .code { background: #f4f4f4; padding: 10px; border-radius: 4px; font-family: monospace; font-size: 11px; display: block; }
-    .footer { margin-top: 50px; font-size: 10px; color: #888; text-align: center; border-top: 1px solid #eee; padding-top: 10px; }
-    .method-tag { display: inline-block; background: #eee; padding: 2px 8px; border-radius: 10px; font-size: 10px; margin-right: 5px; font-weight: bold; }
-  </style>
+    <meta charset="utf-8">
+    <title>Relatório Técnico - Valida Fácil</title>
+    <style>
+        @page {
+            margin: 2.5cm 2cm;
+            size: a4 portrait;
+        }
+
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #1a202c;
+            line-height: 1.6;
+            background-color: #ffffff;
+        }
+
+        /* Cabeçalho de Empresa */
+        .header {
+            border-bottom: 2px solid #2d3748;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+        }
+
+        .header-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .logo-container {
+            width: 50%;
+            vertical-align: middle;
+        }
+
+        .info-container {
+            width: 50%;
+            text-align: right;
+            vertical-align: middle;
+        }
+
+        .app-name {
+            color: #2b6cb0;
+            font-size: 22pt;
+            font-weight: bold;
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        .doc-label {
+            font-size: 9pt;
+            color: #718096;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: #2d3748;
+            font-size: 14pt;
+            border-left: 4px solid #2b6cb0;
+            padding-left: 10px;
+            margin-top: 30px;
+            background: #f7fafc;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+
+        .content {
+            text-align: justify;
+            font-size: 11pt;
+            margin-bottom: 20px;
+        }
+
+        /* Seções de Metodologia */
+        .method-item {
+            margin: 15px 0;
+            padding-left: 10px;
+        }
+
+        .method-title {
+            font-weight: bold;
+            color: #2b6cb0;
+            font-size: 11pt;
+        }
+
+        /* Bloco de Código Limpo */
+        .terminal {
+            background-color: #f1f5f9;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            color: #4a5568;
+        }
+
+        .footer {
+            margin-top: 100px;
+            border-top: 1px solid #edf2f7;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 9pt;
+            color: #a0aec0;
+        }
+
+        .signature-box {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 1px solid #2d3748;
+            width: 250px;
+            margin: 0 auto;
+            padding-top: 8px;
+            font-size: 10pt;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-  <div class="header">
-    <h1>Privacy Shield</h1>
-    <p>Documentação Técnica de Auditoria v1.0</p>
-  </div>
 
-  <h2>1. Visão Geral</h2>
-  <p>O sistema foi desenvolvido para atuar na interseção entre a <strong>Lei de Acesso à Informação (LAI)</strong> e a <strong>Lei Geral de Proteção de Dados (LGPD)</strong>, automatizando a triagem de dados sensíveis em solicitações e-SIC.</p>
+<div class="header">
+    <table class="header-table">
+        <tr>
+            <td class="logo-container">
+                <img src="{{ logo_path }}" width="140">
+            </td>
+            <td class="info-container">
+                <div class="app-name">Valida Fácil</div>
+                <div class="doc-label">Auditoria de Dados Sensíveis</div>
+            </td>
+        </tr>
+    </table>
+</div>
 
-  <h2>2. Pipeline de Processamento</h2>
-  <p>
-    <span class="method-tag">ETAPA 1</span> Sanitização de caracteres especiais.<br>
-    <span class="method-tag">ETAPA 2</span> Aplicação de expressões regulares para padrões PII.<br>
-    <span class="method-tag">ETAPA 3</span> Validação matemática de identificadores oficiais.<br>
-    <span class="method-tag">ETAPA 4</span> Reconhecimento de Entidades Nomeadas (NER) via NLP.
-  </p>
+<div class="content">
+    O <strong>Valida Fácil</strong> é uma solução de inteligência voltada à segurança da informação em solicitações e-SIC.
+    Este relatório documenta os processos de auditoria automatizada que asseguram a conformidade com a
+    <strong>Lei Geral de Proteção de Dados (LGPD)</strong>.
+</div>
 
-  <h2>3. Guia de Deploy Rápido</h2>
-  <div class="code">
+<h2>Metodologia de Auditoria</h2>
+<div class="method-item">
+    <span class="method-title">I. Sanitização e Normalização</span><br>
+    Tratamento de strings para garantir a integridade da análise e remoção de ruídos.
+</div>
+<div class="method-item">
+    <span class="method-title">II. Validação de Documentos</span><br>
+    Verificação de integridade de CPFs e CNPJs através do algoritmo de Módulo 11.
+</div>
+<div class="method-item">
+    <span class="method-title">III. Reconhecimento de Entidades</span><br>
+    Identificação de nomes próprios e verbos de solicitação via motor semântico.
+</div>
+
+<h2>Instruções de Implementação</h2>
+<div class="terminal">
+    # Instalação e Execução<br>
     pip install -r requirements.txt<br>
-    flask db upgrade<br>
     python app.py
-  </div>
+</div>
 
-  <div class="footer">
-    <p>Este documento é parte integrante do projeto acadêmico UnB - Ciclo 2025/2</p>
-    <p>Gerado automaticamente em {{ now.strftime('%d/%m/%Y às %H:%M') }}</p>
-  </div>
+<div class="signature-box">
+    <div class="signature-line">Equipe KD-Devz</div>
+    <div style="font-size: 9pt; color: #718096; margin-top: 5px;">Calebe Alves Freitas & DyogoQ</div>
+</div>
+
+<div class="footer">
+    Valida Fácil — Inteligência em Proteção de Dados<br>
+    Documento gerado em {{ now.strftime('%d/%m/%Y às %H:%M') }}
+</div>
+
 </body>
 </html>

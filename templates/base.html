@@ -19,31 +19,85 @@
 
     <style>
         /* Ajustes para o novo layout sem Sidebar */
-        .app-container { display: flex; flex-direction: column; min-height: 100vh; }
-        .content-area { padding: 30px; max-width: 1400px; margin: 0 auto; width: 100%; }
-        .nav-link-top { text-decoration: none; color: #555; font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 8px; transition: color 0.3s; }
-        .nav-link-top:hover { color: var(--primary); }
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .content-area {
+            padding: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .nav-link-top {
+            text-decoration: none;
+            color: #555;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s;
+        }
+
+        .nav-link-top:hover {
+            color: var(--primary);
+        }
 
         /* Dropdown Estilizado */
         .dropdown-menu {
-            display: none; position: absolute; right: 0; top: 50px;
-            background: white; min-width: 220px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            border-radius: 12px; z-index: 1000; border: 1px solid #eee; overflow: hidden;
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background: white;
+            min-width: 220px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            z-index: 1000;
+            border: 1px solid #eee;
+            overflow: hidden;
             animation: fadeIn 0.2s ease;
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-        .dropdown-item { display: block; padding: 12px 20px; color: #333; text-decoration: none; font-size: 0.9rem; transition: background 0.2s; }
-        .dropdown-item:hover { background: #f8f9fa; }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-item {
+            display: block;
+            padding: 12px 20px;
+            color: #333;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background: #f8f9fa;
+        }
     </style>
     {% block head %}{% endblock %}
 </head>
 <body>
 
 <div class="app-container">
-    <header class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 0 40px; height: 80px; background: white; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100;">
+    <header class="navbar"
+            style="display: flex; justify-content: space-between; align-items: center; padding: 0 40px; height: 80px; background: white; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100;">
 
         <div style="display: flex; align-items: center; gap: 50px;">
-            <a href="{{ url_for('index.pagina_index') }}" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+            <a href="{{ url_for('index.pagina_index') }}"
+               style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
                 <img src="{{ url_for('static', filename='imagens/logo.png') }}" alt="Logo" style="height: 45px;">
                 <span style="font-size: 1.6rem; color: var(--risco-alarmante); font-weight: 500; line-height: 1;">
                     Valida <strong style="color: var(--risco-severo);">Fácil</strong>
@@ -51,17 +105,30 @@
             </a>
 
             <nav style="display: flex; gap: 25px;">
-                <a href="{{ url_for('index.pagina_index') }}" class="nav-link-top"><i class="fas fa-chart-line"></i> Painel</a>
-                <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="nav-link-top"><i class="fas fa-list-check"></i> Testes</a>
-                <a href="{{ url_for('documentacao.pagina_documentacao') }}" class="nav-link-top"><i class="fas fa-file-code"></i> Documentação</a>
-                <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}" class="nav-link-top"><i class="fas fa-trophy"></i> Ranking</a>
+                <a href="{{ url_for('index.pagina_index') }}" class="nav-link-top"><i class="fas fa-chart-line"></i>
+                    Painel</a>
+                <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="nav-link-top"><i
+                        class="fas fa-list-check"></i> Testes</a>
+                <a href="{{ url_for('documentacao.pagina_documentacao') }}" class="nav-link-top"><i
+                        class="fas fa-file-code"></i> Documentação</a>
+                <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}" class="nav-link-top"><i
+                        class="fas fa-trophy"></i> Ranking</a>
             </nav>
+
+            <a href="https://github.com/KD-Devz/Hackathon_Controle_Social_Desafio_Participa_DF"
+               target="_blank"
+               title="Ver código no GitHub"
+               style="text-decoration: none; color: #24292e; font-size: 2rem; display: flex; align-items: center; transition: transform 0.2s;">
+                <i class="fab fa-github"></i>
+            </a>
         </div>
+
 
         <div class="navbar-user">
             {% if session.get('user_id') %}
                 <div style="position: relative;">
-                    <button onclick="toggleDropdown()" id="userBtn" style="background: #f8f9fa; border: 1px solid #ddd; padding: 8px 18px; border-radius: 50px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; transition: all 0.3s;">
+                    <button onclick="toggleDropdown()" id="userBtn"
+                            style="background: #f8f9fa; border: 1px solid #ddd; padding: 8px 18px; border-radius: 50px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; transition: all 0.3s;">
                         <i class="fas fa-user-circle" style="color: var(--primary); font-size: 1.2rem;"></i>
                         <span style="color: #333;">{{ session.get('user_name', 'Usuário') }}</span>
                         <i class="fas fa-chevron-down" style="font-size: 0.7rem; color: #999;"></i>
@@ -69,7 +136,8 @@
 
                     <div id="userDropdown" class="dropdown-menu">
                         <div style="padding: 15px 20px; background: #fcfcfc; border-bottom: 1px solid #eee;">
-                            <small style="color: #999; text-transform: uppercase; font-size: 0.65rem; font-weight: 800;">Minha Conta</small>
+                            <small style="color: #999; text-transform: uppercase; font-size: 0.65rem; font-weight: 800;">Minha
+                                Conta</small>
                         </div>
                         <a href="{{ url_for('perfil.pagina_meu_perfil') }}" class="dropdown-item">
                             <i class="fas fa-id-card" style="width: 20px;"></i> Meu Perfil
@@ -81,14 +149,16 @@
                             <i class="fas fa-list-ul" style="width: 20px;"></i> Minhas Solicitações
                         </a>
                         <div style="border-top: 1px solid #eee; background: #fff5f5;">
-                            <a href="{{ url_for('auth.logout') }}" class="dropdown-item" style="color: #ed2131; font-weight: 700;">
+                            <a href="{{ url_for('auth.logout') }}" class="dropdown-item"
+                               style="color: #ed2131; font-weight: 700;">
                                 <i class="fas fa-sign-out-alt" style="width: 20px;"></i> Sair
                             </a>
                         </div>
                     </div>
                 </div>
             {% else %}
-                <a href="{{ url_for('auth.login') }}" class="btn-login" style="background: var(--primary); color: white; padding: 10px 25px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                <a href="{{ url_for('auth.login') }}" class="btn-login"
+                   style="background: var(--primary); color: white; padding: 10px 25px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                     Acessar Sistema
                 </a>
             {% endif %}
@@ -115,7 +185,7 @@
     }
 
     // Fechar ao clicar fora
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (!event.target.closest('#userBtn')) {
             document.getElementById("userDropdown").style.display = "none";
             document.getElementById("userBtn").style.borderColor = "#ddd";
