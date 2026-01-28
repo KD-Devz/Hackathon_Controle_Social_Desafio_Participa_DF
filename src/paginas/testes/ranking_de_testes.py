@@ -3,7 +3,7 @@ import sqlite3
 from flask import Blueprint, render_template
 
 from src.utils.banco import obter_caminho_banco
-from utils.recursos import RecursosLinguisticos
+from src.utils.recursos import RecursosLinguisticos
 
 ranking_bp = Blueprint("ranking_de_testes", __name__)
 
