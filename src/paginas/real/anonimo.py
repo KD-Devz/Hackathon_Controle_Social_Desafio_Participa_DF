@@ -21,12 +21,15 @@ def pagina_enviar_solicitacao_anonima():
 @anonimo_bp.route("/enviar_solicitacao_anonima", methods=["GET", "POST"])
 def enviar_solicitacao_anonima():
     texto = request.form.get("solicitacao", "").strip()
+    print(texto)
     if not texto:
         flash("A solicitação não pode estar vazia.", "error")
         return redirect(url_for("anonimo.pagina_enviar_solicitacao_anonima"))
 
+    print(45)
     # Processa a mensagem com carregador.py
     resultado = processar_index(texto)
+    print(resultado)
 
     # Se STATUS == "True" → inválida (contém dados sensíveis)
     if resultado["STATUS"] == "True":

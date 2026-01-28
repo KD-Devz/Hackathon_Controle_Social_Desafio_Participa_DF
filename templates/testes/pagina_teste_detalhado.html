@@ -19,7 +19,7 @@
         </div>
 
         {% if resposta %}
-            {% set is_risco = resposta.STATUS == 'True' %}
+            {% set is_risco = resposta.STATUS == True %}
             <div style="padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 35px;
                     background-color: {{ '#fff5f5' if is_risco else '#f0fff4' }};
                     border: 2px solid {{ 'var(--risco-severo)' if is_risco else 'var(--success)' }};">
@@ -117,8 +117,8 @@
                             <tr>
                                 <td class="muted" style="font-size: 0.85rem;">"{{ linha.texto }}"</td>
                                 <td style="text-align: center;">
-                                    <span class="badge {{ 'badge-danger' if linha.status == 'True' else 'badge-success' }}">
-                                        {{ 'Sensível' if linha.status == 'True' else 'Seguro' }}
+                                    <span class="badge {{ 'badge-danger' if linha.status == True else 'badge-success' }}">
+                                        {{ 'Sensível' if linha.status == True else 'Seguro' }}
                                     </span>
                                 </td>
                                 <td style="text-align: center; color: var(--risco-severo); font-weight: 600;">
@@ -181,9 +181,9 @@
                 <i class="fas fa-arrow-left"></i> Voltar ao Histórico
             </a>
 
-            <button onclick="window.print()" class="btn-primary" style="background-color: var(--text-main);">
-                <i class="fas fa-print"></i> Exportar Relatório (PDF)
-            </button>
+            <button onclick="window.print()" class="btn-primary" style="background-color: var(--primary);"><i class="fas fa-print"></i> Gerar PDF do Relatório
+</button>
+
         </div>
     </section>
 {% endblock %}
