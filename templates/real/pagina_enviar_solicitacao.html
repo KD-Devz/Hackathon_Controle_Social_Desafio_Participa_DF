@@ -58,105 +58,123 @@
                     </div>
 
                     <div style="padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 35px;
-                            background-color: {% if resposta.STATUS == 'True' %}#fff5f5{% else %}#f0fff4{% endif %};
-                            border: 2px solid {% if resposta.STATUS == 'True' %}#feb2b2{% else %}#9ae6b4{% endif %};">
-                        <h3 style="margin: 0; color: {% if resposta.STATUS == 'True' %}#c53030{% else %}#22543d{% endif %}; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            background-color: {% if resposta.STATUS == True %}#fff5f5{% else %}#f0fff4{% endif %};
+                            border: 2px solid {% if resposta.STATUS == True %}#feb2b2{% else %}#9ae6b4{% endif %};">
+                        <h3 style="margin: 0; color: {% if resposta.STATUS == True %}#c53030{% else %}#22543d{% endif %}; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
                             {% if resposta.STATUS == True %}
                                 <i class="fas fa-exclamation-triangle"></i> RISCO DETECTADO
                             {% else %}
                                 <i class="fas fa-shield-check"></i> CONTEÚDO SEGURO
                             {% endif %}
                         </h3>
-                        <p style="margin-top: 10px; color: #4a5568; font-weight: 500; font-size: 1rem;">
+                        <p style="margin-top: 10px; color: #4a5568; font-weight: 500; font-size: 10px;">
                             {% if resposta.STATUS == True %}
-                                A análise identificou padrões que violam a política de privacidade (LGPD).
+                                <h4 style="color: var(--risco-catastrofico); margin-bottom: 10px;">A
+                                    análise identificou padrões que violam a política de privacidade (LGPD).</h4>
+                                <p class="small">
+                                    A tentativa de solicitação foi barrada pelo sistema!
+                                </p>
                             {% else %}
-                                Esta solicitação está em conformidade com as normas de transparência ativa.
+                                <h4 style="color: #3498db; margin-bottom: 10px;">
+                                Esta solicitação está em conformidade com as normas de transparência ativa.</h4>
+                                <p class="small">
+                                    A solicitação foi enviada com sucesso!
+                                </p>
                             {% endif %}
                         </p>
                     </div>
 
-                    <div class="analysis-result" style="margin-top: 40px;">
-                        <h3 style="margin: 25px 0 15px; font-size: 1.2rem; color: var(--primary);">
-                            <i class="fas fa-tasks"></i> Critérios de Avaliação
+                    <div class="analysis-result">
+                        <h3 style="margin: 25px 0 20px; color: var(--primary);">
+                            <i class="fas fa-tasks"></i> Critérios de Avalição
                         </h3>
 
-                        <div class="impact-grid"
-                             style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                            {# Novo Card de Criticidade com Escala #}
-                            <div class="card-criticidade"
-                                 style="grid-column: span 1; border-radius: 12px; padding: 20px; border-left: 8px solid
-                                         {% if resposta.CRITICIDADE_NORM <= 0.2 %}#2baea9
-                                         {% elif resposta.CRITICIDADE_NORM <= 0.4 %}#f1c40f
-                                         {% elif resposta.CRITICIDADE_NORM <= 0.6 %}#e67e22
-                                         {% else %}#ed2131{% endif %}; background: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+                        <div class="impact-grid">
 
-                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <div>
-                                        <h5 style="color: #666; font-size: 0.7rem; text-transform: uppercase; margin: 0;">
-                                            Nível de Risco</h5>
-                                        <h2 style="margin: 5px 0; font-size: 1.4rem; color: var(--primary);">{{ resposta.ADJETIVO }}</h2>
-                                    </div>
-                                    <div class="icon-big"
-                                         style="color: {% if resposta.CRITICIDADE_NORM > 0.6 %}#ed2131{% else %}#2baea9{% endif %};">
-                                        <i class="fas fa-biohazard"></i>
+                            {# 1. CARD CRITICIDADE (DINÂMICO) #}
+                            {# Define a cor baseada no risco #}
+                            {% set cor_risco = '#2baea9' if resposta.CRITICIDADE_NORM <= 0.2
+                      else '#f1c40f' if resposta.CRITICIDADE_NORM <= 0.4else '#e67e22' if resposta.CRITICIDADE_NORM <= 0.6else '#ed2131' %}
+
+                            <div class="card-glow" style="--card-color: {{ cor_risco }};">
+                                <div class="card-label">Grau de Criticidade</div>
+
+                                {# Texto do Nível #}
+                                <div class="card-value">
+                                    {{ resposta.ADJETIVO }}
+                                    <div style="font-size: 0.9rem; font-weight: 600; opacity: 0.8;">
+                                        ({{ ((resposta.CRITICIDADE_NORM * 100)|round)|int }}%)
                                     </div>
                                 </div>
 
-                                {# Barra de Progresso de Normalização #}
-                                <div style="background: #edf2f7; border-radius: 10px; height: 10px; margin: 15px 0;">
-                                    <div style="width: {{ (resposta.CRITICIDADE_NORM * 100)|round }}%; height: 100%; border-radius: 10px; transition: width 1s ease;
-                                            background-color: {% if resposta.CRITICIDADE_NORM <= 0.2 %}#2baea9{% elif resposta.CRITICIDADE_NORM <= 0.6 %}#f1c40f{% else %}#ed2131{% endif %};">
-                                    </div>
+                                {# Ícone Dinâmico #}
+                                <div class="card-icon-float">
+                                    {% if resposta.CRITICIDADE_NORM <= 0.2 %}<i class="fas fa-shield-check"></i>
+                                    {% elif resposta.CRITICIDADE_NORM <= 0.4 %}<i class="fas fa-info-circle"></i>
+                                    {% elif resposta.CRITICIDADE_NORM <= 0.6 %}
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    {% elif resposta.CRITICIDADE_NORM <= 0.8 %}<i class="fas fa-radiation"></i>
+                                    {% else %}<i class="fas fa-biohazard"></i>{% endif %}
                                 </div>
 
-                                <div style="display: flex; justify-content: space-between; align-items: center;">
-                                    <span style="font-size: 0.8rem; font-weight: 700; color: #4a5568;">Índice: {{ (resposta.CRITICIDADE_NORM * 100)|round(1) }}%</span>
-                                    <small style="color: #a0aec0;">Bruto: {{ resposta.CRITICIDADE }}</small>
+                                {# Barra de Progresso #}
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                         style="width: {{ (resposta.CRITICIDADE_NORM * 100)|round }}%;"></div>
+                                </div>
+
+                                <div class="card-footer-info">
+                                    <span>Índice: {{ (resposta.CRITICIDADE_NORM * 100)|round(1) }}%</span>
+                                    <span>Bruto: {{ resposta.CRITICIDADE }}</span>
                                 </div>
                             </div>
 
-                            <div class="card {% if resposta.LINEARIDADE > 0 %}card-red{% else %}card-green{% endif %}">
-                                <div class="icon-big">
-                                    <i class="fas fa-stream"></i>
+                            {# 2. CARD LINEARIDADE (AZUL) #}
+                            <div class="card-glow" style="--card-color: var(--crit-linearidade);">
+                                <div class="card-label">Linearidade</div>
+                                <div class="card-value">{{ resposta.LINEARIDADE }}</div>
+                                <div class="card-icon-float"><i class="fas fa-stream"></i></div>
+
+                                {# Barra Fixa ou Calculada (Exemplo: base 500 max) #}
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                         style="width: {{ (resposta.LINEARIDADE / 5)|round }}%; max-width: 100%;"></div>
                                 </div>
-                                <h1 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 10px;">
-                                    Linearidade</h1>
-                                <h2 style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
-                                    <span class="badge {% if resposta.LINEARIDADE > 0 %}badge-danger{% else %}badge-success{% endif %}"
-                                          style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.LINEARIDADE > 0 %}var(--danger){% else %}var(--success){% endif %};">
-                                        {{ resposta.LINEARIDADE }}
-                                    </span>
-                                </h2>
+                                <div class="card-footer-info">
+                                    <span>Contagem de frases</span>
+                                </div>
                             </div>
 
-                            <div class="card {% if resposta.IDENTIFICADORES > 0 %}card-red{% else %}card-green{% endif %}">
-                                <div class="icon-big">
-                                    <i class="fas fa-fingerprint"></i>
+                            {# 3. CARD IDENTIFICADORES (ROXO) #}
+                            <div class="card-glow" style="--card-color: var(--crit-identificadores);">
+                                <div class="card-label">Identificadores</div>
+                                <div class="card-value">{{ resposta.IDENTIFICADORES }}</div>
+                                <div class="card-icon-float"><i class="fas fa-fingerprint"></i></div>
+
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                         style="width: {{ (resposta.IDENTIFICADORES * 10)|round }}%; max-width: 100%;"></div>
                                 </div>
-                                <h1 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 10px;">
-                                    Identificadores</h1>
-                                <h2 style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
-                                    <span class="badge {% if resposta.IDENTIFICADORES > 0 %}badge-danger{% else %}badge-success{% endif %}"
-                                          style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.IDENTIFICADORES > 0 %}var(--danger){% else %}var(--success){% endif %};">
-                                        {{ resposta.IDENTIFICADORES }}
-                                    </span>
-                                </h2>
+                                <div class="card-footer-info">
+                                    <span>Dados sensíveis</span>
+                                </div>
                             </div>
 
-                            <div class="card {% if resposta.EXIGENCIAS > 5 %}card-red{% else %}card-green{% endif %}">
-                                <div class="icon-big">
-                                    <i class="fas fa-gavel"></i>
+                            {# 4. CARD EXIGÊNCIAS (VERDE) #}
+                            <div class="card-glow" style="--card-color: var(--crit-exigencias);">
+                                <div class="card-label">Exigências</div>
+                                <div class="card-value">{{ resposta.EXIGENCIAS }}</div>
+                                <div class="card-icon-float"><i class="fas fa-gavel"></i></div>
+
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                         style="width: {{ (resposta.EXIGENCIAS * 5)|round }}%; max-width: 100%;"></div>
                                 </div>
-                                <h1 style="font-size: 1.3rem; color: var(--primary); margin-bottom: 10px;">
-                                    Exigências</h1>
-                                <h2 style="font-size: 1rem; color: var(--text-muted); font-weight: 500;">
-                                        <span class="badge {% if resposta.EXIGENCIAS > 5 %}badge-danger{% else %}badge-success{% endif %}"
-                                              style="font-size: 0.9rem; padding: 5px 10px; color: white; border-radius: 4px; background: {% if resposta.EXIGENCIAS > 5 %}var(--danger){% else %}var(--success){% endif %};">
-                                            {{ resposta.EXIGENCIAS }}
-                                        </span>
-                                </h2>
+                                <div class="card-footer-info">
+                                    <span>Imperativos detectados</span>
+                                </div>
                             </div>
+
                         </div>
                     </div>
 

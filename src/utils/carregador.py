@@ -66,7 +66,7 @@ def processar_index(mensagem: str):
         linha_normalizada = limpar_texto(linha_normalizada)
         palavras = linha_normalizada.split()
 
-        print('Linha : ',linha)
+       #print('Linha : ',linha)
         # Detecção de nomes na linha
         nomes_na_linha_atual = set()
         nomes_detectados = obter_nomes(palavras)
@@ -96,21 +96,21 @@ def processar_index(mensagem: str):
         # --- Lógica de Validação Estrita ---
 
         # Verificamos se há algum risco identificado (Dado Sensível ou Padrão de Documento)
-        print('termos:',termos_sensiveis_encontrados)
-        print('verbos:',verbos_encontrados)
-        print('interrogativos:',interrogativas_encontradas)
+       #print('termos:',termos_sensiveis_encontrados)
+       #print('verbos:',verbos_encontrados)
+       #print('interrogativos:',interrogativas_encontradas)
 
         tem_risco_na_linha = (len(termos_sensiveis_encontrados) >0)
 
 
 
-        print('tem_risco_na_linha:',tem_risco_na_linha)
-        print('verbos_encontrados ou interrogativas_encontradas :',(len(verbos_encontrados)>0 or len(interrogativas_encontradas)>0))
+       #print('tem_risco_na_linha:',tem_risco_na_linha)
+       #print('verbos_encontrados ou interrogativas_encontradas :',(len(verbos_encontrados)>0 or len(interrogativas_encontradas)>0))
 
         # Uma solicitação só é INVÁLIDA (True) se houver:
         # (Risco E Verbo) OU (Risco E Interrogação)
         if tem_risco_na_linha and (len(verbos_encontrados)>0 or len(interrogativas_encontradas)>0):
-            print('Te erro detectado')
+           #print('Te erro detectado')
             status = True  # Linha Inválida / Sensível
             status_global = True
             contLinearidade += 1
@@ -308,7 +308,7 @@ def remover_substrings(lista):
 
 
 def calcular_escala_criticidade(valor_bruto):
-    valor_max = 30
+    valor_max = 250
     valor_min = 0
 
     # Aplicação da fórmula de normalização

@@ -16,10 +16,15 @@
 
         <div style="position: absolute; top: -30px; right: -30px; width: 120px; height: 120px; background: rgba(255,255,255,0.05); border-radius: 50%;"></div>
 
-        <div style="position: relative; z-index: 2;">
-            <p style="font-size: 1.3rem; max-width: 600px; margin: 0 auto 25px; line-height: 1.5; opacity: 0.9;">
-                Proteção de dados sensíveis equilibrando a
-                <span style="background: rgba(255,255,255,0.15); padding: 1px 6px; border-radius: 4px;">LGPD</span> e a
+        <div style="position: relative; z-index: 1;">
+            <img src="{{ url_for('static', filename='imagens/logo.png') }}" alt="Logo" style="height: 200px;">
+            <div style="font-size: 4rem; color: var(--risco-alarmante); font-weight: 1000;">
+                Valida<span style="color: var(--risco-severo);">Fácil</span>
+            </div>
+            <p style="font-size: 1.3rem; max-width: 1000px; margin: 0 auto 25px; line-height: 1.5; opacity: 0.9;">
+                Proteção de dados sensíveis equilibrando
+                a <span style="background: rgba(255,255,255,0.15); padding: 1px 6px; border-radius: 4px;">LGPD</span> e
+                a
                 <strong>Transparência Pública</strong>.
             </p>
 
@@ -88,11 +93,12 @@
     </div>
     <div style="margin-top: 50px; text-align: center; padding: 40px; background: #f8f9fa; border-radius: 18px; border: 1px dashed #ddd;">
         <h3 style="color: var(--primary); margin-bottom: 10px;">Dúvidas sobre o processamento?</h3>
-        <p style="color: #666; margin-bottom: 25px;">Acesse nossa documentação técnica para entender como protegemos seus dados.</p>
+        <p style="color: #666; margin-bottom: 25px;">Acesse nossa documentação técnica para entender como protegemos
+            seus dados.</p>
         <a href="{{ url_for('documentacao.pagina_documentacao') }}"
            style="text-decoration: none; color: var(--primary); font-weight: 700; border: 2px solid var(--primary); padding: 10px 25px; border-radius: 50px; transition: all 0.3s ease;"
            onmouseover="this.style.background='var(--primary)'; this.style.color='white';"
-           onmouseout="this.style.background='transparent'; this.style.color='var(--primary)';" >
+           onmouseout="this.style.background='transparent'; this.style.color='var(--primary)';">
             <i class="fas fa-book"></i> Ver Documentação Completa
         </a>
     </div>

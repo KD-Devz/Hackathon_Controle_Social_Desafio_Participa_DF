@@ -26,19 +26,30 @@
 
         {% if resposta %}
             {% set is_risco = resposta.STATUS %}
-            <div style="padding: 25px; border-radius: 15px; text-align: center; margin-bottom: 35px;
-                    background-color: {{ '#fff5f5' if is_risco else '#f0fff4' }};
-                    border: 2px solid {{ 'var(--risco-severo)' if is_risco else 'var(--success)' }};">
-
-                <h3 style="margin: 0; color: {{ 'var(--risco-severo)' if is_risco else 'var(--success)' }}; font-size: 1.4rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                    {% if is_risco %}
+            <div style="padding: 25px; border-radius: 12px; text-align: center; margin-bottom: 35px;
+                    background-color: {% if resposta.STATUS == True %}#fff5f5{% else %}#f0fff4{% endif %};
+                    border: 2px solid {% if resposta.STATUS == True %}#feb2b2{% else %}#9ae6b4{% endif %};">
+                <h3 style="margin: 0; color: {% if resposta.STATUS == True %}#c53030{% else %}#22543d{% endif %}; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    {% if resposta.STATUS == True %}
                         <i class="fas fa-exclamation-triangle"></i> RISCO DETECTADO
                     {% else %}
                         <i class="fas fa-shield-check"></i> CONTEÚDO SEGURO
                     {% endif %}
                 </h3>
-                <p class="muted" style="margin-top: 10px; font-weight: 500;">
-                    {{ 'A análise identificou padrões que violam a política de privacidade (LGPD).' if is_risco else 'Esta solicitação está em conformidade com as normas de transparência ativa.' }}
+                <p style="margin-top: 10px; color: #4a5568; font-weight: 500; font-size: 10px;">
+                    {% if resposta.STATUS == True %}
+                        <h4 style="color: var(--risco-catastrofico); margin-bottom: 10px;">A
+                            análise identificou padrões que violam a política de privacidade (LGPD).</h4>
+                        <p class="small">
+                            A tentativa de solicitação foi barrada pelo sistema!
+                        </p>
+                    {% else %}
+                        <h4 style="color: #3498db; margin-bottom: 10px;">
+                            Esta solicitação está em conformidade com as normas de transparência ativa.</h4>
+                        <p class="small">
+                            A solicitação foi enviada com sucesso!
+                        </p>
+                    {% endif %}
                 </p>
             </div>
 
