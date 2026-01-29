@@ -6,6 +6,7 @@ from src.utils.texto import (
 )
 from src.utils.texto import normalizar_ao_retirar_acentuacao_e_cedilha
 from src.utils.recursos import RecursosLinguisticos
+from utils.banco import registrar_palavra_proibida
 
 
 # Variáveis globais que podem ser importadas em outros módulos
@@ -138,6 +139,9 @@ def processar_index(mensagem: str):
     # Cálculo da Criticidade
     contCriticidade = contLinearidade * len(termos_sensiveis_unicos) * contIdentificadores
     valor_norm, adjetivo = calcular_escala_criticidade(contCriticidade)
+
+    for palavra in termos_sensiveis_encontrados:
+        registrar_palavra_proibida(palavra)
 
     return {
 
