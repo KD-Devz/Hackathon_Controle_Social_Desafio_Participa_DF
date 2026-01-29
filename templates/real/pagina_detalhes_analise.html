@@ -6,7 +6,7 @@
     <section class="content">
         <div style="text-align:center; margin-bottom:40px;">
             <span class="badge"
-                  style="background-color: var(--primary); color: white; padding: 8px 18px; border-radius: 20px; font-weight: 600;">
+                  style="background-color: var(--primary); color: white; padding: 8px 18px; border-radius: 20px;">
                 Protocolo e-SIC #{{ id }}
             </span>
             <h2 style="color: var(--primary); font-weight: 700; margin-top: 15px;">Relatório de Auditoria de
@@ -164,12 +164,12 @@
                     </tbody>
                 </table>
             </div>
-            </div>
 
             <div class="analysis-result" style="margin-top: 40px; animation: fadeIn 0.5s ease;">
                 <h3 style="margin: 25px 0 15px; font-size: 1.1rem; color: var(--primary);">
-                    <i class="fas fa-search-dollar"></i> Entidades e Padrões Identificados
+                    <i class="fas fa-search"></i> Padrões de Documentos Detectados
                 </h3>
+
                 <table class="doc-table" style="width: 100%; border-collapse: collapse;">
                     <thead>
                     <tr style="background: #f8f9fa;">
@@ -182,21 +182,22 @@
                     <tbody>
                     {% for chave, valores in resposta.PADROES.items() %}
                         <tr style="border-bottom: 1px solid #eee;">
-                            <td style="font-weight: 600; color: black; padding: 12px;">
-                                <i class="fas fa-fingerprint" style="margin-right: 8px; color: #666;"></i>{{ chave }}
+                            <td style="font-weight: 600; color: var(--text-main); padding: 12px;">
+                                <i class="fas fa-fingerprint"
+                                   style="margin-right: 8px; color: #666;"></i>{{ chave }}
                             </td>
                             <td style="padding: 12px;">
                                 {% if valores %}
                                     {% for valor in valores %}
                                         <span class="badge"
-                                              style="background: #ed2131; color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; margin-right: 5px; display: inline-block;">
-                                <i class="fas fa-exclamation-circle"></i> {{ valor }}
-                            </span>
+                                              style="background: var(--danger); color: white; padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; margin-right: 5px;">
+                                                    <i class="fas fa-exclamation-circle"></i> {{ valor }}
+                                                </span>
                                     {% endfor %}
                                 {% else %}
-                                    <span style="color: black; font-style: italic;">
-                            <i class="fas fa-check-circle" style="color: #2baea9;"></i> Nenhum dado detectado
-                        </span>
+                                    <span style="color: var(--text-muted); font-style: italic;">
+                                                <i class="fas fa-check-circle" style="color: var(--success);"></i> Nenhum dado detectado
+                                            </span>
                                 {% endif %}
                             </td>
                         </tr>
@@ -204,12 +205,18 @@
                     </tbody>
                 </table>
             </div>
+
+        {% else %}
+            <div style="text-align: center; padding: 60px;">
+                <i class="fas fa-inbox muted" style="font-size: 3rem; margin-bottom: 20px;"></i>
+                <p class="muted">Nenhum dado de análise disponível.</p>
+            </div>
         {% endif %}
 
         <div style="margin-top: 50px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 30px;">
-            <a href="{{ url_for('solicitacao.ver_solicitacoes') }}" class="nav-item"
+            <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="nav-item"
                style="width: auto; padding: 10px 20px;">
-                <i class="fas fa-arrow-left"></i> Histórico
+                <i class="fas fa-arrow-left"></i> Voltar ao Histórico
             </a>
 
             <div style="margin-top: 40px; display: flex; justify-content: flex-end; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 25px;">
@@ -218,34 +225,9 @@
                     <i class="fas fa-print"></i> Gerar PDF
                 </button>
             </div>
+
         </div>
     </section>
 
-    <style>
-        @media print {
-            .sidebar, .navbar, .nav-item, .btn-primary, footer {
-                display: none !important;
-            }
 
-            body {
-                background: white !important;
-                padding: 0;
-            }
-
-            .content {
-                width: 100% !important;
-                margin: 0 !important;
-            }
-
-            .card-glow {
-                box-shadow: none !important;
-                border: 1px solid #eee !important;
-            }
-
-            .doc-table th {
-                background: #f8f9fa !important;
-                color: black !important;
-            }
-        }
-    </style>
 {% endblock %}
