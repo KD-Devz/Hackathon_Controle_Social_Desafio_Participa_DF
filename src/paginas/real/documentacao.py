@@ -61,7 +61,7 @@ def comentar_documentacao():
         return redirect(url_for("documentacao.pagina_documentacao"))
 
     flash("Comentário enviado. Obrigado pelo feedback!", "success")
-    return redirect(url_for("documentacao.pagina_documentacao"))
+    return redirect(url_for("documentacao.pagina_documentacao")+ "#contribuir")
 
 
 @doc_bp.route("/documentacao/pdf", methods=["GET"])
