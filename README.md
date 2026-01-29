@@ -2,7 +2,7 @@
 
 O **Privacy Shield** é uma solução de inteligência de dados desenvolvida durante o **Hackathon Controle Social (Desafio Participa DF)**. O sistema atua como um sentinela entre as solicitações de informação (e-SIC) e a administração pública, filtrando automaticamente dados sensíveis em conformidade com a **LGPD** e a **LAI**.
 
-![Banner do Projeto](static/imagens/Pagina Principal v2.0.jpeg)
+![Banner do Projeto](https://github.com/KD-Devz/Hackathon_Controle_Social_Desafio_Participa_DF/blob/main/static/imagens/Pagina%20Principal%20v2.0.jpeg?raw=true)
 
 🌐 **Acesse agora:** [calebeaf02.pythonanywhere.com](https://calebeaf02.pythonanywhere.com/)
 
