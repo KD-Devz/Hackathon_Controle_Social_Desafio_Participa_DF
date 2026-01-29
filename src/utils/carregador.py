@@ -6,7 +6,7 @@ from src.utils.texto import (
     limpar_texto, validar_cpf_math, validar_cnpj_math, validar_pis_math, validar_titulo_eleitor_math,
 )
 from src.utils.texto import normalizar_ao_retirar_acentuacao_e_cedilha
-from utils.banco import registrar_palavra_proibida
+from src.utils.banco import registrar_palavra_proibida
 
 
 # Variáveis globais que podem ser importadas em outros módulos
