@@ -8,21 +8,19 @@
         <aside class="doc-sidebar" style="position: sticky; top: 100px;">
             <div class="card-glow" style="--card-color: var(--primary); padding: 20px;">
                 <div class="card-label">Documentação Oficial</div>
-                <div style="font-weight: 800; color: var(--primary); margin-bottom: 20px;">
-                    <i class="fas fa-terminal"></i> Privacy Shield v1.0
-                </div>
+               <br>
 
                 <nav class="doc-nav" style="display: flex; flex-direction: column; gap: 8px;">
                     <button class="doc-btn active" data-target="arquitetura"><i class="fas fa-sitemap"></i> Arquitetura
                     </button>
                     <button class="doc-btn" data-target="instalacao"><i class="fas fa-rocket"></i> Deploy Rápido
                     </button>
-                    <button class="doc-btn" data-target="metodologia"><i class="fas fa-brain"></i> O Motor de Busca
+                    <button class="doc-btn" data-target="metodologia"><i class="fas fa-brain"></i> Metodologia
                     </button>
                     <button class="doc-btn" data-target="banco-dados"><i class="fas fa-database"></i> Persistência
                         (SQLite)
                     </button>
-                    <button class="doc-btn" data-target="escala-risco"><i class="fas fa-radiation"></i> Escala de Risco
+                    <button class="doc-btn" data-target="escala-risco"><i class="fas fa-radiation"></i> Matriz de Criticidade e Risco
                     </button>
                     <button class="doc-btn" data-target="api-ref"><i class="fas fa-code"></i> API Reference</button>
                     <button class="doc-btn" data-target="comunidade"><i class="fas fa-comments"></i> Feedback</button>
@@ -32,7 +30,7 @@
                     <a href="{{ url_for('documentacao.documentacao_pdf') }}" download="Manual_Privacy_Shield.pdf"
                        class="btn-primary"
                        style="background-color: #c0392b; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-size: 0.9rem;">
-                        <i class="fas fa-file-pdf"></i> Exportar Manual PDF
+                        <i class="fas fa-file-pdf"></i> Exportar PDF
                     </a>
                 </nav>
             </div>
@@ -41,7 +39,7 @@
         <section class="doc-content-area" id="content-viewport">
 
             <article id="arquitetura" class="section active">
-                <h2 class="section-title"><i class="fas fa-sitemap"></i> Arquitetura do Ecossistema</h2>
+                <h2 class="section-title"><i class="fas fa-sitemap"></i> Arquitetura</h2>
                 <p class="muted">
                     O <strong>Privacy Shield</strong> não é apenas um filtro; é um sentinela posicionado entre o cidadão
                     e o dado público. Desenvolvido em <strong>Flask</strong>, ele utiliza processamento assíncrono para
@@ -63,7 +61,8 @@
 
             <article id="instalacao" class="section" style="display: none;">
                 <h2 class="section-title"><i class="fas fa-rocket"></i> Deploy e Instalação</h2>
-                <p class="muted">Configuração do ambiente para o Hackathon (Sem erros de hotéis desta vez!):</p>
+                <p class="muted">Configuração do ambiente para o Hackathon:</p>
+                <br>
                 <div style="background: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.6; border-left: 5px solid #27ae60;">
                     <span style="color: #6a9955;"># 1. Clonar o projeto do Hackathon</span><br>
                     git clone https://github.com/KD-Devz/Hackathon_Controle_Social_Desafio_Participa_DF.git<br>
@@ -79,7 +78,7 @@
             </article>
 
             <article id="metodologia" class="section" style="display: none;">
-                <h2 class="section-title"><i class="fas fa-brain"></i> Metodologia: O "Motor" de Auditoria</h2>
+                <h2 class="section-title"><i class="fas fa-brain"></i> Metodologia</h2>
                 <p class="muted">
                     Como o sistema realmente funciona por baixo do capô? Nossa lógica de análise é dividida em três
                     camadas de filtragem:
@@ -218,8 +217,9 @@
 {
   "texto": "Solicito a listagem de gastos com merenda escolar no mês de Janeiro de 2026.",
   "origem": "portal-transparencia"
-}
+
                         </pre>
+                        <br>
                         <strong class="small" style="color: #27ae60;">Resposta do Sistema (JSON):</strong>
                         <pre style="background: #1a1a1a; color: #a6e22e; padding: 15px; border-radius: 5px; font-size: 0.8rem; margin-top: 5px;">
 {
@@ -242,6 +242,7 @@
   "origem": "web-anonimo"
 }
                         </pre>
+                        <br>
                         <strong class="small" style="color: #e74c3c;">Resposta do Sistema (JSON):</strong>
                         <pre style="background: #1a1a1a; color: #f92672; padding: 15px; border-radius: 5px; font-size: 0.8rem; margin-top: 5px;">
 {
@@ -256,19 +257,18 @@
             </article>
 
             <article id="comunidade" class="section" style="display: none;">
-                <h2 class="section-title"><i class="fas fa-comments"></i> Central de Feedback & Comunidade</h2>
+                <h2 class="section-title"><i class="fas fa-comments"></i> Central de Feedback</h2>
 
                 <div class="card-glow"
                      style="--card-color: var(--secondary); padding: 25px; margin-bottom: 30px; border: 1px solid #e1e8ed; background: #fff; border-radius: 12px;">
                     <p class="small" style="color: #64748b; margin-bottom: 15px;">
-                        Contribua para a evolução do motor <strong>Valida Fácil</strong>. Relate falsos positivos ou
-                        sugira novas regras de proteção.
+                        Contribua para a evolução do <strong>Valida Fácil</strong>.
                     </p>
 
                     <form method="POST" action="{{ url_for('documentacao.comentar_documentacao') }}#comunidade">
                         <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 15px;">
                             <div class="input-group">
-                                <label style="display: block; font-size: 0.75rem; font-weight: 700; color: #475569; margin-bottom: 5px; text-transform: uppercase;">Nome</label>
+                                <label style="display: block; font-size: 0.75rem; font-weight: 700; color: #475569; margin-bottom: 5px; text-transform: uppercase;">Nome:</label>
                                 <input type="text" name="nome" placeholder="Ex: Cabo Calebe" required
                                        style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
                             </div>
@@ -276,14 +276,14 @@
 
                         <div class="input-group">
                             <label style="display: block; font-size: 0.75rem; font-weight: 700; color: #475569; margin-bottom: 5px; text-transform: uppercase;">Sua
-                                Contribuição Técnica</label>
+                                Contribuição:</label>
                             <textarea name="comentario" placeholder="Descreva sua dúvida ou sugestão..." required
                                       style="width: 100%; height: 90px; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;"></textarea>
                         </div>
 
                         <button type="submit" class="btn-primary"
                                 style="margin-top: 15px; background: #1e293b; color: white; padding: 12px 25px; border-radius: 6px; border: none; cursor: pointer; font-weight: 700; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px;">
-                            <i class="fas fa-paper-plane"></i> PUBLICAR NO FEED
+                            <i class="fas fa-paper-plane"></i> PUBLICAR
                         </button>
                     </form>
                 </div>

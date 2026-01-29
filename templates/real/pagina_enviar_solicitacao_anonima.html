@@ -34,13 +34,13 @@
                       placeholder="Digite aqui sua solicitação..."
                       style="min-height: 150px; width: 100%; border-radius: 8px; border: 1px solid #ddd; padding: 15px;"
                       required></textarea>
-            <p class="muted" style="margin-top: 8px; font-size: 0.85rem;">Sua solicitação será analisada automaticamente
-                para verificar a presença de dados sensíveis antes do envio.</p>
+            <p class="muted" style="margin-top: 8px; font-size: 0.85rem;">Sua solicitação será analisada automaticamente,
+                verificando a presença de dados sensíveis.</p>
         </div>
         <div style="margin-top: 15px; display: flex; justify-content: flex-start;">
             <button type="submit" class="btn-primary"
                     style="background-color: #2baea9; color: white; border: none; padding: 12px 30px; border-radius: 8px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: background 0.3s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-                <i class="fas fa-microscope"></i> Analisar e Enviar
+                <i class="fas fa-microscope"></i> Analisar
             </button>
         </div>
     </form>
@@ -56,8 +56,7 @@
                               style="background-color: var(--primary); color: white; padding: 8px 18px; border-radius: 20px; font-size: 0.9rem; font-weight: 600;">
                             Protocolo e-SIC #{{ id if id else 'GERADO' }}
                         </span>
-                        <h2 style="color: var(--primary); font-weight: 700; margin-top: 15px;">Relatório de Auditoria de
-                            Privacidade</h2>
+                        <h2 style="color: var(--primary); font-weight: 700; margin-top: 15px;">Relatório de Auditoria </h2>
                     </div>
 
                     {# Card de Conteúdo Original #}
@@ -104,7 +103,7 @@
 
                     <div class="analysis-result">
                         <h3 style="margin: 25px 0 20px; color: var(--primary);">
-                            <i class="fas fa-tasks"></i> Painel de Impacto
+                            <i class="fas fa-tasks"></i> Painel de Impacto:
                         </h3>
 
                         <div class="impact-grid">
@@ -199,7 +198,7 @@
                     {# Tabela de Detalhamento #}
                     <div class="analysis-result" style="margin-top: 40px; animation: fadeIn 0.5s ease;">
                         <h3 style="margin: 25px 0 15px; font-size: 1.1rem;">
-                            <i class="fas fa-tasks"></i> Detalhamento da Análise por Linha:
+                            <i class="fas fa-tasks"></i> Detalhamento por Linha:
                         </h3>
 
                         <table class="doc-table" style="width: 100%; border-collapse: collapse;">
@@ -270,7 +269,7 @@
                     {# Padrões Detectados #}
                     <div class="analysis-result" style="margin-top: 40px; animation: fadeIn 0.5s ease;">
                         <h3 style="margin: 25px 0 15px; font-size: 1.1rem; color: var(--primary);">
-                            <i class="fas fa-search"></i> Padrões de Documentos Detectados
+                            <i class="fas fa-search"></i> Padrões de Documentos Detectados:
                         </h3>
 
                         <table class="doc-table" style="width: 100%; border-collapse: collapse;">

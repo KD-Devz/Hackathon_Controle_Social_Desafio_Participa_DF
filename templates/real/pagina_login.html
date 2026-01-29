@@ -18,7 +18,7 @@
         <form method="POST" class="pure-form pure-form-stacked">
             <div class="form-row" style="margin-bottom: 20px;">
                 <label for="email" style="font-weight: 700; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; display: block;">
-                    <i class="fas fa-envelope"></i> E-mail Corporativo
+                    <i class="fas fa-envelope"></i> E-mail:
                 </label>
                 <input type="email" id="email" name="email" class="input"
                        placeholder="exemplo@df.gov.br" required
@@ -27,7 +27,7 @@
 
             <div class="form-row" style="margin-bottom: 30px;">
                 <label for="senha" style="font-weight: 700; font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; display: block;">
-                    <i class="fas fa-lock"></i> Senha
+                    <i class="fas fa-lock"></i> Senha:
                 </label>
                 <input type="password" id="senha" name="senha" class="input"
                        placeholder="••••••••" required
@@ -35,7 +35,7 @@
             </div>
 
             <button type="submit" class="btn-primary" style="width: 100%; padding: 15px; font-size: 1rem; text-transform: uppercase; letter-spacing: 1px;">
-                <i class="fas fa-sign-in-alt"></i> Entrar no Painel
+                <i class="fas fa-sign-in-alt"></i> Entrar
             </button>
         </form>
 
@@ -47,7 +47,8 @@
 
         <div style="text-align: center; display: flex; flex-direction: column; gap: 15px;">
             <a href="{{ url_for('auth.registro') }}" class="btn-ghost" style="text-decoration: none; color: var(--secondary); font-weight: 600; font-size: 0.9rem;">
-                Ainda não tem acesso? Criar conta
+                Ainda não tem acesso?
+                <br> Criar conta
             </a>
             <a href="{{ url_for('index.pagina_index') }}" style="font-size: 0.85rem; color: var(--text-muted); text-decoration: none;">
                 <i class="fas fa-user-secret"></i> Continuar como anônimo

@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="utf-8">
-    <title>{% block title %} Valida Fácil | UnB {% endblock %}</title>
+    <title>{% block title %} Valida Fácil{% endblock %}</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -131,22 +131,22 @@
         <a href="{{ url_for('index.pagina_index') }}" class="sidebar-brand">
             <img src="{{ url_for('static', filename='imagens/logo.png') }}" alt="Logo" style="height: 35px;">
             <span style="font-size: 1.3rem; color: var(--risco-alarmante); font-weight: 600;">
-                Valida<span style="color: var(--risco-severo);">Fácil</span>
+                Valida <span style="color: var(--risco-severo);">Fácil</span>
             </span>
         </a>
 
         <nav class="nav-column">
+            <a href="{{ url_for('anonimo.pagina_enviar_solicitacao_anonima') }}" class="nav-link-side">
+                <i class="fas fa-user-secret"></i> <span>Solicitação Anônima</span>
+            </a>
             <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="nav-link-side">
                 <i class="fas fa-list-check"></i> <span>Testes</span>
             </a>
-            <a href="{{ url_for('documentacao.pagina_documentacao') }}" class="nav-link-side">
-                <i class="fas fa-file-code"></i> <span>Documentação</span>
-            </a>
-            <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}" class="nav-link-side">
+             <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}" class="nav-link-side">
                 <i class="fas fa-trophy"></i> <span>Ranking</span>
             </a>
-            <a href="{{ url_for('anonimo.pagina_enviar_solicitacao_anonima') }}" class="nav-link-side">
-                <i class="fas fa-user-secret"></i> <span>Solicitação Anônima</span>
+            <a href="{{ url_for('documentacao.pagina_documentacao') }}" class="nav-link-side">
+                <i class="fas fa-file-code"></i> <span>Documentação</span>
             </a>
 
             <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
@@ -179,7 +179,7 @@
                 </div>
             {% else %}
                 <a href="{{ url_for('auth.login') }}" class="nav-link-side" style="color: var(--primary);">
-                    <i class="fas fa-sign-in-alt"></i> <span>Acessar Sistema</span>
+                    <i class="fas fa-sign-in-alt"></i> <span>Acessar o Sistema</span>
                 </a>
             {% endif %}
 
