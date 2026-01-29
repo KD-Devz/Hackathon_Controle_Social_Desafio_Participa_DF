@@ -1,24 +1,368 @@
-FORNECER
-ESPECIFICAR
-DESCREVER
-IDENTIFICAR
-RELATAR
-APRESENTAR
-CONFIRMAR
-VALIDAR
+ACRESCENTAR
+acrescento, acrescentas, acrescenta, acrescentamos, acrescentais, acrescentam
+acrescentei, acrescentaste, acrescentou, acrescentamos, acrescentastes, acrescentaram
+acrescente, acrescentes, acrescente, acrescentemos, acrescenteis, acrescentem
+
+ADICIONAR
+adiciono, adicionas, adiciona, adicionamos, adicionais, adicionam
+adicionei, adicionaste, adicionou, adicionamos, adicionastes, adicionaram
+adicione, adiciones, adicione, adicionemos, adicioneis, adicionem
+
 ANEXAR
-ENVIAR
-PREENCHER
-INDICAR
-DISCRIMINAR
-LISTAR
+anexo, anexas, anexa, anexamos, anexais, anexam
+anexei, anexaste, anexou, anexamos, anexastes, anexaram
+anexe, anexes, anexe, anexemos, anexeis, anexem
+
+APRESENTAR
+apresento, apresentas, apresenta, apresentamos, apresentais, apresentam
+apresentei, apresentaste, apresentou, apresentamos, apresentastes, apresentaram
+apresente, apresentes, apresente, apresentemos, apresenteis, apresentem
+
+APROVAR
+aprovo, aprovas, aprova, aprovamos, aprovais, aprovam
+aprovei, aprovastes, aprovou, aprovamos, aprovastes, aprovaram
+aprove, aproves, aprove, aprovemos, aproveis, aprovem
+
+ATENDER
+atendo, atendes, atende, atendemos, atendeis, atendem
+atendi, atendeste, atendeu, atendemos, atendestes, atenderam
+atenda, atendas, atenda, atendamos, atendais, atendam
+
+ATUALIZAR
+atualizo, atualizas, atualiza, atualizamos, atualizais, atualizam
+atualizei, atualizaste, atualizou, atualizamos, atualizastes, atualizaram
+atualize, atualizes, atualize, atualizemos, atualizeis, atualizem
+
+CERTIFICAR
+certifico, certificas, certifica, certificamos, certificais, certificam
+certifiquei, certificaste, certificou, certificamos, certificastes, certificaram
+certifique, certifices, certifique, certifiquemos, certifiqueis, certifiquem
+
 COMUNICAR
-REQUISITAR
-PERGUNTAR
+comunico, comunicas, comunica, comunicamos, comunicais, comunicam
+comuniquei, comunicastes, comunicou, comunicamos, comunicastes, comunicaram
+comunique, comuniques, comunique, comuniquemos, comuniqueis, comuniquem
+
 CONSULTAR
-REGISTRAR
-ROGAR
-SUPLICAR
-SOLICITAR
+consulto, consultas, consulta, consultamos, consultais, consultam
+consultei, consultaste, consultou, consultamos, consultastes, consultaram
+consulte, consultes, consulte, consultemos, consulteis, consultem
+
+CONFIDENCIAR
+confidencio, confidencias, confidencia, confidenciamos, confidenciais, confidenciam
+confidenciei, confidenciaste, confidenciou, confidenciamos, confidenciastes, confidenciaram
+confidencie, confidencies, confidencie, confidenciemos, confidencieis, confidenciem
+
+CONFIRMAR
+confirmo, confirmas, confirma, confirmamos, confirmais, confirmam
+confirmei, confirmaste, confirmou, confirmamos, confirmastes, confirmaram
+confirme, confirmes, confirme, confirmemos, confirmeis, confirmem
+
+DEMANDAR
+demando, demandas, demanda, demandamos, demandais, demandam
+demandei, demandaste, demandou, demandamos, demandastes, demandaram
+demande, demandes, demande, demandemos, demandeis, demandem
+
+DETERMINAR
+determino, determinas, determina, determinamos, determinais, determinam
+determinei, determinaste, determinou, determinamos, determinastes, determinaram
+determine, determines, determine, determinem, determineis, determinem
+
+DESCREVER
+descrevo, descreves, descreve, descrevemos, descreveis, descrevem
+descrevi, descreveste, descreveu, descrevemos, descrevestes, descreveram
+descreva, descrevas, descreva, descrevamos, descrevais, descrevam
+
+DISCRIMINAR
+discrimino, discriminas, discrimina, discriminamos, discrimináis, discriminam
+discriminei, discriminaste, discriminou, discriminamos, discriminastes, discriminaram
+discrimine, discrimines, discrimine, discriminemos, discrimineis, discriminem
+
+ENVIAR
+envio, envias, envia, enviamos, enviais, enviam
+enviei, enviaste, enviou, enviamos, enviastes, enviaram
+envie, envies, envie, enviemos, enviei, enviem
+
+ESCLARECER
+esclareço, esclareces, esclarece, esclarecemos, esclareceis, esclarecem
+esclareci, esclareceste, esclareceu, esclarecemos, esclarecestes, esclareceram
+esclareça, esclareças, esclareça, esclareçamos, esclareçais, esclareçam
+
+ESPECIFICAR
+especifico, especificas, especifica, especificamos, especificais, especificam
+especifiquei, especificaste, especificou, especificamos, especificastes, especificaram
+especifique, especifiques, especifique, especifiquemos, especifiqueis, especifiquem
+
+EXPLICAR
+explico, explicas, explica, explicamos, explicais, explicam
+expliquei, explicaste, explicou, explicamos, explicastes, explicaram
+explique, expliques, explique, expliquemos, expliqueis, expliquem
+
+FORNECER
+forneço, forneces, fornece, fornecemos, forneceis, fornecem
+forneci, forneceste, forneceu, fornecemos, fornecestes, forneceram
+forneça, forneças, forneça, forneçamos, forneçais, forneçam
+
+GARANTIR
+garanto, garantes, garante, garantimos, garantis, garantem
+garantei, garantiste, garantiu, garantimos, garantistes, garantiram
+garanta, garantas, garanta, garantamos, garantais, garantam
+
+IDENTIFICAR
+identifico, identificas, identifica, identificamos, identificais, identificam
+identifiquei, identificaste, identificou, identificamos, identificastes, identificaram
+identifique, identifiques, identifique, identifiquemos, identifiqueis, identifiquem
+
+INDICAR
+indico, indicas, indica, indicamos, indicais, indicam
+indiquei, indicaste, indicou, indicamos, indicastes, indicaram
+indique, indiques, indique, indiquemos, indiqueis, indiquem
+
 INFORMAR
+informo, informas, informa, informamos, informais, informam
+informei, informaste, informou, informamos, informastes, informaram
+informe, informes, informe, informemos, informeis, informem
+
+LISTAR
+listo, listas, lista, listamos, listais, listam
+listei, listaste, listou, listamos, listastes, listaram
+liste, listes, liste, listemos, listeis, listem
+
+NOTIFICAR
+notifico, notificas, notifica, notificamos, notificais, notificam
+notifiquei, notificaste, notificou, notificamos, notificastes, notificaram
+notifique, notifiques, notifique, notifiquemos, notifiqueis, notifiquem
+
+OBSERVER
+observo, observas, observa, observamos, observais, observam
+observei, observaste, observou, observamos, observastes, observaram
+observe, observes, observe, observemos, observeis, observem
+
+ORIENTAR
+oriento, orientas, orienta, orientamos, orientais, orientam
+orientei, orientaste, orientou, orientamos, orientastes, orientaram
+oriente, orientes, oriente, orientemos, orienteis, orientem
+
+PERGUNTAR
+pergunto, perguntas, pergunta, perguntamos, perguntais, perguntam
+perguntei, perguntaste, perguntou, perguntamos, perguntastes, perguntaram
+pergunte, perguntes, pergunte, perguntemos, pergunteis, perguntem
+
+PREENCHER
+preencho, preenches, preenche, preenchemos, preencheis, preenchem
+preenchi, preencheste, preencheu, preenchemos, preenchestes, preencheram
+preencha, preenchas, preencha, preenchamos, preenchais, preencham
+
+PROPOR
+proponho, propões, propõe, propomos, propondes, propõem
+propus, propuseste, propôs, propusemos, propusestes, propuseram
+proponha, proponhas, proponha, proponhamos, proponhais, proponham
+
+REGISTRAR
+registro, registras, registra, registramos, registrais, registram
+registrei, registraste, registrou, registramos, registrastes, registraram
+registre, registres, registre, registremos, registreis, registrem
+
+REGULAMENTAR
+regulamento, regulamentas, regulamenta, regulamentamos, regulamentais, regulamentam
+regulamentei, regulamentaste, regulamentou, regulamentamos, regulamentastes, regulamentaram
+regulamente, regulamentes, regulamente, regulamentemos, regulamenteis, regulamentem
+
 REQUERER
+requeiro, requeres, requer, requeremos, requereis, requerem
+requeri, requereste, requereu, requeremos, requerestes, requereram
+requeira, requeiras, requeira, requeiramos, requeirais, requeiram
+
+REQUISITAR
+requisito, requisitas, requisita, requisitamos, requisitais, requisitam
+requisitei, requisitaste, requisitou, requisitamos, requisitastes, requisitaram
+requisite, requisites, requisite, requisitemos, requisiteis, requisitem
+
+REPORTAR
+reporto, reportas, reporta, reportamos, reportais, reportam
+reportei, reportaste, reportou, reportamos, reportastes, reportaram
+reporte, reportes, reporte, reportemos, reporteis, reportem
+
+ROGAR
+rogo, rogas, roga, rogamos, rogais, rogam
+roguei, rogaste, rogou, rogamos, rogastes, rogaram
+rogue, rogues, rogue, roguemos, rogueis, roguem
+
+SOLICITAR
+solicito, solicitas, solicita, solicitamos, solicitais, solicitam
+solicitei, solicitaste, solicitou, solicitamos, solicitastes, solicitaram
+solicite, solicites, solicite, solicitemos, soliciteis, solicitem
+
+SUGERIR
+sugiro, sugeres, sugere, sugerimos, sugeris, sugerem
+sugeri, sugeriste, sugeriu, sugerimos, sugeristes, sugeriram
+sugira, sugiras, sugira, sugiramos, sugirais, sugiram
+
+SUPERVISIONAR
+supervisiono, supervisionas, supervisiona, supervisionamos, supervisionais, supervisionam
+supervisionei, supervisionaste, supervisionou, supervisionamos, supervisionastes, supervisionaram
+supervisione, supervisiones, supervisione, supervisionemos, supervisioneis, supervisionem
+
+SUPLICAR
+suplico, suplicas, suplica, suplicamos, suplicais, suplicam
+suplicuei, suplicaste, suplicou, suplicamos, suplicastes, suplicaram
+suplique, supliques, suplique, supliquemos, supliqueis, supliquem
+
+VALIDAR
+valido, validas, valida, validamos, validais, validam
+validei, validaste, validou, validamos, validastes, validaram
+valide, valides, valide, validemos, valideis, validem
+
+VERIFICAR
+verifico, verificas, verifica, verificamos, verificais, verificam
+verifiquei, verificaste, verificou, verificamos, verificastes, verificaram
+verifique, verifiques, verifique, verifiquemos, verifiqueis, verifiquem
+
+SUBMETER
+submeto, submetes, submete, submetemos, submetéis, submetem
+submeti, submeteste, submeteu, submetemos, submetestes, submeteram
+submeta, submetas, submeta, submetamos, submetais, submetam
+
+COMPROVAR
+comprovo, comprovas, comprova, comprovamos, comprovaís, comprovam
+comprovei, comprovaste, comprovou, comprovamos, comprovastes, comprovaram
+comprove, comproves, comprove, comprovemos, comproveis, comprovem
+
+DEMONSTRAR
+demonstro, demonstras, demonstra, demonstramos, demonstráis, demonstram
+demonstrei, demonstraste, demonstrou, demonstramos, demonstrastes, demonstraram
+demonstre, demonstres, demonstre, demonstremos, demonstreis, demonstrem
+
+EXAMINAR
+examino, examinas, examina, examinamos, examináis, examinam
+examinei, examinaste, examinou, examinamos, examinastes, examinaram
+examine, examines, examine, examinemos, examineis, examinem
+
+REGULARIZAR
+regularizo, regularizas, regulariza, regularizamos, regularizais, regularizam
+regularizei, regularizaste, regularizou, regularizamos, regularizastes, regularizaram
+regularize, regularizes, regularize, regularizemos, regularizeis, regularizem
+
+CERTIFICAR-ME
+certifico-me, certificas-me, certifica-se, certificamo-nos, certificais-vos, certificam-se
+certifiquei-me, certificaste-me, certificou-se, certificamo-nos, certificastes-vos, certificaram-se
+certifique-me, certificues-me, certifique-se, certificemo-nos, certificueis-vos, certifiquem-se
+
+REFORÇAR
+reforço, reforças, reforça, reforçamos, reforçais, reforçam
+reforcei, reforçaste, reforçou, reforçamos, reforçastes, reforçaram
+reforce, reforces, reforce, reforcemos, reforceis, reforcem
+
+DOCUMENTAR
+documento, documentas, documenta, documentamos, documentais, documentam
+documentei, documentaste, documentou, documentamos, documentastes, documentaram
+documente, documentes, documente, documentemos, documenteis, documentem
+
+RATIFICAR
+ratifico, ratificas, ratifica, ratificamos, ratificais, ratificam
+ratifiquei, ratificaste, ratificou, ratificamos, ratificastes, ratificaram
+ratifique, ratifiques, ratifique, ratifiquemos, ratifiqueis, ratifiquem
+
+ATUALIZAR DADOS
+atualizo dados, atualizas dados, atualiza dados, atualizamos dados, atualizais dados, atualizam dados
+atualizei dados, atualizaste dados, atualizou dados, atualizamos dados, atualizastes dados, atualizaram dados
+atualize dados, atualizes dados, atualize dados, atualizemos dados, atualizeis dados, atualizem dados
+
+CONFIRMAR DADOS
+confirmo dados, confirmas dados, confirma dados, confirmamos dados, confirmais dados, confirmam dados
+confirmei dados, confirmaste dados, confirmou dados, confirmamos dados, confirmastes dados, confirmaram dados
+confirme dados, confirmes dados, confirme dados, confirmemos dados, confirmeis dados, confirmem dados
+
+ACOMPANHAR
+acompanho, acompanhas, acompanha, acompanhamos, acompanhais, acompanham
+acompanhei, acompanhaste, acompanhou, acompanhamos, acompanhastes, acompanharam
+acompanhe, acompanhes, acompanhe, acompanhemos, acompanheis, acompanhem
+
+CONSULTAR DADOS
+consulto dados, consultas dados, consulta dados, consultamos dados, consultais dados, consultam dados
+consultei dados, consultaste dados, consultou dados, consultamos dados, consultastes dados, consultaram dados
+consulte dados, consultes dados, consulte dados, consultemos dados, consulteis dados, consultem dados
+
+SUGERIR ALTERAÇÕES
+sugiro alterações, sugeres alterações, sugere alterações, sugerimos alterações, sugeris alterações, sugerem alterações
+sugeri alterações, sugeriste alterações, sugeriu alterações, sugerimos alterações, sugeristes alterações, sugeriram alterações
+sugira alterações, sugiras alterações, sugira alterações, sugiramos alterações, sugirais alterações, sugiram alterações
+
+SOLICITAR INFORMAÇÕES
+solicito informações, solicitas informações, solicita informações, solicitamos informações, solicitais informações, solicitam informações
+solicitei informações, solicitaste informações, solicitou informações, solicitamos informações, solicitastes informações, solicitaram informações
+solicite informações, solicites informações, solicite informações, solicitemos informações, soliciteis informações, solicitem informações
+
+NOTIFICAR PENDÊNCIAS
+notifico pendências, notificas pendências, notifica pendências, notificamos pendências, notificais pendências, notificam pendências
+notifiquei pendências, notificaste pendências, notificou pendências, notificamos pendências, notificastes pendências, notificaram pendências
+notifique pendências, notifiques pendências, notifique pendências, notifiquemos pendências, notifiqueis pendências, notifiquem pendências
+
+VERIFICAR INFORMAÇÕES
+verifico informações, verificas informações, verifica informações, verificamos informações, verificais informações, verificam informações
+verifiquei informações, verificaste informações, verificou informações, verificamos informações, verificastes informações, verificaram informações
+verifique informações, verifiques informações, verifique informações, verifiquemos informações, verifiqueis informações, verifiquem informações
+
+ORIENTAR PROCEDIMENTOS
+oriento procedimentos, orientas procedimentos, orienta procedimentos, orientamos procedimentos, orientais procedimentos, orientam procedimentos
+orientei procedimentos, orientaste procedimentos, orientou procedimentos, orientamos procedimentos, orientastes procedimentos, orientaram procedimentos
+oriente procedimentos, orientes procedimentos, oriente procedimentos, orientemos procedimentos, orienteis procedimentos, orientem procedimentos
+
+ATUALIZAR REGISTROS
+atualizo registros, atualizas registros, atualiza registros, atualizamos registros, atualizais registros, atualizam registros
+atualizei registros, atualizaste registros, atualizou registros, atualizamos registros, atualizastes registros, atualizaram registros
+atualize registros, atualizes registros, atualize registros, atualizemos registros, atualizeis registros, atualizem registros
+
+SUBMETER RELATÓRIOS
+submeto relatórios, submetes relatórios, submete relatórios, submetemos relatórios, submetéis relatórios, submetem relatórios
+submeti relatórios, submeteste relatórios, submeteu relatórios, submetemos relatórios, submetestes relatórios, submeteram relatórios
+submeta relatórios, submetas relatórios, submeta relatórios, submetamos relatórios, submetais relatórios, submetam relatórios
+
+ACRESCENTO INFORMAÇÕES
+acrescento informações, acrescentas informações, acrescenta informações, acrescentamos informações, acrescentais informações, acrescentam informações
+acrescentei informações, acrescentaste informações, acrescentou informações, acrescentamos informações, acrescentastes informações, acrescentaram informações
+acrescente informações, acrescentes informações, acrescente informações, acrescentemos informações, acrescenteis informações, acrescentem informações
+
+ENVIO RELATÓRIOS
+envio relatórios, envias relatórios, envia relatórios, enviamos relatórios, enviais relatórios, enviam relatórios
+enviei relatórios, enviaste relatórios, enviou relatórios, enviamos relatórios, enviastes relatórios, enviaram relatórios
+envie relatórios, envies relatórios, envie relatórios, enviemos relatórios, enviei relatórios, enviem relatórios
+
+COMUNICO OFICIALMENTE
+comunico oficialmente, comunicas oficialmente, comunica oficialmente, comunicamos oficialmente, comunicais oficialmente, comunicam oficialmente
+comuniquei oficialmente, comunicastes oficialmente, comunicou oficialmente, comunicamos oficialmente, comunicastes oficialmente, comunicaram oficialmente
+comunique oficialmente, comuniques oficialmente, comunique oficialmente, comuniquemos oficialmente, comuniqueis oficialmente, comuniquem oficialmente
+
+REGISTRO OFICIALMENTE
+registro oficialmente, registras oficialmente, registra oficialmente, registramos oficialmente, registrais oficialmente, registram oficialmente
+registre oficialmente, registres oficialmente, registre oficialmente, registremos oficialmente, registreis oficialmente, registrem oficialmente
+
+OBSERVO DETALHES
+observo detalhes, observas detalhes, observa detalhes, observamos detalhes, observais detalhes, observam detalhes
+observei detalhes, observaste detalhes, observou detalhes, observamos detalhes, observastes detalhes, observaram detalhes
+observe detalhes, observes detalhes, observe detalhes, observemos detalhes, observeis detalhes, observem detalhes
+
+CONFIRMO OFICIALMENTE
+confirmo oficialmente, confirmas oficialmente, confirma oficialmente, confirmamos oficialmente, confirmais oficialmente, confirmam oficialmente
+confirmei oficialmente, confirmaste oficialmente, confirmou oficialmente, confirmamos oficialmente, confirmastes oficialmente, confirmaram oficialmente
+confirme oficialmente, confirmes oficialmente, confirme oficialmente, confirmemos oficialmente, confirmeis oficialmente, confirmem oficialmente
+
+VERIFICO DADOS
+verifico dados, verificas dados, verifica dados, verificamos dados, verificais dados, verificam dados
+verifiquei dados, verificaste dados, verificou dados, verificamos dados, verificastes dados, verificaram dados
+verifique dados, verifiques dados, verifique dados, verifiquemos dados, verifiqueis dados, verifiquem dados
+
+PROPONHO AÇÕES
+proponho ações, propões ações, propõe ações, propomos ações, propondes ações, propõem ações
+propus ações, propuseste ações, propôs ações, propusemos ações, propusestes ações, propuseram ações
+proponha ações, proponhas ações, proponha ações, proponhamos ações, proponhais ações, proponham ações
+
+ESCLAREÇO INFORMAÇÕES
+esclareço informações, esclareces informações, esclarece informações, esclarecemos informações, esclareceis informações, esclarecem informações
+esclareci informações, esclareceste informações, esclareceu informações, esclarecemos informações, esclarecestes informações, esclareceram informações
+esclareça informações, esclareças informações, esclareça informações, esclareçamos informações, esclareçais informações, esclareçam informações
+
+ENCAMINHO
+encaminho, encaminhas, encaminha, encaminhamos, encaminhais, encaminham
+encaminhei, encaminhaste, encaminhou, encaminhamos, encaminhastes, encaminharam
+encaminhe, encaminhes, encaminhe, encaminhemos, encaminheis, encaminhem

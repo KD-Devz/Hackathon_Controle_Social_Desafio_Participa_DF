@@ -1,15 +1,90 @@
-PEDIR peço pedes pede pedimos pedis pedem pedia pedias pedia pedíamos pedíeis pediam pedi pediste pediu pedimos pedistes pediram pedirei pedirás pedirá pediremos pedireis pedirão peça peças peça peçamos peçais peçam
+ASSUMIR
+assumo, assumes, assume, assumimos, assumis, assumem
+assumia, assumias, assumia, assumíamos, assumíeis, assumiam
+assumi, assumiste, assumiu, assumimos, assumistes, assumiram
+assumirei, assumirás, assumirá, assumiremos, assumireis, assumirão
+assuma, assumes, assuma, assumamos, assumais, assumam
 
-REQUERER requeiro requeres requer requeremos requereis requerem requeria requerias requeria requeríamos requeríeis requeriam requeri requereste requereu requeremos requerestes requereram requererei requererás requererá requereremos requerereis requererão requeira requeiras requeira requeiramos requeirais requeiram
+DISPOR
+disponho, dispões, dispõe, dispomos, dispondes, dispõem
+dispunha, dispunhas, dispunha, dispúnhamos, dispúnheis, dispunham
+dispus, dispuseste, dispôs, dispusemos, dispusestes, dispuseram
+disporei, disporás, disporá, disporemos, disporeis, disporão
+disponha, disponhas, disponha, disponhamos, disponhais, disponham
 
-EXIGIR exijo exiges exige exigimos exigis exigem exigia exigias exigia exigíamos exigíeis exigiam exigi exigiste exigiu exigimos exigistes exigiram exigirei exigirás exigirá exigiremos exigireis exigirão exija exijas exija exijamos exijais exijam
+EXIGIR
+exijo, exiges, exige, exigimos, exigis, exigem
+exigia, exigias, exigia, exigíamos, exigíeis, exigiam
+exigi, exigiste, exigiu, exigimos, exigistes, exigiram
+exigirei, exigirás, exigirá, exigiremos, exigireis, exigirão
+exija, exijas, exija, exijamos, exijais, exijam
 
-QUERER quero queres quer queremos quereis querem queria querias queria queríamos queríeis queriam quis quiseste quis quisemos quisestes quiseram quererei quererás quererá quereremos querereis quererão queira queiras queira queiramos queirais queiram
+FAZER
+faço, fazes, faz, fazemos, fazeis, fazem
+fazia, fazias, fazia, fazíamos, fazíeis, faziam
+fiz, fizeste, fez, fizemos, fizestes, fizeram
+farei, farás, fará, faremos, fareis, farão
+faça, faças, faça, façamos, façais, façam
 
-PROPOR proponho propões propõe propomos propondes propõem propunha propunhas propunha propúnhamos propúnheis propunham propus propuseste propôs propusemos propusestes propuseram proporei proporás proporá proporemos proporeis proporão proponha proponhas proponha proponhamos proponhais proponham
+IMPRIMIR
+imprimo, imprimes, imprime, imprimimos, imprimis, imprimem
+imprimia, imprimias, imprimia, imprimíamos, imprimíeis, imprimiam
+imprimi, imprimiste, imprimiu, imprimimos, imprimistes, imprimiram
+imprimirei, imprimirás, imprimirá, imprimiremos, imprimireis, imprimirão
+imprima, imprimas, imprima, imprimamos, imprimais, imprimam
 
-DISPOR disponho dispões dispõe dispomos dispondes dispõem dispunha dispunhas dispunha dispúnhamos dispúnheis dispunhamdispus dispuseste dispôs dispusemos dispusestes dispuseram disporei disporás disporá disporemos disporeis disporão disponha disponhas disponha disponhamos disponhais disponham
+IMPOR
+imponho, impões, impõe, impomos, impondes, impõem
+impunha, impunhas, impunha, impúnhamos, impúnheis, impunham
+impus, impuseste, impôs, impusemos, impusestes, impuseram
+imporei, imporás, imporá, imporemos, imporeis, imporão
+imponha, imponhas, imponha, imponhamos, imponhais, imponham
 
-IMPOR imponho impões impõe impomos impondes impõem impunha impunhas impunha impúnhamos impúnheis impunha mimpus impuseste impôs impusemos impusestes impuseram imporei imporás imporá imporemos imporeis imporão imponha imponhas imponha imponhamos imponhais imponham
+INSISTIR
+insisto, insistes, insiste, insistimos, insistis, insistem
+insistia, insistias, insistia, insistíamos, insistíeis, insistiam
+insisti, insististe, insistiu, insistimos, insististes, insistiram
+insistirei, insistirás, insistirá, insistiremos, insistireis, insistirão
+insista, insistas, insista, insistamos, insistais, insistam
 
-SUPOR suponho supões supõe supomos supondes supõem supunha supunhas supunha supúnhamos supúnheis supunham supus supuseste supôs supusemos supusestes supuseram suporei suporás suporá suporemos suporeis suporão suponha suponhas suponha suponhamos suponhais suponham
+PEDIR
+peço, pedes, pede, pedimos, pedis, pedem
+pedia, pedias, pedia, pedíamos, pedíeis, pediam
+pedi, pediste, pediu, pedimos, pedistes, pediram
+pedirei, pedirás, pedirá, pediremos, pedireis, pedirão
+peça, peças, peça, peçamos, peçais, peçam
+
+PROPOR
+proponho, propões, propõe, propomos, propondes, propõem
+propunha, propunhas, propunha, propúnhamos, propúnheis, propunham
+propus, propuseste, propôs, propusemos, propusestes, propuseram
+proporei, proporás, proporá, proporemos, proporeis, proporão
+proponha, proponhas, proponha, proponhamos, proponhais, proponham
+
+QUERER
+quero, queres, quer, queremos, quereis, querem
+queria, querias, queria, queríamos, queríeis, queriam
+quis, quiseste, quis, quisemos, quisestes, quiseram
+quererei, quererás, quererá, quereremos, querereis, quererão
+queira, queiras, queira, queiramos, queirais, queiram
+
+REQUERER
+requeiro, requeres, requer, requeremos, requereis, requerem
+requeria, requerias, requeria, requeríamos, requeríeis, requeriam
+requeri, requereste, requereu, requeremos, requerestes, requereram
+requererei, requererás, requererá, requereremos, requerereis, requererão
+requeira, requeiras, requeira, requeiramos, requeirais, requeiram
+
+SUGERIR
+sugiro, sugeres, sugere, sugerimos, sugeris, sugerem
+sugeria, sugerias, sugeria, sugeríamos, sugeríeis, sugeriam
+sugeri, sugeriste, sugeriu, sugerimos, sugeristes, sugeriram
+sugerirei, sugerirás, sugerirá, sugeriremos, sugerireis, sugerirão
+sugira, sugiras, sugira, sugiramos, sugirais, sugiram
+
+SUPOR
+suponho, supões, supõe, supomos, supondes, supõem
+supunha, supunhas, supunha, supúnhamos, supúnheis, supunham
+supus, supuseste, supôs, supusemos, supusestes, supuseram
+suporei, suporás, suporá, suporemos, suporeis, suporão
+suponha, suponhas, suponha, suponhamos, suponhais, suponham
