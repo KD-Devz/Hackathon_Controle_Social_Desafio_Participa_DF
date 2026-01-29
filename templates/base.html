@@ -18,73 +18,108 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/tables.css') }}">
 
     <style>
-        /* Ajustes para o novo layout sem Sidebar */
+        :root {
+            --sidebar-width: 280px;
+            --sidebar-bg: #ffffff;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            margin: 0;
+        }
+
+        /* Container que divide Sidebar e Conteúdo */
         .app-container {
             display: flex;
-            flex-direction: column;
             min-height: 100vh;
         }
 
-        .content-area {
-            padding: 30px;
-            max-width: 1400px;
-            margin: 0 auto;
-            width: 100%;
+        /* Estilização da Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--sidebar-bg);
+            border-right: 1px solid #eee;
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 30px 20px;
+            z-index: 1000;
         }
 
-        .nav-link-top {
+        .sidebar-brand {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            padding-left: 10px;
+        }
+
+        .nav-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        /* Links da Sidebar */
+        .nav-link-side {
             text-decoration: none;
             color: #555;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: color 0.3s;
+            gap: 12px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            transition: all 0.3s;
         }
 
-        .nav-link-top:hover {
-            color: var(--primary);
+        .nav-link-side i {
+            width: 20px;
+            font-size: 1.1rem;
+            text-align: center;
         }
 
-        /* Dropdown Estilizado */
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 50px;
-            background: white;
-            min-width: 220px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            border-radius: 12px;
-            z-index: 1000;
-            border: 1px solid #eee;
-            overflow: hidden;
-            animation: fadeIn 0.2s ease;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .dropdown-item {
-            display: block;
-            padding: 12px 20px;
-            color: #333;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .dropdown-item:hover {
+        .nav-link-side:hover {
             background: #f8f9fa;
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .nav-link-side.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Área de Conteúdo ajustada */
+        .content-area {
+            flex: 1;
+            margin-left: var(--sidebar-width); /* Empurra o conteúdo para a direita */
+            padding: 40px;
+            width: calc(100% - var(--sidebar-width));
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .user-section-side {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar { width: 80px; padding: 20px 10px; }
+            .sidebar span, .sidebar-brand span, .user-name-text { display: none; }
+            .content-area { margin-left: 80px; width: calc(100% - 80px); }
+            .nav-link-side { justify-content: center; }
         }
     </style>
     {% block head %}{% endblock %}
@@ -92,106 +127,73 @@
 <body>
 
 <div class="app-container">
-    <header class="navbar"
-            style="display: flex; justify-content: space-between; align-items: center; padding: 0 40px; height: 80px; background: white; border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100;">
+    <aside class="sidebar">
+        <a href="{{ url_for('index.pagina_index') }}" class="sidebar-brand">
+            <img src="{{ url_for('static', filename='imagens/logo.png') }}" alt="Logo" style="height: 35px;">
+            <span style="font-size: 1.3rem; color: var(--risco-alarmante); font-weight: 600;">
+                Valida<span style="color: var(--risco-severo);">Fácil</span>
+            </span>
+        </a>
 
-        <div style="display: flex; align-items: center; gap: 50px;">
-            <a href="{{ url_for('index.pagina_index') }}"
-               style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
-                <img src="{{ url_for('static', filename='imagens/logo.png') }}" alt="Logo" style="height: 45px;">
-                <span style="font-size: 1.6rem; color: var(--risco-alarmante); font-weight: 500; line-height: 1;">
-                    Valida <strong style="color: var(--risco-severo);">Fácil</strong>
-                </span>
+        <nav class="nav-column">
+            <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="nav-link-side">
+                <i class="fas fa-list-check"></i> <span>Testes</span>
+            </a>
+            <a href="{{ url_for('documentacao.pagina_documentacao') }}" class="nav-link-side">
+                <i class="fas fa-file-code"></i> <span>Documentação</span>
+            </a>
+            <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}" class="nav-link-side">
+                <i class="fas fa-trophy"></i> <span>Ranking</span>
+            </a>
+            <a href="{{ url_for('anonimo.pagina_enviar_solicitacao_anonima') }}" class="nav-link-side">
+                <i class="fas fa-user-secret"></i> <span>Solicitação Anônima</span>
             </a>
 
-            <nav style="display: flex; gap: 25px;">
-                <a href="{{ url_for('index.pagina_index') }}" class="nav-link-top"><i class="fas fa-chart-line"></i>
-                    Painel</a>
-                <a href="{{ url_for('lista_de_testes.pagina_testes') }}" class="nav-link-top"><i
-                        class="fas fa-list-check"></i> Testes</a>
-                <a href="{{ url_for('documentacao.pagina_documentacao') }}" class="nav-link-top"><i
-                        class="fas fa-file-code"></i> Documentação</a>
-                <a href="{{ url_for('ranking_de_testes.pagina_ranking_de_testes') }}" class="nav-link-top"><i
-                        class="fas fa-trophy"></i> Ranking</a>
-            </nav>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
 
-            <a href="https://github.com/KD-Devz/Hackathon_Controle_Social_Desafio_Participa_DF"
-               target="_blank"
-               title="Ver código no GitHub"
-               style="text-decoration: none; color: #24292e; font-size: 2rem; display: flex; align-items: center; transition: transform 0.2s;">
-                <i class="fab fa-github"></i>
-            </a>
-        </div>
-
-
-        <div class="navbar-user">
             {% if session.get('user_id') %}
-                <div style="position: relative;">
-                    <button onclick="toggleDropdown()" id="userBtn"
-                            style="background: #f8f9fa; border: 1px solid #ddd; padding: 8px 18px; border-radius: 50px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 600; transition: all 0.3s;">
-                        <i class="fas fa-user-circle" style="color: var(--primary); font-size: 1.2rem;"></i>
-                        <span style="color: #333;">{{ session.get('user_name', 'Usuário') }}</span>
-                        <i class="fas fa-chevron-down" style="font-size: 0.7rem; color: #999;"></i>
-                    </button>
-
-                    <div id="userDropdown" class="dropdown-menu">
-                        <div style="padding: 15px 20px; background: #fcfcfc; border-bottom: 1px solid #eee;">
-                            <small style="color: #999; text-transform: uppercase; font-size: 0.65rem; font-weight: 800;">Minha
-                                Conta</small>
-                        </div>
-                        <a href="{{ url_for('perfil.pagina_meu_perfil') }}" class="dropdown-item">
-                            <i class="fas fa-id-card" style="width: 20px;"></i> Meu Perfil
-                        </a>
-                        <a href="{{ url_for('solicitacao.pagina_enviar_solicitacao') }}" class="dropdown-item">
-                            <i class="fas fa-paper-plane" style="width: 20px;"></i> Nova Solicitação
-                        </a>
-                        <a href="{{ url_for('solicitacao.ver_solicitacoes') }}" class="dropdown-item">
-                            <i class="fas fa-list-ul" style="width: 20px;"></i> Minhas Solicitações
-                        </a>
-                        <div style="border-top: 1px solid #eee; background: #fff5f5;">
-                            <a href="{{ url_for('auth.logout') }}" class="dropdown-item"
-                               style="color: #ed2131; font-weight: 700;">
-                                <i class="fas fa-sign-out-alt" style="width: 20px;"></i> Sair
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            {% else %}
-                <a href="{{ url_for('auth.login') }}" class="btn-login"
-                   style="background: var(--primary); color: white; padding: 10px 25px; border-radius: 50px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
-                    Acessar Sistema
+                <a href="{{ url_for('perfil.pagina_meu_perfil') }}" class="nav-link-side">
+                    <i class="fas fa-id-card"></i> <span>Meu Perfil</span>
+                </a>
+                <a href="{{ url_for('solicitacao.pagina_enviar_solicitacao') }}" class="nav-link-side">
+                    <i class="fas fa-paper-plane"></i> <span>Nova Solicitação</span>
+                </a>
+                <a href="{{ url_for('solicitacao.ver_solicitacoes') }}" class="nav-link-side">
+                    <i class="fas fa-history"></i> <span>Minhas Solicitações</span>
                 </a>
             {% endif %}
+        </nav>
+
+        <div class="sidebar-footer">
+            {% if session.get('user_id') %}
+                <div class="user-section-side">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                        <i class="fas fa-user-circle" style="color: var(--primary); font-size: 1.2rem;"></i>
+                        <span class="user-name-text" style="font-weight: 700; font-size: 0.85rem; color: #333;">
+                            {{ session.get('user_name') }}
+                        </span>
+                    </div>
+                    <a href="{{ url_for('auth.logout') }}" style="text-decoration: none; color: #ed2131; font-weight: 700; font-size: 0.8rem; display: flex; align-items: center; gap: 5px;">
+                        <i class="fas fa-sign-out-alt"></i> <span>Sair do Sistema</span>
+                    </a>
+                </div>
+            {% else %}
+                <a href="{{ url_for('auth.login') }}" class="nav-link-side" style="color: var(--primary);">
+                    <i class="fas fa-sign-in-alt"></i> <span>Acessar Sistema</span>
+                </a>
+            {% endif %}
+
+            <a href="https://github.com/KD-Devz/Hackathon_Controle_Social_Desafio_Participa_DF"
+               target="_blank" class="nav-link-side">
+                <i class="fab fa-github"></i> <span>GitHub do Projeto</span>
+            </a>
         </div>
-    </header>
+    </aside>
 
     <main class="content-area">
         {% block main %}{% endblock %}
     </main>
-
-    <footer class="footer" style="margin-top: auto;">
-        {% include "includes/footer.html" %}
-    </footer>
 </div>
-
-<script>
-    function toggleDropdown() {
-        const dropdown = document.getElementById("userDropdown");
-        const btn = document.getElementById("userBtn");
-        const isOpen = dropdown.style.display === "block";
-
-        dropdown.style.display = isOpen ? "none" : "block";
-        btn.style.borderColor = isOpen ? "#ddd" : "var(--primary)";
-    }
-
-    // Fechar ao clicar fora
-    window.onclick = function (event) {
-        if (!event.target.closest('#userBtn')) {
-            document.getElementById("userDropdown").style.display = "none";
-            document.getElementById("userBtn").style.borderColor = "#ddd";
-        }
-    }
-</script>
 
 {% block scripts %}{% endblock %}
 </body>

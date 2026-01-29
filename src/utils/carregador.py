@@ -308,9 +308,7 @@ def remover_substrings(lista):
 
 
 def calcular_escala_criticidade(valor_bruto):
-    # Definimos um valor máximo teórico para o sistema (ex: 1000)
-    # ou usamos o maior valor observado na amostra atual
-    valor_max = 1000
+    valor_max = 30
     valor_min = 0
 
     # Aplicação da fórmula de normalização
