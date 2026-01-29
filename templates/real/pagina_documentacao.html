@@ -1,503 +1,584 @@
 {% extends "base.html" %}
+{% block title %}Documentação Técnica — Valida Fácil{% endblock %}
 
-{% block title %}Documentação Técnica | Privacy Shield{% endblock %}
+{% block head %}
+    <style>
+        /* Layout de Documentação Premium */
+        .doc-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            align-items: start;
+            margin-top: 10px;
+        }
+
+        /* Sidebar Lateral Estilizada */
+        .doc-aside {
+            position: sticky;
+            top: 20px;
+            background: #fff;
+            border: 1px solid #e6edf3;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        }
+
+        .doc-tab {
+            background: transparent;
+            border: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #64748b;
+            font-weight: 600;
+            text-align: left;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+        }
+
+        .doc-tab i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .doc-tab:hover {
+            background: #f1f5f9;
+            color: var(--primary);
+        }
+
+        .doc-tab.active {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        /* Conteúdo Principal */
+        .doc-main-content {
+            min-width: 0;
+        }
+
+        .doc-section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .doc-section.active {
+            display: block;
+        }
+
+        .doc-card {
+            background: #fff;
+            border: 1px solid #eef2f6;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* Elementos Internos */
+        .code-window {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            margin: 15px 0;
+            border-left: 4px solid var(--primary);
+            overflow-x: auto;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* FAQ Estilizado */
+        details {
+            border: 1px solid #e6edf3;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        details[open] {
+            border-color: var(--primary);
+            background: #f8fafc;
+        }
+
+        summary {
+            padding: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            outline: none;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        summary::after {
+            content: "+";
+            font-size: 1.2rem;
+            color: var(--muted);
+        }
+
+        details[open] summary::after {
+            content: "-";
+        }
+
+        /* Comentários */
+        .comment-box {
+            display: flex;
+            gap: 12px;
+            padding: 15px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: grid;
+            place-items: center;
+            font-weight: bold;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .doc-container {
+                grid-template-columns: 1fr;
+            }
+
+            .doc-aside {
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+{% endblock %}
 
 {% block main %}
-    <div class="doc-container" style="display: grid; grid-template-columns: 280px 1fr; gap: 30px; align-items: start;">
+    <div class="doc-container">
 
-        <aside class="doc-sidebar" style="position: sticky; top: 100px;">
-            <div class="card-glow" style="--card-color: var(--primary); padding: 20px;">
-                <div class="card-label">Documentação Oficial</div>
-               <br>
-
-                <nav class="doc-nav" style="display: flex; flex-direction: column; gap: 8px;">
-                    <button class="doc-btn active" data-target="arquitetura"><i class="fas fa-sitemap"></i> Arquitetura
-                    </button>
-                    <button class="doc-btn" data-target="instalacao"><i class="fas fa-rocket"></i> Deploy Rápido
-                    </button>
-                    <button class="doc-btn" data-target="metodologia"><i class="fas fa-brain"></i> Metodologia
-                    </button>
-                    <button class="doc-btn" data-target="banco-dados"><i class="fas fa-database"></i> Persistência
-                        (SQLite)
-                    </button>
-                    <button class="doc-btn" data-target="escala-risco"><i class="fas fa-radiation"></i> Matriz de Criticidade e Risco
-                    </button>
-                    <button class="doc-btn" data-target="api-ref"><i class="fas fa-code"></i> API Reference</button>
-                    <button class="doc-btn" data-target="comunidade"><i class="fas fa-comments"></i> Feedback</button>
-
-                    <hr style="border: 0; border-top: 1px solid #eee; margin: 10px 0;">
-
-                    <a href="{{ url_for('documentacao.documentacao_pdf') }}" download="Manual_Privacy_Shield.pdf"
-                       class="btn-primary"
-                       style="background-color: #c0392b; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-size: 0.9rem;">
-                        <i class="fas fa-file-pdf"></i> Exportar PDF
-                    </a>
-                </nav>
+        <aside class="doc-aside">
+            <div style="padding: 0 15px 15px 15px; border-bottom: 1px solid #eee; margin-bottom: 10px;">
+                <h2 style="font-size: 1.1rem; margin: 0; color: var(--primary);">Valida Fácil</h2>
+                <span class="small-meta">Documentação v1.0</span>
             </div>
+
+            <button class="doc-tab active" data-target="intro"><i class="fas fa-book"></i> Introdução</button>
+            <button class="doc-tab" data-target="getting-started"><i class="fas fa-terminal"></i> Guia Rápido</button>
+            <button class="doc-tab" data-target="arquitetura"><i class="fas fa-layer-group"></i> Arquitetura</button>
+            <button class="doc-tab" data-target="motor"><i class="fas fa-microchip"></i> Motor de Busca</button>
+            <button class="doc-tab" data-target="persistencia"><i class="fas fa-database"></i> Persistência</button>
+            <button class="doc-tab" data-target="escala"><i class="fas fa-gauge-high"></i> Escala de Risco</button>
+            <button class="doc-tab" data-target="api"><i class="fas fa-cloud-rpc"></i> API Reference</button>
+            <button class="doc-tab" data-target="interface"><i class="fas fa-palette"></i> Interface e UX</button>
+            <button class="doc-tab" data-target="casos"><i class="fas fa-vial"></i> Casos de Uso</button>
+            <button class="doc-tab" data-target="faq"><i class="fas fa-circle-question"></i> FAQ</button>
+            <button class="doc-tab" data-target="contribuir"><i class="fas fa-users"></i> Contribuição</button>
+
+            <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
+            <a href="{{ url_for('documentacao.documentacao_pdf') }}" class="doc-tab"
+               style="text-decoration:none; background: #fee2e2; color: #991b1b;">
+                <i class="fas fa-file-pdf"></i> Exportar Manual PDF
+            </a>
         </aside>
 
-        <section class="doc-content-area" id="content-viewport">
+        <main class="doc-main-content">
 
-            <article id="arquitetura" class="section active">
-                <h2 class="section-title"><i class="fas fa-sitemap"></i> Arquitetura</h2>
-                <p class="muted">
-                    O <strong>Privacy Shield</strong> não é apenas um filtro; é um sentinela posicionado entre o cidadão
-                    e o dado público. Desenvolvido em <strong>Flask</strong>, ele utiliza processamento assíncrono para
-                    validar informações sensíveis antes que elas atinjam bases de dados públicas.
-                </p>
+            <section id="intro" class="doc-section active">
+                <div class="doc-card">
+                    <h3><i class="fas fa-star" style="color: #f1c40f;"></i> Visão Geral e Propósito</h3>
+                    <p>
+                        O <strong>Valida Fácil</strong> opera como um <em>Content Security Firewall</em> (Firewall de
+                        Conteúdo) especializado para a administração pública.
+                        Diferente de filtros estáticos baseados apenas em palavras-chave (blacklists), o núcleo do
+                        sistema utiliza uma <strong>análise híbrida</strong> que combina o rigor matemático das
+                        Expressões Regulares (Regex) com a inteligência da Análise Semântica.
+                    </p>
 
-                <div class="impact-grid" style="grid-template-columns: 1fr 1fr; margin-top: 20px;">
-                    <div class="card-glow" style="--card-color: var(--secondary); padding: 15px;">
-                        <div class="card-label">Backend Core</div>
-                        <p class="small">Python 3.10+ com roteamento dinâmico via Blueprints para escalabilidade.</p>
+                    <div style="margin-top: 20px; border-left: 4px solid var(--primary); padding-left: 20px; background: #f8fafc; padding: 15px; border-radius: 0 8px 8px 0;">
+                        <p style="margin: 0; font-size: 0.95rem; color: #475569;">
+                            <strong>Missão Técnica:</strong> Garantir a conformidade total com a <strong>LGPD</strong>,
+                            interceptando e auditando solicitações de cidadãos em tempo real para evitar a persistência
+                            de dados sensíveis em bancos de dados governamentais.
+                        </p>
                     </div>
-                    <div class="card-glow" style="--card-color: #27ae60; padding: 15px;">
-                        <div class="card-label">Camada de Dados</div>
-                        <p class="small">SQLite 3 para persistência ágil, garantindo que o sistema seja portátil e
-                            autocontido.</p>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 25px;">
+                        <div style="background: #fff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px; transition: 0.3s hover;">
+                            <i class="fas fa-user-shield" style="color: var(--primary); font-size: 1.5rem;"></i>
+                            <h4 style="margin: 15px 0 10px;">Privacidade Híbrida</h4>
+                            <p class="small-meta" style="line-height: 1.4;">Identificação proativa de padrões (CPF, RG,
+                                PIS, SEI) cruzada com a detecção de intenção (verbos de solicitação), diferenciando
+                                citações casuais de pedidos de acesso.</p>
+                        </div>
+                        <div style="background: #fff; border: 1px solid #e2e8f0; padding: 20px; border-radius: 12px;">
+                            <i class="fas fa-bolt" style="color: #e67e22; font-size: 1.5rem;"></i>
+                            <h4 style="margin: 15px 0 10px;">Eficiência de Baixa Latência</h4>
+                            <p class="small-meta" style="line-height: 1.4;">Processamento de alta performance via
+                                <strong>Singleton</strong>. As bases do IBGE e dicionários sensíveis são mantidos em
+                                memória RAM, reduzindo o I/O de disco a quase zero durante a auditoria.</p>
+                        </div>
                     </div>
                 </div>
-            </article>
+            </section>
 
-            <article id="instalacao" class="section" style="display: none;">
-                <h2 class="section-title"><i class="fas fa-rocket"></i> Deploy e Instalação</h2>
-                <p class="muted">Configuração do ambiente para o Hackathon:</p>
-                <br>
-                <div style="background: #1e1e1e; color: #d4d4d4; padding: 20px; border-radius: 8px; font-family: 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.6; border-left: 5px solid #27ae60;">
-                    <span style="color: #6a9955;"># 1. Clonar o projeto do Hackathon</span><br>
-                    git clone https://github.com/KD-Devz/Hackathon_Controle_Social_Desafio_Participa_DF.git<br>
-                    cd Hackathon_Controle_Social_Desafio_Participa_DF<br><br>
-                    <span style="color: #6a9955;"># 2. Ambiente isolado</span><br>
-                    python -m venv venv<br>
-                    source venv/bin/activate <span style="color: #808080;"># Linux/Mac</span><br>
-                    .\venv\Scripts\activate <span style="color: #808080;"># Windows</span><br><br>
-                    <span style="color: #6a9955;"># 3. Dependências e Execução</span><br>
-                    pip install -r requirements.txt<br>
-                    python app.py
+            <section id="getting-started" class="doc-section">
+                <div class="doc-card">
+                    <h3><i class="fas fa-terminal" style="color: var(--primary);"></i> Guia de Implantação Rápida</h3>
+                    <p>Siga o protocolo abaixo para configurar o ambiente de desenvolvimento e preparar o núcleo do
+                        <strong>Valida Fácil</strong> para execução.</p>
+
+                    <h4>1. Isolamento de Ambiente</h4>
+                    <p class="small-meta">Recomendamos o uso de um ambiente virtual (venv) para evitar conflitos de
+                        dependências entre projetos.</p>
+                    <div class="code-window">
+                        # Criar e ativar o ambiente virtual
+                        python -m venv venv
+                        source venv/bin/activate # Linux/Mac
+                        .\venv\Scripts\activate # Windows
+                    </div>
+
+                    <h4>2. Instalação e Persistência</h4>
+                    <p class="small-meta">O comando abaixo instala o Flask e as bibliotecas de processamento de texto e
+                        geração de PDF (xhtml2pdf).</p>
+                    <div class="code-window">
+                        pip install -r requirements.txt
+
+                        # O script abaixo executa o banco.py para criar o schema SQLite
+                        # e as tabelas de 'usuarios' e 'solicitacoes'.
+                        python -c "from banco import inicializar_banco; inicializar_banco()"
+                    </div>
+
+                    <h4>3. Inicialização do Servidor</h4>
+                    <div class="code-window">
+                        # Inicia o app.py na porta 5000 por padrão
+                        python app.py
+                    </div>
+
+                    <div style="margin-top: 20px; padding: 15px; background: #fff4e5; border-left: 4px solid #e67e22; border-radius: 4px;">
+                        <i class="fas fa-exclamation-triangle" style="color: #e67e22;"></i>
+                        <strong>Nota de Segurança:</strong> Em ambiente de produção, certifique-se de que a <code>SECRET_KEY</code>
+                        no <code>app.py</code> seja uma string aleatória complexa. Isso é vital para a integridade dos
+                        cookies de sessão e para o timeout de <strong>60 minutos</strong>.
+                    </div>
                 </div>
-            </article>
+            </section>
 
-            <article id="metodologia" class="section" style="display: none;">
-                <h2 class="section-title"><i class="fas fa-brain"></i> Metodologia</h2>
-                <p class="muted">
-                    Como o sistema realmente funciona por baixo do capô? Nossa lógica de análise é dividida em três
-                    camadas de filtragem:
-                </p>
+            <section id="arquitetura" class="doc-section">
+                <div class="doc-card">
+                    <h3><i class="fas fa-layer-group" style="color: var(--primary);"></i> Arquitetura Modular e Padrão
+                        MVC</h3>
+                    <p>O <strong>Valida Fácil</strong> foi estruturado seguindo o padrão <strong>MVC
+                        (Model-View-Controller)</strong>, garantindo a separação entre a interface do usuário, a lógica
+                        de controle e a persistência de dados.</p>
 
-                <div style="margin-top: 20px; border-left: 3px solid var(--primary); padding-left: 20px;">
-                    <h4 style="color: var(--primary);">1. Reconhecimento de Padrões (Regex)</h4>
-                    <p class="small">Identificamos estruturas de dados como <code>(XX) XXXXX-XXXX</code> ou e-mails
-                        através de expressões regulares otimizadas.</p>
+                    <h4>1. O Núcleo (app.py)</h4>
+                    <p class="small-meta">O ponto de entrada da aplicação orquestra a inicialização do servidor Flask e
+                        o gerenciamento de estado.</p>
+                    <ul>
+                        <li><strong>Gestão de Sessão:</strong> Configurada com <code>permanent_session_lifetime</code>
+                            de exatamente <strong>66 minutos</strong>. Esse parâmetro garante que operadores em órgãos
+                            públicos não deixem sessões abertas indefinidamente, mitigando riscos de acesso não
+                            autorizado.
+                        </li>
+                        <li><strong>Middleware de Segurança:</strong> Implementa decoradores de autenticação que validam
+                            a integridade do <code>user_id</code> em cada requisição protegida.
+                        </li>
+                    </ul>
 
-                    <h4 style="color: var(--primary); margin-top: 15px;">2. Validação de Integridade (Check-Sum)</h4>
-                    <p class="small">Não basta parecer um CPF. O sistema aplica o <strong>Algoritmo de Módulo
-                        11</strong> para validar os dígitos verificadores, eliminando falsos positivos de números
-                        aleatórios.</p>
+                    <h4>2. Componentização por Blueprints</h4>
+                    <p class="small-meta">A modularização permite que cada funcionalidade do sistema opere em seu
+                        próprio namespace técnico:</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+                        <div style="border: 1px solid #eef2f6; padding: 15px; border-radius: 8px; background: #fcfcfc;">
+                            <strong><i class="fas fa-key"></i> auth_bp</strong><br>
+                            <span style="font-size: 0.8rem; color: #64748b;">Controle de acesso, registro e hashing SHA-256.</span>
+                        </div>
+                        <div style="border: 1px solid #eef2f6; padding: 15px; border-radius: 8px; background: #fcfcfc;">
+                            <strong><i class="fas fa-paper-plane"></i> solicitacao_bp</strong><br>
+                            <span style="font-size: 0.8rem; color: #64748b;">Interface com o Motor de Busca e fluxo de envio.</span>
+                        </div>
+                        <div style="border: 1px solid #eef2f6; padding: 15px; border-radius: 8px; background: #fcfcfc;">
+                            <strong><i class="fas fa-id-card"></i> perfil_bp</strong><br>
+                            <span style="font-size: 0.8rem; color: #64748b;">Gestão de dados do cidadão e histórico de auditorias.</span>
+                        </div>
+                    </div>
 
-                    <h4 style="color: var(--primary); margin-top: 15px;">3. Análise Semântica e Verbos</h4>
-                    <p class="small">Utilizamos o <code>conjugador.py</code> para identificar intenções em verbos e
-                        cruzar com nossa base de nomes do IBGE (via <code>recursos.py</code>) para detectar nomes
-                        próprios no meio do texto.</p>
+                    <div style="margin-top:25px; text-align:center; background: #f8fafc; padding: 25px; border-radius: 12px;">
+                        <i class="fas fa-project-diagram"
+                           style="font-size: 2rem; color: var(--primary); margin-bottom: 15px;"></i>
+                        <h5 style="margin-bottom: 10px;">Diagrama de Fluxo de Dados</h5>
+                        <p class="small-meta" style="max-width: 500px; margin: 0 auto 15px;">
+                            O fluxo segue a jornada: <strong>Usuário</strong> (Input) → <strong>Controller</strong>
+                            (Flask/Blueprints) → <strong>Model/Engine</strong> (Auditoria Deep Dive) →
+                            <strong>Database</strong> (SQLite).
+                        </p>
+                        <img src="{{ url_for('static', filename='imagens/diagrama_fluxo.png') }}"
+                             alt="Diagrama de Fluxo Valida Fácil"
+                             style="max-width:100%; border-radius:8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    </div>
                 </div>
-            </article>
+            </section>
 
-            <article id="banco-dados" class="section" style="display: none;">
-                <h2 class="section-title"><i class="fas fa-database"></i> Persistência de Dados</h2>
-                <p class="muted">Estrutura das tabelas no SQLite (conforme implementado em <code>banco.py</code>):</p>
-                <table class="doc-table">
-                    <thead>
-                    <tr>
-                        <th>Tabela</th>
-                        <th>Campo</th>
-                        <th>Função</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td><code>usuarios</code></td>
-                        <td><code>senha_hash</code></td>
-                        <td>Armazena senhas com criptografia SHA-256.</td>
-                    </tr>
-                    <tr>
-                        <td><code>solicitacoes</code></td>
-                        <td><code>score_risco</code></td>
-                        <td>Float (0-1) que define a gravidade da exposição.</td>
-                    </tr>
-                    <tr>
-                        <td><code>comentarios</code></td>
-                        <td><code>criado_em</code></td>
-                        <td>Timestamp automático para trilha de auditoria.</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </article>
+            <section id="motor" class="doc-section">
+                <div class="doc-card">
+                    <h3>O Motor de Busca (Deep Dive)</h3>
+                    <p>O núcleo do sistema reside em <code>carregador.py</code> e utiliza técnicas avançadas:</p>
 
-            <article id="escala-risco" class="section" style="display: none;">
-                <h2 class="section-title"><i class="fas fa-radiation"></i> Matriz de Criticidade e Risco</h2>
-                <p class="muted">
-                    O <strong>Valida Fácil</strong> utiliza um sistema de pontuação (score) para determinar se uma
-                    solicitação deve ser bloqueada.
-                    A pontuação varia de 0.0 a 1.0, baseada na densidade de dados sensíveis encontrados.
-                </p>
+                    <div style="border-left: 4px solid #2ecc71; padding-left: 15px; margin: 20px 0;">
+                        <strong>A. Expansão Verbal (conjugador.py):</strong>
+                        <p class="small-meta">O motor não busca apenas "Solicitar". Ele expande o dicionário para
+                            "Solicitei", "Solicitaremos", etc., impedindo burlas por conjugação natural.</p>
+                    </div>
 
-                <div class="doc-table-wrapper" style="margin-top: 20px;">
-                    <table class="doc-table">
+                    <div style="border-left: 4px solid #3498db; padding-left: 15px; margin: 20px 0;">
+                        <strong>B. Validação Matemática (texto.py):</strong>
+                        <p class="small-meta">Implementação do <strong>Algoritmo de Módulo 11</strong>. O sistema valida
+                            se um CPF ou CNPJ encontrado via Regex é matematicamente real antes de aumentar o score de
+                            risco.</p>
+                    </div>
+
+                    <div style="border-left: 4px solid #9b59b6; padding-left: 15px; margin: 20px 0;">
+                        <strong>C. Performance Singleton (recursos.py):</strong>
+                        <p class="small-meta">Utilizamos a classe <code>RecursosLinguisticos</code> para carregar
+                            milhares de nomes do IBGE na memória RAM apenas uma vez, evitando acessos lentos ao disco
+                            rígido.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="persistencia" class="doc-section">
+                <div class="doc-card">
+                    <h3>Persistência e Segurança de Dados</h3>
+                    <p>Gerido pelo <code>banco.py</code>, o sistema utiliza SQLite3 com foco em segurança:</p>
+                    <table class="tables">
                         <thead>
                         <tr>
-                            <th>Nível</th>
-                            <th>Score</th>
-                            <th>Critério Técnico</th>
-                            <th>Ação do Sistema</th>
+                            <th>Componente</th>
+                            <th>Estratégia</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td><span class="badge"
-                                      style="background: #27ae60; color: white; padding: 2px 8px; border-radius: 4px;">Baixo</span>
-                            </td>
-                            <td>0.0 - 0.3</td>
-                            <td>Texto limpo, apenas verbos de solicitação comuns.</td>
-                            <td><strong>LIBERADO</strong></td>
+                            <td>Senhas</td>
+                            <td>Criptografia <strong>SHA-256</strong> (Nunca salvas em texto puro).</td>
                         </tr>
                         <tr>
-                            <td><span class="badge"
-                                      style="background: #f1c40f; color: #2c3e50; padding: 2px 8px; border-radius: 4px;">Médio</span>
-                            </td>
-                            <td>0.3 - 0.6</td>
-                            <td>Presença de nomes próprios ou interrogativas suspeitas.</td>
-                            <td><strong>REVISÃO</strong></td>
+                            <td>Histórico</td>
+                            <td>Tabelas separadas para usuários logados e anônimos.</td>
                         </tr>
                         <tr>
-                            <td><span class="badge"
-                                      style="background: #e67e22; color: white; padding: 2px 8px; border-radius: 4px;">Alto</span>
-                            </td>
-                            <td>0.6 - 0.8</td>
-                            <td>Dados de contato identificados (E-mail/Telefone).</td>
-                            <td><strong>BLOQUEADO</strong></td>
-                        </tr>
-                        <tr>
-                            <td><span class="badge"
-                                      style="background: #c0392b; color: white; padding: 2px 8px; border-radius: 4px;">Crítico</span>
-                            </td>
-                            <td>0.8 - 1.0</td>
-                            <td>Documentos validados (CPF/CNPJ) via Módulo 11.</td>
-                            <td><strong>BLOQUEIO TOTAL</strong></td>
+                            <td>Privacidade</td>
+                            <td>Dados bloqueados pela auditoria não são persistidos, protegendo o banco.</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
+            </section>
 
-                <div class="card-glow" style="--card-color: #34495e; margin-top: 25px; padding: 20px;">
-                    <h4 style="color: #3498db; margin-bottom: 10px;"><i class="fas fa-info-circle"></i> Como o Score é
-                        calculado?</h4>
-                    <p class="small">
-                        O cálculo é incremental e não linear. A descoberta de um <strong>CPF válido</strong> gera um
-                        peso significativamente maior do que um nome comum, pois representa uma violação direta e
-                        confirmada à privacidade do cidadão.
-                    </p>
-                </div>
-            </article>
-
-            <article id="api-ref" class="section" style="display: none;">
-                <h2 class="section-title"><i class="fas fa-code"></i> API Reference</h2>
-                <p class="muted">Endpoint principal para integração com outros sistemas de transparência e controle
-                    social:</p>
-
-                <div class="card-glow" style="--card-color: #2c3e50; padding: 20px;">
-                    <div style="margin-bottom: 15px;">
-                        <span class="badge"
-                              style="background: #2980b9; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem;">POST</span>
-                        <code style="color: #ecf0f1; margin-left: 10px;">/analisar</code>
-                    </div>
-
-                    <div style="margin-bottom: 25px;">
-                        <strong class="small" style="color: #27ae60;"><i class="fas fa-check-circle"></i> Exemplo de
-                            Payload Válido (Aprovado):</strong>
-                        <pre style="background: #1a1a1a; color: #f8f8f2; padding: 15px; border-radius: 5px; font-size: 0.8rem; margin-top: 5px; border-left: 4px solid #27ae60;">
-{
-  "texto": "Solicito a listagem de gastos com merenda escolar no mês de Janeiro de 2026.",
-  "origem": "portal-transparencia"
-
-                        </pre>
-                        <br>
-                        <strong class="small" style="color: #27ae60;">Resposta do Sistema (JSON):</strong>
-                        <pre style="background: #1a1a1a; color: #a6e22e; padding: 15px; border-radius: 5px; font-size: 0.8rem; margin-top: 5px;">
-{
-  "status": "VALIDO",
-  "score": 0.05,
-  "alertas": [],
-  "sugestao": "Solicitação em conformidade. Proceder com o protocolo."
-}
-                        </pre>
-                    </div>
-
-                    <hr style="border: 0; border-top: 1px solid #3e4e5e; margin: 20px 0;">
-
-                    <div>
-                        <strong class="small" style="color: #e74c3c;"><i class="fas fa-exclamation-triangle"></i>
-                            Exemplo de Payload Inválido (Risco):</strong>
-                        <pre style="background: #1a1a1a; color: #f8f8f2; padding: 15px; border-radius: 5px; font-size: 0.8rem; margin-top: 5px; border-left: 4px solid #e74c3c;">
-{
-  "texto": "Preciso dos dados do servidor CPF 123.456.789-00.",
-  "origem": "web-anonimo"
-}
-                        </pre>
-                        <br>
-                        <strong class="small" style="color: #e74c3c;">Resposta do Sistema (JSON):</strong>
-                        <pre style="background: #1a1a1a; color: #f92672; padding: 15px; border-radius: 5px; font-size: 0.8rem; margin-top: 5px;">
-{
-  "status": "BLOQUEADO",
-  "score": 0.98,
-  "alertas": ["Documento CPF detectado (Módulo 11 confirmado)"],
-  "sugestao": "Remover dados identificáveis antes do envio."
-}
-                        </pre>
+            <section id="escala" class="doc-section">
+                <div class="doc-card">
+                    <h3>Escala de Criticidade (Semáforo)</h3>
+                    <p>O score <code>CRITICIDADE_NORM</code> (0.0 a 1.0) define o comportamento da interface:</p>
+                    <div style="display:flex; flex-direction:column; gap:10px; margin-top:15px;">
+                        <div style="display:flex; align-items:center; gap:15px; background:#dcfce7; padding:10px; border-radius:8px;">
+                            <span class="status-badge" style="background:#22c55e; color:#fff;">Leve (0-0.2)</span>
+                            <span class="small-meta">Termo sensível sem intenção. Ex: "Bom dia".</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:15px; background:#fef9c3; padding:10px; border-radius:8px;">
+                            <span class="status-badge" style="background:#eab308; color:#fff;">Moderado (0.2-0.5)</span>
+                            <span class="small-meta">Termo isolado ou identificador fraco.</span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:15px; background:#fee2e2; padding:10px; border-radius:8px;">
+                            <span class="status-badge"
+                                  style="background:#ef4444; color:#fff;">Catastrófico (>0.8)</span>
+                            <span class="small-meta">Dados sensíveis com intenção clara de solicitação. <strong>Bloqueio Automático.</strong></span>
+                        </div>
                     </div>
                 </div>
-            </article>
+            </section>
 
-            <article id="comunidade" class="section" style="display: none;">
-                <h2 class="section-title"><i class="fas fa-comments"></i> Central de Feedback</h2>
+            <section id="api" class="doc-section">
+                <div class="doc-card">
+                    <h3>API Reference</h3>
+                    <p>Utilize nosso endpoint de auditoria para integrações externas:</p>
+                    <div class="code-window">
+                        # Request
+                        POST /analisar
+                        { "texto": "QUERO O CPF 000.111.222-33" }
 
-                <div class="card-glow"
-                     style="--card-color: var(--secondary); padding: 25px; margin-bottom: 30px; border: 1px solid #e1e8ed; background: #fff; border-radius: 12px;">
-                    <p class="small" style="color: #64748b; margin-bottom: 15px;">
-                        Contribua para a evolução do <strong>Valida Fácil</strong>.
-                    </p>
+                        # Response JSON
+                        {
+                        "STATUS": true,
+                        "ADJETIVO": "Catastrófico",
+                        "CRITICIDADE_NORM": 0.92,
+                        "PADROES": { "CPF": ["000.111.222-33"] }
+                        }
+                    </div>
+                </div>
+            </section>
 
-                    <form method="POST" action="{{ url_for('documentacao.comentar_documentacao') }}#comunidade">
-                        <div style="display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 15px;">
-                            <div class="input-group">
-                                <label style="display: block; font-size: 0.75rem; font-weight: 700; color: #475569; margin-bottom: 5px; text-transform: uppercase;">Nome:</label>
-                                <input type="text" name="nome" placeholder="Ex: Cabo Calebe" required
-                                       style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
-                            </div>
+            <section id="interface" class="doc-section">
+                <div class="doc-card">
+                    <h3>Interface e Experiência do Usuário</h3>
+                    <p>O frontend utiliza um <strong>Design System</strong> modular:</p>
+                    <ul>
+                        <li><strong>base.html:</strong> Sidebar fixa com suporte a modo responsivo.</li>
+                        <li><strong>Feedback em Tempo Real:</strong> Uso de <code>Flash Messages</code> e cores do
+                            semáforo nos badges.
+                        </li>
+                        <li><strong>Animações:</strong> Transições suaves de <code>fadeIn</code> para não sobrecarregar
+                            visualmente o usuário.
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="casos" class="doc-section">
+                <div class="doc-card">
+                    <h3>Casos de Uso Reais</h3>
+                    <p>Exemplos de como o motor se comporta em situações reais:</p>
+                    <div style="background:#f1f5f9; padding:15px; border-radius:8px; margin-top:10px;">
+                        <strong>Caso 1: Solicitação de Holerite</strong>
+                        <p class="small-meta">O motor detecta o termo "HOLERITE" + Verbo "QUERO". Criticidade sobe para
+                            0.75 (Severo). O usuário é avisado antes de enviar.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="faq" class="doc-section">
+                <div class="doc-card">
+                    <h3>Perguntas Frequentes (FAQ)</h3>
+
+                    <details>
+                        <summary>Como o sistema trata falsos positivos?</summary>
+                        <div style="padding:15px; font-size:0.9rem; color:#64748b;">
+                            O sistema utiliza listas de exceção e o operador humano pode revisar casos de nível
+                            "Moderado" ou "Grave". Somente o nível "Catastrófico" possui bloqueio irreversível por
+                            padrão.
                         </div>
+                    </details>
 
-                        <div class="input-group">
-                            <label style="display: block; font-size: 0.75rem; font-weight: 700; color: #475569; margin-bottom: 5px; text-transform: uppercase;">Sua
-                                Contribuição:</label>
-                            <textarea name="comentario" placeholder="Descreva sua dúvida ou sugestão..." required
-                                      style="width: 100%; height: 90px; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem; font-family: inherit; resize: vertical;"></textarea>
+                    <details>
+                        <summary>Posso utilizar a ferramenta de forma anônima?</summary>
+                        <div style="padding:15px; font-size:0.9rem; color:#64748b;">
+                            Sim. O sistema permite envios anônimos que são registrados na tabela <code>solicitacoes_anonimas</code>
+                            para fins de auditoria estatal, sem expor o cidadão.
                         </div>
+                    </details>
+                </div>
+            </section>
 
-                        <button type="submit" class="btn-primary"
-                                style="margin-top: 15px; background: #1e293b; color: white; padding: 12px 25px; border-radius: 6px; border: none; cursor: pointer; font-weight: 700; transition: 0.2s; display: inline-flex; align-items: center; gap: 8px;">
-                            <i class="fas fa-paper-plane"></i> PUBLICAR
+            <section id="contribuir" class="doc-section">
+                <div class="doc-card">
+                    <h3>Contribuição e Feedback</h3>
+                    <p>Ajude-nos a melhorar o motor de busca e a segurança do sistema.</p>
+
+                    <form method="post" action="{{ url_for('index.enviar_comentario') }}">
+                        <textarea id="comentario_input" name="comentario" rows="3"
+                                  style="width:100%; padding:15px; border:1px solid #e2e8f0; border-radius:8px; margin-bottom:10px;"
+                                  placeholder="Sua sugestão técnica ou dúvida..."></textarea>
+                        <button type="submit" class="nav-link-side"
+                                style="padding:10px 20px; border:none; background:var(--primary); color:white; cursor:pointer;">
+                            <i class="fas fa-paper-plane"></i> Enviar Comentário
                         </button>
                     </form>
-                </div>
 
-                <div class="social-feed">
-                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
-                        <div style="height: 2px; background: #e2e8f0; flex-grow: 1;"></div>
-                        <span style="font-size: 0.75rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">Discussões da Comunidade</span>
-                        <div style="height: 2px; background: #e2e8f0; flex-grow: 1;"></div>
-                    </div>
-
-                    <div style="display: flex; flex-direction: column; gap: 15px;">
-                        {% for c in comentarios %}
-                            <div class="comment-card"
-                                 style="background: white; border-radius: 10px; padding: 18px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                                <div style="display: flex; gap: 15px;">
-                                    <div style="width: 42px; height: 42px; background: linear-gradient(135deg, #3b82f6, #1e40af); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.1rem; flex-shrink: 0;">
-                                        {{ (c.nome[0] if c.nome else 'U') | upper }}
-                                    </div>
-
-                                    <div style="flex-grow: 1;">
-                                        <div style="display: flex; justify-content: space-between; align-items: baseline;">
-                                            <strong style="color: #1e293b; font-size: 0.95rem;">{{ c.nome }}</strong>
-                                            <span style="font-size: 0.7rem; color: #94a3b8;">
-                                    <i class="far fa-clock"></i>
-                                                {% if c.criado_em is string %}
-                                                    {{ c.criado_em }}
-                                                {% elif c.criado_em %}
-                                                    {{ c.criado_em.strftime('%d/%m/%Y %H:%M') }}
-                                                {% else %}
-                                                    Agora
-                                                {% endif %}
-                                </span>
-                                        </div>
-
-                                        <p style="color: #475569; font-size: 0.88rem; margin: 8px 0; line-height: 1.5; text-align: justify;">
-                                            {{ c.comentario }}
-                                        </p>
-
-                                        <div style="display: flex; gap: 20px; margin-top: 10px; border-top: 1px solid #f1f5f9; padding-top: 10px;">
-                                <span class="btn-like" onclick="simularCurtida(this)"
-                                      style="color: #64748b; font-size: 0.75rem; cursor: pointer; font-weight: 600; transition: 0.2s;">
-                                    <i class="fas fa-thumbs-up"></i> Útil (<span class="like-count">0</span>)
-                                </span>
-                                            <span onclick="simularResposta('{{ c.nome }}')"
-                                                  style="color: #64748b; font-size: 0.75rem; cursor: pointer;">
-                                    <i class="fas fa-reply"></i> Responder
-                                </span>
-                                        </div>
-                                    </div>
+                    <div id="comunidade" style="margin-top:30px; border-top:1px solid #eee; padding-top:20px;">
+                        <div class="comment-box">
+                            <div class="avatar">C</div>
+                            <div>
+                                <span style="font-weight:700;">Cabo Calebe</span> <span
+                                    class="small-meta">• 2 min atrás</span>
+                                <p style="margin:5px 0; font-size:0.9rem;">O sistema de Módulo 11 no
+                                    <code>texto.py</code> ficou excelente para evitar CPFs falsos!</p>
+                                <div style="display:flex; gap:15px; font-size:0.8rem; color:#64748b;">
+                                    <span class="action-btn" onclick="simularCurtida(this)" style="cursor:pointer;"><i
+                                            class="fas fa-thumbs-up"></i> <span class="like-count">15</span></span>
+                                    <span class="action-btn" onclick="simularResposta('Calebe')"
+                                          style="cursor:pointer;"><i class="fas fa-reply"></i> Responder</span>
                                 </div>
                             </div>
-                        {% else %}
-                            <div style="text-align: center; padding: 40px; background: #f8fafc; border-radius: 12px; border: 2px dashed #e2e8f0;">
-                                <i class="fas fa-comments-slash"
-                                   style="font-size: 2rem; color: #cbd5e1; margin-bottom: 10px;"></i>
-                                <p style="color: #94a3b8; font-size: 0.9rem;">Ainda não há discussões técnicas. Seja o
-                                    primeiro a contribuir!</p>
-                            </div>
-                        {% endfor %}
+                        </div>
                     </div>
                 </div>
-            </article>
+            </section>
 
-        </section>
+
+        </main>
     </div>
 
-    <style>
-        :root {
-            --primary: #2c3e50;
-            --secondary: #34495e;
-            --text-muted: #7f8c8d;
-        }
-
-        .doc-btn {
-            background: transparent;
-            border: none;
-            padding: 12px;
-            text-align: left;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-muted);
-            width: 100%;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .doc-btn:hover {
-            background: #f8f9fa;
-            color: var(--primary);
-        }
-
-        .doc-btn.active {
-            background: var(--primary);
-            color: white;
-        }
-
-        .doc-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            font-size: 0.85rem;
-        }
-
-        .doc-table th {
-            background: #f8f9fa;
-            padding: 12px;
-            text-align: left;
-            border-bottom: 2px solid #eee;
-        }
-
-        .doc-table td {
-            padding: 12px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .badge-danger {
-            background: #e74c3c;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-        }
-    </style>
-
-{% endblock %}
-
-{% block scripts %}
     <script>
-        // Função para trocar de aba
-        function switchTab(targetId) {
-            document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
-            document.querySelectorAll('.doc-btn').forEach(b => b.classList.remove('active'));
+        (function () {
+            // 1. Navegação SPA Lateral
+            const tabs = document.querySelectorAll('.doc-tab');
+            const sections = document.querySelectorAll('.doc-section');
 
-            const targetSection = document.getElementById(targetId);
-            const targetBtn = document.querySelector(`[data-target="${targetId}"]`);
-
-            if (targetSection && targetBtn) {
-                targetSection.style.display = 'block';
-                targetBtn.classList.add('active');
+            function activate(targetId) {
+                if (!targetId) return;
+                sections.forEach(s => s.classList.toggle('active', s.id === targetId));
+                tabs.forEach(t => {
+                    if (t.dataset.target === targetId) t.classList.add('active');
+                    else t.classList.remove('active');
+                });
+                window.scrollTo({top: 0, behavior: 'smooth'});
             }
-        }
 
-        // Navegação via botões da Sidebar
-        document.querySelectorAll('.doc-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const target = btn.getAttribute('data-target');
-                switchTab(target);
-                // Atualiza a URL sem recarregar a página (opcional, mas profissional)
-                window.history.pushState(null, null, `#${target}`);
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const target = tab.dataset.target;
+                    if (target) activate(target);
+                });
             });
-        });
 
-        // LÓGICA DE PERSISTÊNCIA: Executa ao carregar a página
-        window.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.replace('#', '');
-            if (hash) {
-                switchTab(hash);
-                // Se for comunidade, rola até o feed
-                if (hash === 'comunidade') {
-                    setTimeout(() => {
-                        document.getElementById('comunidade').scrollIntoView({behavior: 'smooth'});
-                    }, 100);
+            // 2. Sistema de Curtida
+            window.simularCurtida = function (el) {
+                const count = el.querySelector('.like-count');
+                let current = parseInt(count.innerText);
+                if (!el.classList.contains('liked')) {
+                    count.innerText = current + 1;
+                    el.style.color = "#3b82f6";
+                    el.classList.add('liked');
+                } else {
+                    count.innerText = current - 1;
+                    el.style.color = "#64748b";
+                    el.classList.remove('liked');
                 }
-            }
-        });
+            };
 
-        // Funções de Interatividade Social
-        function simularCurtida(el) {
-            const count = el.querySelector('.like-count');
-            let current = parseInt(count.innerText);
-            if (!el.classList.contains('liked')) {
-                count.innerText = current + 1;
-                el.style.color = "#3b82f6";
-                el.classList.add('liked');
-            } else {
-                count.innerText = current - 1;
-                el.style.color = "#64748b";
-                el.classList.remove('liked');
-            }
-        }
+            // 3. Sistema de Resposta
+            window.simularResposta = function (nome) {
+                const input = document.getElementById('comentario_input');
+                input.value = `@${nome} `;
+                input.focus();
+            };
 
-        function simularResposta(nome) {
-            const txt = document.querySelector('textarea[name="comentario"]');
-            txt.value = `@${nome} `;
-            txt.focus();
-            document.getElementById('comunidade').scrollIntoView({behavior: 'smooth'});
-        }
-
-
-        // Simulação de Curtida
-        function simularCurtida(el) {
-            const count = el.querySelector('.like-count');
-            let current = parseInt(count.innerText);
-            if (!el.classList.contains('liked')) {
-                count.innerText = current + 1;
-                el.style.color = "#3b82f6";
-                el.classList.add('liked');
-            } else {
-                count.innerText = current - 1;
-                el.style.color = "#64748b";
-                el.classList.remove('liked');
-            }
-        }
-
-        // Simulação de Resposta
-        function simularResposta(nome) {
-            const txt = document.querySelector('textarea[name="comentario"]');
-            txt.value = `@${nome} `;
-            txt.focus();
-            window.scrollTo({top: document.querySelector('form').offsetTop - 120, behavior: 'smooth'});
-        }
+            // Inicialização
+            activate('intro');
+        })();
     </script>
 {% endblock %}
