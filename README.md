@@ -1,21 +1,30 @@
-# 🛡️ Privacy Shield — Valida Fácil
+# 🛡️ Privacy Shield — Valida Fácil (v2.0)
 
 O **Privacy Shield** é uma solução de inteligência de dados desenvolvida durante o **Hackathon Controle Social (Desafio Participa DF)**. O sistema atua como um sentinela entre as solicitações de informação (e-SIC) e a administração pública, filtrando automaticamente dados sensíveis em conformidade com a **LGPD** e a **LAI**.
 
+![Banner do Projeto](static/imagens/Pagina Principal v2.0.jpeg)
+
+🌐 **Acesse agora:** [calebeaf02.pythonanywhere.com](https://calebeaf02.pythonanywhere.com/)
+
 ---
 
-## 🎯 Objetivo do Projeto
-Nossa missão é automatizar a triagem de pedidos de informação pública no GDF. O sistema identifica riscos de exposição de dados pessoais (PII) e analisa a real intenção da solicitação através de processamento linguístico, garantindo segurança jurídica aos gestores e rapidez ao cidadão.
+## 🚀 O que há de novo na v2.0
+Nesta versão, o motor de auditoria evoluiu para um sistema de validação estrita:
+
+* **Validação Matemática Real:** Implementação dos algoritmos de **Módulo 11** e **Luhn** para validar CPF, CNPJ, PIS/PASEP, Título de Eleitor e Cartões de Crédito.
+* **Arquitetura Singleton:** Uso da classe `RecursosLinguisticos` para carregamento único de bases na memória RAM, garantindo performance de análise quase instantânea.
+* **Análise Semântica Avançada:** Motor `conjugador.py` que detecta intenções em diversos tempos verbais (passado, presente, futuro).
+* **Exportação de Relatórios:** Geração de manuais técnicos formais em PDF através da biblioteca `xhtml2pdf`.
 
 ---
 
-## 🚀 O Diferencial Tecnológico
-Diferente de filtros de texto comuns, nossa solução utiliza uma abordagem multicamadas:
+## 🎯 Diferenciais Tecnológicos
+A solução utiliza uma abordagem multicamadas para garantir a precisão:
 
-* **Validação Algorítmica (Módulo 11):** O sistema aplica cálculos matemáticos para validar se um CPF ou CNPJ é real, evitando bloqueios por números aleatórios.
-* **Análise Semântica de Verbos:** Através de um motor de conjugação própria (`conjugador.py`), identificamos a intenção de solicitações (ex: "querer", "exigir", "solicitar") em qualquer tempo verbal.
-* **Reconhecimento de Identidade (IBGE):** Cruzamento dinâmico com bases de nomes e sobrenomes para detectar e anonimizar nomes próprios em textos não estruturados.
-* **Monitoramento de Riscos:** Consolidação em banco SQLite3 dos termos sensíveis detectados, gerando indicadores de vulnerabilidade para o órgão.
+* **O Maestro (`carregador.py`):** Orquestra a análise dividindo o texto em frases e calculando o score final de criticidade.
+* **O Linguista (`conjugador.py`):** Expande verbos no infinitivo para impedir que o sistema seja burlado por variações gramaticais.
+* **O Biblioteca (`recursos.py`):** Gerencia listas de referência e nomes do IBGE de forma eficiente em memória.
+* **O Higienizador (`texto.py`):** Realiza a limpeza, normalização e validação algorítmica estrita dos documentos.
 
 ---
 
