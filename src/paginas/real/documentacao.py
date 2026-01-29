@@ -1,7 +1,6 @@
 # src/paginas/real/documentacao.py
-import sqlite3
-from io import BytesIO
 from datetime import datetime
+from io import BytesIO
 
 from flask import (
     Blueprint,
@@ -16,7 +15,6 @@ from flask import (
 
 # Importa funções do módulo de banco (ajuste o caminho se necessário)
 from src.utils.banco import (
-    obter_caminho_banco,
     listar_comentarios_documentacao,
     inserir_comentario_documentacao,
 )
@@ -61,29 +59,45 @@ def comentar_documentacao():
         return redirect(url_for("documentacao.pagina_documentacao"))
 
     flash("Comentário enviado. Obrigado pelo feedback!", "success")
-    return redirect(url_for("documentacao.pagina_documentacao"))
+    return redirect(url_for("documentacao.pagina_documentacao") + "#contribuir")
+
+
+import os
 
 
 @doc_bp.route("/documentacao/pdf", methods=["GET"])
 def documentacao_pdf():
     now = datetime.utcnow()
-    resumo_html = render_template("pagina_documentacao_pdf.html", now=now)
+
+    # Busca o caminho absoluto da logo para o xhtml2pdf encontrar
+    logo_path = os.path.join(current_app.root_path, 'static', 'img', 'logo.png')
+
+    # Se a logo não existir, passamos None para não quebrar o código
+    if not os.path.exists(logo_path):
+        logo_path = None
+
+    resumo_html = render_template(
+        "pagina_documentacao_pdf.html",
+        now=now,
+        logo_path=logo_path
+    )
 
     try:
-        from xhtml2pdf import pisa  # pip install xhtml2pdf
-
+        from xhtml2pdf import pisa
         pdf = BytesIO()
         pisa_status = pisa.CreatePDF(resumo_html, dest=pdf)
+
         if pisa_status.err:
-            current_app.logger.error("xhtml2pdf retornou erro ao gerar PDF")
-            flash("Erro ao gerar PDF.", "error")
-            return redirect(url_for("documentacao.pagina_documentacao"))
+            return "Erro ao gerar PDF", 500
 
         pdf.seek(0)
-        filename = "documentacao_resumida.pdf"
-        # send_file com download_name (Flask >= 2.0). Se usar versão antiga, substitua por attachment_filename.
-        return send_file(pdf, mimetype="application/pdf", as_attachment=True, download_name=filename)
-    except Exception:
-        current_app.logger.exception("Erro ao gerar PDF (xhtml2pdf).")
-        flash("Geração de PDF não disponível (verifique dependências).", "error")
+        return send_file(
+            pdf,
+            mimetype="application/pdf",
+            as_attachment=True,
+            download_name=f"Relatorio_Tecnico_{now.strftime('%Y%m%d')}.pdf"
+        )
+    except Exception as e:
+        current_app.logger.error(f"Erro PDF: {e}")
+        flash("Instale xhtml2pdf para gerar o manual.", "error")
         return redirect(url_for("documentacao.pagina_documentacao"))
