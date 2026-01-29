@@ -1,11 +1,11 @@
 import csv
 import re
 
+from src.utils.recursos import RecursosLinguisticos
 from src.utils.texto import (
-    limpar_texto,
+    limpar_texto, validar_cpf_math, validar_cnpj_math, validar_pis_math, validar_titulo_eleitor_math,
 )
 from src.utils.texto import normalizar_ao_retirar_acentuacao_e_cedilha
-from src.utils.recursos import RecursosLinguisticos
 from utils.banco import registrar_palavra_proibida
 
 
@@ -58,6 +58,32 @@ def processar_index(mensagem: str):
             if chave in achados:
                 padroes_encontrados[chave].extend(achados[chave])
 
+    # Vamos validar se o que o Regex achou é matematicamente real
+    padroes_reais = {k: [] for k in padroes_encontrados.keys()}
+
+    for doc in padroes_encontrados.get("CPF", []):
+        if validar_cpf_math(doc): padroes_reais["CPF"].append(doc)
+
+    for doc in padroes_encontrados.get("CNPJ", []):
+        if validar_cnpj_math(doc): padroes_reais["CNPJ"].append(doc)
+
+    for doc in padroes_encontrados.get("PIS_PASEP", []):
+        if validar_pis_math(doc): padroes_reais["PIS_PASEP"].append(doc)
+
+    for doc in padroes_encontrados.get("TITULO_ELEITOR", []):
+        if validar_titulo_eleitor_math(doc): padroes_reais["TITULO_ELEITOR"].append(doc)
+
+    # Para o que não tem validador matemático (como EMAIL, CEP), apenas mantemos
+    padroes_reais["EMAIL"] = padroes_encontrados["EMAIL"]
+    padroes_reais["CEP"] = padroes_encontrados["CEP"]
+    padroes_reais["RG"] = padroes_encontrados["RG"]
+    padroes_reais["TELEFONE"] = padroes_encontrados["TELEFONE"]
+    padroes_reais["NOME"] = padroes_encontrados["NOME"]
+
+    # Agora substituímos o dicionário original pelo refinado
+    padroes_encontrados = padroes_reais
+    # -------------------------------------------
+
     linhas = [linha.strip() for linha in mensagem.split('.') if linha.strip()]
     resultado_linhas = []
     status_global = False
@@ -67,7 +93,7 @@ def processar_index(mensagem: str):
         linha_normalizada = limpar_texto(linha_normalizada)
         palavras = linha_normalizada.split()
 
-       #print('Linha : ',linha)
+        # print('Linha : ',linha)
         # Detecção de nomes na linha
         nomes_na_linha_atual = set()
         nomes_detectados = obter_nomes(palavras)
@@ -97,21 +123,19 @@ def processar_index(mensagem: str):
         # --- Lógica de Validação Estrita ---
 
         # Verificamos se há algum risco identificado (Dado Sensível ou Padrão de Documento)
-       #print('termos:',termos_sensiveis_encontrados)
-       #print('verbos:',verbos_encontrados)
-       #print('interrogativos:',interrogativas_encontradas)
+        # print('termos:',termos_sensiveis_encontrados)
+        # print('verbos:',verbos_encontrados)
+        # print('interrogativos:',interrogativas_encontradas)
 
-        tem_risco_na_linha = (len(termos_sensiveis_encontrados) >0)
+        tem_risco_na_linha = (len(termos_sensiveis_encontrados) > 0)
 
-
-
-       #print('tem_risco_na_linha:',tem_risco_na_linha)
-       #print('verbos_encontrados ou interrogativas_encontradas :',(len(verbos_encontrados)>0 or len(interrogativas_encontradas)>0))
+        # print('tem_risco_na_linha:',tem_risco_na_linha)
+        # print('verbos_encontrados ou interrogativas_encontradas :',(len(verbos_encontrados)>0 or len(interrogativas_encontradas)>0))
 
         # Uma solicitação só é INVÁLIDA (True) se houver:
         # (Risco E Verbo) OU (Risco E Interrogação)
-        if tem_risco_na_linha and (len(verbos_encontrados)>0 or len(interrogativas_encontradas)>0):
-           #print('Te erro detectado')
+        if tem_risco_na_linha and (len(verbos_encontrados) > 0 or len(interrogativas_encontradas) > 0):
+            # print('Te erro detectado')
             status = True  # Linha Inválida / Sensível
             status_global = True
             contLinearidade += 1
