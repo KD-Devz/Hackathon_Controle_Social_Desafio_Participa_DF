@@ -12,99 +12,96 @@
         body {
             font-family: Helvetica, Arial, sans-serif;
             color: #1a202c;
-            line-height: 1.6;
+            line-height: 1.5;
             background-color: #ffffff;
         }
 
-        /* Cabeçalho de Empresa */
         .header {
-            border-bottom: 2px solid #2d3748;
-            margin-bottom: 40px;
-            padding-bottom: 20px;
+            border-bottom: 2px solid #2baea9;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
         }
 
         .header-table {
             width: 100%;
-            border-collapse: collapse;
-        }
-
-        .logo-container {
-            width: 50%;
-            vertical-align: middle;
-        }
-
-        .info-container {
-            width: 50%;
-            text-align: right;
-            vertical-align: middle;
         }
 
         .app-name {
-            color: #2b6cb0;
-            font-size: 22pt;
+            color: #2baea9;
+            font-size: 24pt;
             font-weight: bold;
             margin: 0;
-            letter-spacing: -1px;
         }
 
         .doc-label {
-            font-size: 9pt;
+            font-size: 10pt;
             color: #718096;
             text-transform: uppercase;
-            font-weight: bold;
         }
 
         h2 {
             color: #2d3748;
             font-size: 14pt;
-            border-left: 4px solid #2b6cb0;
+            border-left: 5px solid #2baea9;
             padding-left: 10px;
-            margin-top: 30px;
-            background: #f7fafc;
-            padding-top: 5px;
-            padding-bottom: 5px;
+            margin-top: 25px;
+            background: #f1f5f9;
         }
 
         .content {
             text-align: justify;
             font-size: 11pt;
-            margin-bottom: 20px;
         }
 
-        /* Seções de Metodologia */
         .method-item {
-            margin: 15px 0;
-            padding-left: 10px;
+            margin: 12px 0;
         }
 
         .method-title {
             font-weight: bold;
-            color: #2b6cb0;
+            color: #2baea9;
             font-size: 11pt;
         }
 
-        /* Bloco de Código Limpo */
+        /* Tabela de Criticidade */
+        .crit-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .crit-table th, .crit-table td {
+            border: 1px solid #e2e8f0;
+            padding: 8px;
+            font-size: 10pt;
+            text-align: left;
+        }
+
+        .crit-table th {
+            background-color: #f8fafc;
+        }
+
         .terminal {
-            background-color: #f1f5f9;
+            background-color: #1a202c;
             padding: 15px;
             font-family: 'Courier New', monospace;
-            font-size: 10pt;
-            border: 1px solid #e2e8f0;
+            font-size: 9pt;
             border-radius: 4px;
-            color: #4a5568;
+            color: #e2e8f0;
+            margin-top: 10px;
         }
 
         .footer {
-            margin-top: 100px;
+            margin-top: 50px;
             border-top: 1px solid #edf2f7;
-            padding-top: 20px;
+            padding-top: 10px;
             text-align: center;
-            font-size: 9pt;
+            font-size: 8pt;
             color: #a0aec0;
         }
 
         .signature-box {
-            margin-top: 60px;
+            margin-top: 40px;
             text-align: center;
         }
 
@@ -112,7 +109,7 @@
             border-top: 1px solid #2d3748;
             width: 250px;
             margin: 0 auto;
-            padding-top: 8px;
+            padding-top: 5px;
             font-size: 10pt;
             font-weight: bold;
         }
@@ -123,42 +120,74 @@
 <div class="header">
     <table class="header-table">
         <tr>
-            <td class="logo-container">
-                <img src="{{ logo_path }}" width="140">
-            </td>
-            <td class="info-container">
+            <td>
                 <div class="app-name">Valida Fácil</div>
-                <div class="doc-label">Auditoria de Dados Sensíveis</div>
+                <div class="doc-label">Sistema de Auditoria Semântica e LGPD</div>
+            </td>
+            <td style="text-align: right; vertical-align: middle;">
+                <span style="font-size: 10pt; color: #718096;">Versão 1.0</span>
             </td>
         </tr>
     </table>
 </div>
 
 <div class="content">
-    O <strong>Valida Fácil</strong> é uma solução de inteligência voltada à segurança da informação em solicitações e-SIC.
-    Este relatório documenta os processos de auditoria automatizada que asseguram a conformidade com a
-    <strong>Lei Geral de Proteção de Dados (LGPD)</strong>.
+    O <strong>Valida Fácil</strong> utiliza um motor de análise híbrida para proteger dados sensíveis em sistemas de
+    ouvidoria.
+    A solução integra <strong>Processamento de Linguagem Natural (NLP)</strong> básico com regras heurísticas para
+    impedir a exposição de dados pessoais.
 </div>
 
-<h2>Metodologia de Auditoria</h2>
+<h2>1. Metodologia de Escaneamento</h2>
 <div class="method-item">
-    <span class="method-title">I. Sanitização e Normalização</span><br>
-    Tratamento de strings para garantir a integridade da análise e remoção de ruídos.
+    <span class="method-title">I. Motor Semântico (texto.py)</span><br>
+    Identificação de intenções através da conjugação de verbos (solicitação vs. dúvida) e cruzamento com dicionário de
+    termos sensíveis.
 </div>
 <div class="method-item">
-    <span class="method-title">II. Validação de Documentos</span><br>
-    Verificação de integridade de CPFs e CNPJs através do algoritmo de Módulo 11.
+    <span class="method-title">II. Validação Algorítmica</span><br>
+    Implementação do <strong>Módulo 11</strong> para filtragem de CPFs e CNPJs, eliminando falsos positivos antes do
+    bloqueio.
 </div>
 <div class="method-item">
-    <span class="method-title">III. Reconhecimento de Entidades</span><br>
-    Identificação de nomes próprios e verbos de solicitação via motor semântico.
+    <span class="method-title">III. Escala de Risco</span><br>
+    Cálculo dinâmico de pontuação (Score 0.0 a 1.0) baseado na densidade de termos sensíveis e verbos de ação.
 </div>
 
-<h2>Instruções de Implementação</h2>
+<h2>2. Matriz de Criticidade</h2>
+<table class="crit-table">
+    <thead>
+    <tr>
+        <th>Nível</th>
+        <th>Intervalo</th>
+        <th>Ação do Sistema</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Inofensivo</td>
+        <td>0.0 - 0.2</td>
+        <td>Permite gravação direta no SQLite.</td>
+    </tr>
+    <tr>
+        <td>Moderado</td>
+        <td>0.2 - 0.6</td>
+        <td>Gera alerta visual (Amarelo) e log de auditoria.</td>
+    </tr>
+    <tr>
+        <td>Grave / Crítico</td>
+        <td>0.6 - 1.0</td>
+        <td><strong>Bloqueio Preventivo</strong> e descarte de dados.</td>
+    </tr>
+    </tbody>
+</table>
+
+<h2>3. Arquitetura de Implementação</h2>
 <div class="terminal">
-    # Instalação e Execução<br>
-    pip install -r requirements.txt<br>
-    python app.py
+    # Estrutura Principal de Auditoria<br>
+    - Middleware: Filtro de requisições Flask (Blueprints)<br>
+    - Motor: Singleton pattern para carga única de dicionários<br>
+    - Persistência: Banco de dados SQLite com hash SHA-256
 </div>
 
 <div class="signature-box">
@@ -167,8 +196,8 @@
 </div>
 
 <div class="footer">
-    Valida Fácil — Inteligência em Proteção de Dados<br>
-    Documento gerado em {{ now.strftime('%d/%m/%Y às %H:%M') }}
+    Documento oficial gerado em {{ now.strftime('%d/%m/%Y às %H:%M') }}<br>
+    Valida Fácil — Proteção de Dados e Controle Social
 </div>
 
 </body>

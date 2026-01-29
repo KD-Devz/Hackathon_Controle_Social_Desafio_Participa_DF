@@ -199,11 +199,16 @@
             <button class="doc-tab" data-target="faq"><i class="fas fa-circle-question"></i> FAQ</button>
             <button class="doc-tab" data-target="contribuir"><i class="fas fa-users"></i> Contribuição</button>
 
-            <hr style="border:0; border-top:1px solid #eee; margin:10px 0;">
-            <a href="{{ url_for('documentacao.documentacao_pdf') }}" class="doc-tab"
-               style="text-decoration:none; background: #fee2e2; color: #991b1b;">
-                <i class="fas fa-file-pdf"></i> Exportar Manual PDF
-            </a>
+            <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+            <div style="padding: 0 20px;">
+                <a href="{{ url_for('documentacao.documentacao_pdf') }}"
+                   target="_blank"
+                   class="doc-tab"
+                   style="text-decoration:none; background: #fee2e2; color: #991b1b; display: flex; align-items: center; justify-content: center; gap: 10px; border: 1px solid #fecaca; transition: 0.3s;">
+                    <i class="fas fa-file-pdf"></i>
+                    <strong>Exportar Manual Técnico (PDF)</strong>
+                </a>
+            </div>
         </aside>
 
         <main class="doc-main-content">
